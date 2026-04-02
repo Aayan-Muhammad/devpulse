@@ -14,6 +14,12 @@ export default auth((req) => {
 export const config = {
   matcher: [
     "/",
-    "/((?!api(?:/|$)|_next/static|_next/image|favicon.ico|login(?:/|$)|landing(?:/|$)|u(?:/|$)).*)",
+    "/repos/:path*",
+    "/activity/:path*",
+    "/commits/:path*",
+    "/languages/:path*",
+    "/streak/:path*",
+    "/settings/:path*",
+    "/explore/:path*",
   ],
 };
