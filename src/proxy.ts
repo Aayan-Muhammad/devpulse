@@ -4,6 +4,15 @@ import { NextResponse } from "next/server";
 export default auth((req) => {
   const { pathname } = req.nextUrl;
 
+  if (
+    pathname === "/landing" ||
+    pathname === "/login" ||
+    pathname.startsWith("/u/") ||
+    pathname.startsWith("/api/")
+  ) {
+    return NextResponse.next();
+  }
+
   if (!req.auth && pathname === "/") {
     return NextResponse.redirect(new URL("/landing", req.url));
   }
@@ -13,13 +22,6 @@ export default auth((req) => {
 
 export const config = {
   matcher: [
-    "/",
-    "/repos/:path*",
-    "/activity/:path*",
-    "/commits/:path*",
-    "/languages/:path*",
-    "/streak/:path*",
-    "/settings/:path*",
-    "/explore/:path*",
+    "/((?!_next/static|_next/image|favicon.ico|robots.txt|sitemap.xml).*)",
   ],
 };
