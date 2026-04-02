@@ -40,7 +40,7 @@ export const {
       }
 
       if (!session.user) {
-        session.user = {};
+        session.user = {} as NonNullable<typeof session.user>;
       }
 
       if (token.username) {
