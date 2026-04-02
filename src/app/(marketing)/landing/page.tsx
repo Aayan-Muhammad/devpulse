@@ -1,0 +1,98 @@
+import Link from "next/link";
+import { BarChart3, Flame, Search } from "lucide-react";
+
+const features = [
+  {
+    title: "Contribution Heatmap",
+    description: "See your activity patterns across the year with a clean, high-signal heatmap.",
+    icon: Flame,
+  },
+  {
+    title: "Language Insights",
+    description: "Understand the languages you use most, with proportional breakdowns across repos.",
+    icon: BarChart3,
+  },
+  {
+    title: "Explore Developers",
+    description: "Search any GitHub user and jump into their public profile in seconds.",
+    icon: Search,
+  },
+];
+
+export default function LandingPage() {
+  return (
+    <div className="min-h-screen bg-[#0d0f12] text-zinc-200">
+      <div className="mx-auto flex min-h-screen max-w-7xl flex-col px-6 py-5">
+        <header className="flex items-center justify-between border-b border-[#1e2229] pb-5">
+          <Link
+            href="/landing"
+            className="font-mono text-lg font-semibold tracking-tight text-amber-400"
+          >
+            devpulse
+          </Link>
+
+          <Link
+            href="/login"
+            className="rounded-lg border border-[#2a2f37] bg-[#111318] px-4 py-2 text-sm font-semibold text-zinc-200 transition-colors hover:border-amber-400 hover:text-amber-300"
+          >
+            Login with GitHub
+          </Link>
+        </header>
+
+        <main className="flex flex-1 flex-col justify-center py-12">
+          <section className="mx-auto max-w-4xl text-center">
+            <p className="mb-4 text-xs font-semibold uppercase tracking-[0.35em] text-zinc-500">
+              GitHub activity analytics
+            </p>
+            <h1 className="text-4xl font-semibold tracking-tight text-zinc-100 sm:text-6xl lg:text-7xl">
+              Your GitHub activity, beautifully visualized
+            </h1>
+            <p className="mx-auto mt-6 max-w-2xl text-base leading-7 text-zinc-400 sm:text-lg">
+              DevPulse turns your repositories, contributions, languages, and public activity into a
+              focused dashboard built for developers who want clarity instead of noise.
+            </p>
+
+            <div className="mt-8 flex flex-wrap justify-center gap-3">
+              <Link
+                href="/login"
+                className="rounded-xl bg-amber-400 px-6 py-3 text-sm font-semibold text-[#0d0f12] transition-colors hover:bg-amber-300"
+              >
+                Get started free
+              </Link>
+              <Link
+                href="/u/torvalds"
+                className="rounded-xl border border-[#2a2f37] bg-[#111318] px-6 py-3 text-sm font-semibold text-zinc-200 transition-colors hover:border-amber-400 hover:text-amber-300"
+              >
+                View a sample profile
+              </Link>
+            </div>
+          </section>
+
+          <section className="mt-20 grid grid-cols-1 gap-4 md:grid-cols-3">
+            {features.map((feature) => {
+              const Icon = feature.icon;
+
+              return (
+                <article
+                  key={feature.title}
+                  className="rounded-2xl border border-[#1e2229] bg-[#111318] p-6 shadow-[0_0_0_1px_rgba(255,255,255,0.02)]"
+                >
+                  <div className="mb-4 inline-flex h-12 w-12 items-center justify-center rounded-xl border border-[#2a2f37] bg-[#0a0c0f] text-amber-400">
+                    <Icon className="h-5 w-5" />
+                  </div>
+                  <h2 className="text-lg font-semibold text-zinc-100">{feature.title}</h2>
+                  <p className="mt-2 text-sm leading-6 text-zinc-400">{feature.description}</p>
+                </article>
+              );
+            })}
+          </section>
+        </main>
+
+        <footer className="flex flex-col gap-2 border-t border-[#1e2229] py-5 text-sm text-zinc-500 sm:flex-row sm:items-center sm:justify-between">
+          <span className="font-mono text-amber-400">devpulse</span>
+          <p>Built to make GitHub activity easier to understand at a glance.</p>
+        </footer>
+      </div>
+    </div>
+  );
+}
