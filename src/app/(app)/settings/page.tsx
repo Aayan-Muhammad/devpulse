@@ -33,7 +33,7 @@ function SettingCard({ label, value }: { label: string; value: string }) {
   return (
     <div className="dp-card-lift rounded-xl border border-[#1e2229] bg-[#0a0c0f] p-4">
       <p className="text-xs font-semibold uppercase tracking-widest text-zinc-500">{label}</p>
-      <p className="mt-2 break-words text-sm text-zinc-100">{value}</p>
+      <p className="mt-1.5 break-words text-sm text-zinc-100">{value}</p>
     </div>
   );
 }
@@ -81,7 +81,7 @@ export default async function SettingsPage() {
               href="https://github.com/settings/profile"
               target="_blank"
               rel="noopener noreferrer"
-              className="rounded-lg border border-[#2a2f37] bg-amber-400 px-4 py-2 text-sm font-semibold text-[#0d0f12] transition-all duration-200 hover:bg-amber-300 hover:shadow-[0_4px_12px_rgba(251,191,36,0.3)]"
+              className="inline-flex h-10 items-center justify-center rounded-lg border border-[#2a2f37] bg-amber-400 px-4 text-sm font-semibold text-[#0d0f12] transition-all duration-200 hover:bg-amber-300 hover:shadow-[0_4px_12px_rgba(251,191,36,0.3)]"
             >
               Edit on GitHub
             </a>
@@ -117,7 +117,7 @@ export default async function SettingsPage() {
         </section>
 
         <section className="dp-reveal [animation-delay:120ms] rounded-xl border border-[#1e2229] bg-[#111318] p-6">
-          <div className="mb-4 flex items-center justify-between gap-3">
+          <div className="mb-5 flex items-center justify-between gap-3">
             <div>
               <h2 className="text-lg font-semibold text-zinc-100">Account</h2>
               <p className="text-sm text-zinc-400">GitHub account details and profile link.</p>
@@ -126,7 +126,7 @@ export default async function SettingsPage() {
               href={user.html_url}
               target="_blank"
               rel="noopener noreferrer"
-              className="rounded-lg border border-[#2a2f37] bg-[#0a0c0f] px-4 py-2 text-sm font-semibold text-zinc-200 transition-all duration-200 hover:border-amber-400 hover:text-amber-300 hover:shadow-[0_4px_12px_rgba(251,191,36,0.15)]"
+              className="inline-flex h-10 items-center justify-center rounded-lg border border-[#2a2f37] bg-[#0a0c0f] px-4 text-sm font-semibold text-zinc-200 transition-all duration-200 hover:border-amber-400 hover:text-amber-300 hover:shadow-[0_4px_12px_rgba(251,191,36,0.15)]"
             >
               View on GitHub
             </a>
@@ -140,7 +140,7 @@ export default async function SettingsPage() {
         </section>
 
         <section className="dp-reveal [animation-delay:160ms] rounded-xl border border-[#1e2229] bg-[#111318] p-6">
-          <div className="mb-4">
+          <div className="mb-5">
             <h2 className="text-lg font-semibold text-zinc-100">Share</h2>
             <p className="text-sm text-zinc-400">Share your public DevPulse profile with others.</p>
           </div>
@@ -162,7 +162,7 @@ export default async function SettingsPage() {
               <CopyProfileUrlButton value={profileUrl} />
               <Link
                 href={profileUrl}
-                className="rounded-lg border border-[#2a2f37] bg-[#111318] px-4 py-2 text-sm font-semibold text-zinc-200 transition-all duration-200 hover:border-amber-400 hover:text-amber-300 hover:shadow-[0_4px_12px_rgba(251,191,36,0.15)]"
+                className="inline-flex h-10 items-center justify-center rounded-lg border border-[#2a2f37] bg-[#111318] px-4 text-sm font-semibold text-zinc-200 transition-all duration-200 hover:border-amber-400 hover:text-amber-300 hover:shadow-[0_4px_12px_rgba(251,191,36,0.15)]"
               >
                 Open profile
               </Link>
@@ -175,7 +175,7 @@ export default async function SettingsPage() {
         <DisplayPreferences />
 
         <section className="dp-reveal [animation-delay:240ms] rounded-xl border border-[#1e2229] bg-[#111318] p-6">
-          <div className="mb-4 flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
+          <div className="mb-5 flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
             <div>
               <h2 className="text-lg font-semibold text-zinc-100">Diagnostics</h2>
               <p className="text-sm text-zinc-400">Connection and session diagnostics for this profile.</p>

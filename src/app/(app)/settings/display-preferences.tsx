@@ -33,7 +33,7 @@ export function DisplayPreferences() {
 
   return (
     <div className="dp-reveal [animation-delay:240ms] rounded-xl border border-[#1e2229] bg-[#111318] p-6">
-      <div className="mb-4">
+      <div className="mb-5">
         <h2 className="text-lg font-semibold text-zinc-100">Display Preferences</h2>
         <p className="text-sm text-zinc-400">Local settings saved in this browser only.</p>
       </div>
@@ -73,7 +73,7 @@ export function DisplayPreferences() {
         <button
           type="button"
           onClick={handleSave}
-          className="rounded-lg bg-amber-400 px-4 py-2 text-sm font-semibold text-[#0d0f12] transition-all duration-200 hover:bg-amber-300 hover:shadow-[0_4px_12px_rgba(251,191,36,0.3)]"
+          className="inline-flex h-10 items-center justify-center rounded-lg bg-amber-400 px-4 text-sm font-semibold text-[#0d0f12] transition-all duration-200 hover:bg-amber-300 hover:shadow-[0_4px_12px_rgba(251,191,36,0.3)]"
         >
           Save preferences
         </button>
