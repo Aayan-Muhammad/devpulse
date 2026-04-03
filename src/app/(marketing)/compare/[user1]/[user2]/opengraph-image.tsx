@@ -20,6 +20,7 @@ export default async function Image({
     getProfileSnapshot(user1),
     getProfileSnapshot(user2),
   ]);
+  const hasLimitedLiveData = snapshot1.isFallback || snapshot2.isFallback;
 
   return new ImageResponse(
     (
@@ -102,7 +103,7 @@ export default async function Image({
               textTransform: "uppercase",
             }}
           >
-            Live Compare Snapshot
+            {hasLimitedLiveData ? "Snapshot (limited live data)" : "Live Compare Snapshot"}
           </div>
         </div>
       </div>

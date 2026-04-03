@@ -16,6 +16,7 @@ export type GitHubProfileSnapshot = {
   followers: number;
   totalStars: number;
   topLanguage: string;
+  isFallback: boolean;
 };
 
 type FetchOptions = RequestInit & {
@@ -259,6 +260,7 @@ export async function getProfileSnapshot(
       followers: user.followers,
       totalStars,
       topLanguage: topLanguageEntry?.[0] ?? "N/A",
+      isFallback: false,
     };
   } catch {
     return {
@@ -267,6 +269,7 @@ export async function getProfileSnapshot(
       followers: 0,
       totalStars: 0,
       topLanguage: "N/A",
+      isFallback: true,
     };
   }
 }

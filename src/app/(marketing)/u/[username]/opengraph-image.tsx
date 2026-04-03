@@ -97,7 +97,7 @@ export default async function Image({
               textTransform: "uppercase",
             }}
           >
-            Live Profile Snapshot
+            {snapshot.isFallback ? "Snapshot (limited live data)" : "Live Profile Snapshot"}
           </div>
         </div>
       </div>
