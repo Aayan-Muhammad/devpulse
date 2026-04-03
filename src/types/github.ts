@@ -1,5 +1,14 @@
 export type LanguageStats = Record<string, number>;
 
+export interface GitHubSearchUser {
+  login: string;
+  id: number;
+  avatar_url: string;
+  html_url: string;
+  type: string;
+  score: number;
+}
+
 export interface GitHubUser {
   login: string;
   id: number;

@@ -2,63 +2,78 @@
 
 import { FormEvent, useState } from "react";
 import Link from "next/link";
-import type { GitHubUser } from "@/types/github";
+import type { GitHubSearchUser } from "@/types/github";
 
-type SearchResult = {
-  user: GitHubUser;
-  totalStars: number;
+type SearchResponse = {
+  query: string;
+  page: number;
+  perPage: number;
+  totalCount: number;
+  items: GitHubSearchUser[];
 };
 
 export default function ExplorePage() {
   const [query, setQuery] = useState("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  const [result, setResult] = useState<SearchResult | null>(null);
+  const [page, setPage] = useState(1);
+  const [result, setResult] = useState<SearchResponse | null>(null);
 
-  const handleSearch = async (event: FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
+  const totalPages = result ? Math.max(1, Math.ceil(result.totalCount / result.perPage)) : 1;
 
-    const username = query.trim();
-    if (!username) {
-      setError("Enter a GitHub username to search.");
-      setResult(null);
-      return;
-    }
-
+  const fetchResults = async (searchQuery: string, nextPage: number) => {
     setLoading(true);
     setError(null);
 
     try {
       const response = await fetch(
-        `/api/github/user?username=${encodeURIComponent(username)}`,
+        `/api/github/search?query=${encodeURIComponent(searchQuery)}&page=${nextPage}`,
         { method: "GET" }
       );
 
-      const payload = (await response.json()) as {
-        user?: GitHubUser;
-        totalStars?: number;
-        error?: string;
-      };
+      const payload = (await response.json()) as SearchResponse & { error?: string };
 
-      if (!response.ok || !payload.user) {
-        throw new Error(payload.error ?? "Unable to load GitHub profile.");
+      if (!response.ok || !payload.items) {
+        throw new Error(payload.error ?? "Unable to search GitHub users.");
       }
 
-      setResult({ user: payload.user, totalStars: payload.totalStars ?? 0 });
+      setResult(payload);
+      setPage(payload.page);
     } catch (searchError) {
       const message = searchError instanceof Error ? searchError.message : "";
-      const notFound =
-        message.toLowerCase().includes("could not find") || message.includes("404");
+      const notFound = message.toLowerCase().includes("could not find") || message.includes("404");
 
       setResult(null);
       setError(
         notFound
-          ? `Could not find a GitHub user named @${username}.`
-          : "Could not load that profile right now. Please try again in a moment."
+          ? `Could not find any GitHub users matching "${searchQuery}".`
+          : "Could not load search results right now. Please try again in a moment."
       );
     } finally {
       setLoading(false);
     }
+  };
+
+  const handleSearch = async (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+
+    const searchQuery = query.trim();
+    if (!searchQuery) {
+      setError("Enter a name or username to search.");
+      setResult(null);
+      return;
+    }
+
+    setPage(1);
+    await fetchResults(searchQuery, 1);
+  };
+
+  const goToPage = async (nextPage: number) => {
+    if (!query.trim() || loading) {
+      return;
+    }
+
+    await fetchResults(query.trim(), nextPage);
   };
 
   return (
@@ -97,52 +112,86 @@ export default function ExplorePage() {
         )}
 
         {result && (
-          <div className="rounded-xl border border-[#1e2229] bg-[#111318] p-6">
-            <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
-              <div className="flex items-center gap-4">
-                <img
-                  src={result.user.avatar_url}
-                  alt={result.user.login}
-                  width={72}
-                  height={72}
-                  className="h-[72px] w-[72px] rounded-full object-cover"
-                />
+          <div className="space-y-4">
+            <div className="rounded-xl border border-[#1e2229] bg-[#111318] p-5">
+              <div className="flex flex-col gap-2 sm:flex-row sm:items-end sm:justify-between">
                 <div>
-                  <h2 className="text-2xl font-semibold text-zinc-100">
-                    {result.user.name || result.user.login}
+                  <p className="text-xs uppercase tracking-widest text-zinc-500">Results</p>
+                  <h2 className="mt-1 text-2xl font-semibold text-zinc-100">
+                    {result.totalCount} people matching “{result.query}”
                   </h2>
-                  <p className="text-sm text-zinc-400">@{result.user.login}</p>
-                  {result.user.bio && (
-                    <p className="mt-1 max-w-xl text-sm text-zinc-300">{result.user.bio}</p>
-                  )}
+                  <p className="mt-1 text-sm text-zinc-400">
+                    Showing page {result.page} of {totalPages}, 15 at a time
+                  </p>
+                </div>
+
+                <div className="flex items-center gap-2 text-sm text-zinc-400">
+                  <button
+                    type="button"
+                    onClick={() => goToPage(Math.max(1, page - 1))}
+                    disabled={loading || page <= 1}
+                    className="rounded-lg border border-[#1e2229] bg-[#0a0c0f] px-3 py-2 font-semibold text-zinc-200 transition-colors hover:border-amber-400 hover:text-amber-300 disabled:cursor-not-allowed disabled:opacity-50"
+                  >
+                    Prev
+                  </button>
+                  <span className="min-w-20 text-center text-zinc-500">
+                    {page} / {totalPages}
+                  </span>
+                  <button
+                    type="button"
+                    onClick={() => goToPage(Math.min(totalPages, page + 1))}
+                    disabled={loading || page >= totalPages}
+                    className="rounded-lg border border-[#1e2229] bg-[#0a0c0f] px-3 py-2 font-semibold text-zinc-200 transition-colors hover:border-amber-400 hover:text-amber-300 disabled:cursor-not-allowed disabled:opacity-50"
+                  >
+                    Next
+                  </button>
                 </div>
               </div>
-
-              <Link
-                href={`/u/${encodeURIComponent(result.user.login)}`}
-                className="rounded-lg border border-[#1e2229] bg-amber-400 px-4 py-2 text-center text-sm font-semibold text-black transition-colors hover:bg-amber-300"
-              >
-                View full profile
-              </Link>
             </div>
 
-            <div className="mt-6 grid grid-cols-1 gap-4 sm:grid-cols-3">
-              <div className="rounded-lg border border-[#1e2229] bg-[#0a0c0f] p-4">
-                <p className="text-xs uppercase tracking-widest text-zinc-500">Followers</p>
-                <p className="mt-1 text-2xl font-bold text-zinc-100">
-                  {result.user.followers}
-                </p>
-              </div>
-              <div className="rounded-lg border border-[#1e2229] bg-[#0a0c0f] p-4">
-                <p className="text-xs uppercase tracking-widest text-zinc-500">Public Repos</p>
-                <p className="mt-1 text-2xl font-bold text-zinc-100">
-                  {result.user.public_repos}
-                </p>
-              </div>
-              <div className="rounded-lg border border-[#1e2229] bg-[#0a0c0f] p-4">
-                <p className="text-xs uppercase tracking-widest text-zinc-500">Total Stars</p>
-                <p className="mt-1 text-2xl font-bold text-zinc-100">{result.totalStars}</p>
-              </div>
+            <div className="grid grid-cols-1 gap-4 md:grid-cols-2 xl:grid-cols-3">
+              {result.items.map((user) => (
+                <article
+                  key={user.id}
+                  className="rounded-xl border border-[#1e2229] bg-[#111318] p-5 transition-colors hover:border-[#2f353f]"
+                >
+                  <div className="flex items-center gap-4">
+                    <img
+                      src={user.avatar_url}
+                      alt={user.login}
+                      width={64}
+                      height={64}
+                      className="h-16 w-16 rounded-full object-cover"
+                    />
+                    <div className="min-w-0 flex-1">
+                      <h3 className="truncate text-lg font-semibold text-zinc-100">
+                        {user.login}
+                      </h3>
+                      <p className="text-sm text-zinc-400">{user.type}</p>
+                      <p className="mt-1 text-xs uppercase tracking-widest text-zinc-500">
+                        Score {user.score.toFixed(2)}
+                      </p>
+                    </div>
+                  </div>
+
+                  <div className="mt-5 flex items-center justify-between gap-3">
+                    <Link
+                      href={`/u/${encodeURIComponent(user.login)}`}
+                      className="rounded-lg border border-[#1e2229] bg-[#0a0c0f] px-4 py-2 text-sm font-semibold text-zinc-200 transition-colors hover:border-amber-400 hover:text-amber-300"
+                    >
+                      View profile
+                    </Link>
+                    <a
+                      href={user.html_url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-sm font-semibold text-amber-400 transition-colors hover:text-amber-300"
+                    >
+                      GitHub
+                    </a>
+                  </div>
+                </article>
+              ))}
             </div>
           </div>
         )}
