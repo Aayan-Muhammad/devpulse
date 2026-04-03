@@ -150,7 +150,7 @@ export default async function ActivityPage({ searchParams }: ActivityPageProps) 
       <div className="dp-grid-bg min-h-screen bg-transparent p-6 text-zinc-200">
         <div className="mx-auto max-w-4xl">
           <div className="dp-surface dp-card-lift dp-reveal rounded-xl p-8">
-            <div className="mb-4 inline-flex h-12 w-12 items-center justify-center rounded-xl border border-[#2a2f37] bg-[#0a0c0f] text-amber-300">
+            <div className="dp-surface mb-4 inline-flex h-12 w-12 items-center justify-center rounded-xl text-amber-300">
               <AlertTriangle className="h-5 w-5" />
             </div>
             <h1 className="text-2xl font-semibold text-zinc-100">Activity feed temporarily unavailable</h1>
@@ -168,7 +168,7 @@ export default async function ActivityPage({ searchParams }: ActivityPageProps) 
               </a>
               <Link
                 href="/repos"
-                className="dp-control rounded-lg border border-[#2a2f37] bg-[#0a0c0f] px-4 py-2 text-sm font-semibold text-zinc-200 hover:shadow-[0_4px_12px_rgba(251,191,36,0.15)]"
+                className="dp-control rounded-lg border border-[#2a2f37] px-4 py-2 text-sm font-semibold text-zinc-200 hover:border-amber-400 hover:text-amber-300 hover:shadow-[0_4px_12px_rgba(251,191,36,0.15)]"
                 style={{ borderColor: "var(--accent-color)" }}
               >
                 Go to repositories

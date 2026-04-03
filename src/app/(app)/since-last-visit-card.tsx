@@ -332,7 +332,7 @@ export function SinceLastVisitCard({
 
   if (!previous) {
     return (
-      <div className="dp-card-lift dp-reveal dp-reveal-delay-3 rounded-xl border border-[#1e2229] bg-[#111318] p-5">
+      <div className="dp-surface dp-card-lift dp-reveal dp-reveal-delay-3 rounded-xl p-5">
         <p className="text-xs font-semibold uppercase tracking-widest text-zinc-500">Since Last Visit</p>
         {historyTrackingEnabled ? (
           <>
@@ -361,35 +361,35 @@ export function SinceLastVisitCard({
   const topLanguageShareDelta = topLanguageShare - previous.topLanguageShare;
 
   return (
-    <div className="dp-card-lift dp-reveal dp-reveal-delay-3 rounded-xl border border-[#1e2229] bg-[#111318] p-5">
+    <div className="dp-surface dp-card-lift dp-reveal dp-reveal-delay-3 rounded-xl p-5">
       <p className="text-xs font-semibold uppercase tracking-widest text-zinc-500">Since Last Visit</p>
       <p className="mt-2 text-sm text-zinc-400">Compared with {hoursSince}h ago</p>
       <div className="mt-4 grid grid-cols-1 gap-3 sm:grid-cols-2 xl:grid-cols-5">
-        <div className="rounded-lg border border-[#1e2229] bg-[#0a0c0f] p-3">
+        <div className="dp-surface rounded-lg p-3">
           <p className="text-xs uppercase tracking-widest text-zinc-500">Pushes (7d)</p>
           <p className={`mt-1 text-lg font-semibold ${pushDelta >= 0 ? "text-emerald-300" : "text-rose-300"}`}>
             {deltaArrow(pushDelta)} {formatDelta(pushDelta, previous.pushesLast7Days)}
           </p>
         </div>
-        <div className="rounded-lg border border-[#1e2229] bg-[#0a0c0f] p-3">
+        <div className="dp-surface rounded-lg p-3">
           <p className="text-xs uppercase tracking-widest text-zinc-500">Active Repos</p>
           <p className={`mt-1 text-lg font-semibold ${activeReposDelta >= 0 ? "text-emerald-300" : "text-rose-300"}`}>
             {deltaArrow(activeReposDelta)} {formatDelta(activeReposDelta, previous.activeReposLast30Days)}
           </p>
         </div>
-        <div className="rounded-lg border border-[#1e2229] bg-[#0a0c0f] p-3">
+        <div className="dp-surface rounded-lg p-3">
           <p className="text-xs uppercase tracking-widest text-zinc-500">Total Stars</p>
           <p className={`mt-1 text-lg font-semibold ${starsDelta >= 0 ? "text-emerald-300" : "text-rose-300"}`}>
             {deltaArrow(starsDelta)} {formatDelta(starsDelta, previous.totalStars)}
           </p>
         </div>
-        <div className="rounded-lg border border-[#1e2229] bg-[#0a0c0f] p-3">
+        <div className="dp-surface rounded-lg p-3">
           <p className="text-xs uppercase tracking-widest text-zinc-500">Repository Count</p>
           <p className={`mt-1 text-lg font-semibold ${repoCountDelta >= 0 ? "text-emerald-300" : "text-rose-300"}`}>
             {deltaArrow(repoCountDelta)} {formatDelta(repoCountDelta, previous.repoCount)}
           </p>
         </div>
-        <div className="rounded-lg border border-[#1e2229] bg-[#0a0c0f] p-3">
+        <div className="dp-surface rounded-lg p-3">
           <p className="text-xs uppercase tracking-widest text-zinc-500">Top Language Focus</p>
           <p className={`mt-1 text-lg font-semibold ${topLanguageShareDelta >= 0 ? "text-emerald-300" : "text-rose-300"}`}>
             {deltaArrow(topLanguageShareDelta)} {topLanguageShareDelta > 0 ? "+" : ""}
@@ -400,7 +400,7 @@ export function SinceLastVisitCard({
       </div>
 
       {history.length > 1 && (
-        <div className="mt-4 rounded-lg border border-[#1e2229] bg-[#0a0c0f] p-3">
+        <div className="mt-4 dp-surface rounded-lg p-3">
           <div className="flex flex-wrap items-center justify-between gap-2">
             <div>
               <p className="text-xs uppercase tracking-widest text-zinc-500">Recent Change Timeline</p>
@@ -412,7 +412,7 @@ export function SinceLastVisitCard({
               )}
             </div>
             <div className="flex flex-wrap items-center gap-2">
-              <div className="flex items-center gap-1 rounded-lg border border-[#1e2229] bg-[#111318] p-1">
+              <div className="flex items-center gap-1 rounded-lg border border-[#1e2229] bg-[#111318]/90 p-1">
                 {(["24h", "7d", "30d", "all"] as TimelineWindow[]).map((windowValue) => (
                   <button
                     key={windowValue}
@@ -429,7 +429,7 @@ export function SinceLastVisitCard({
                 ))}
               </div>
 
-              <div className="flex items-center gap-1 rounded-lg border border-[#1e2229] bg-[#111318] p-1">
+              <div className="flex items-center gap-1 rounded-lg border border-[#1e2229] bg-[#111318]/90 p-1">
                 <button
                   type="button"
                   onClick={() => setDeltaMode("absolute")}
@@ -454,7 +454,7 @@ export function SinceLastVisitCard({
                 </button>
               </div>
 
-              <div className="flex items-center gap-1 rounded-lg border border-[#1e2229] bg-[#111318] p-1">
+              <div className="flex items-center gap-1 rounded-lg border border-[#1e2229] bg-[#111318]/90 p-1">
                 <button
                   type="button"
                   onClick={() => setShowPushes((value) => !value)}

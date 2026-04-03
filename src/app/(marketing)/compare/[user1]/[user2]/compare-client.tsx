@@ -114,7 +114,7 @@ export default function CompareClient({ user1, user2 }: { user1: string; user2: 
     return (
       <div className="dp-grid-bg min-h-screen bg-transparent p-6 text-zinc-200">
         <div className="mx-auto max-w-6xl">
-          <Link href="/explore" className="mb-6 inline-block text-sm text-amber-300 transition-colors hover:text-amber-200">
+          <Link href="/explore" className="dp-control mb-6 inline-flex rounded-lg border border-[#2a2f37] px-3 py-2 text-sm text-amber-300 transition-colors hover:border-amber-400 hover:text-amber-200">
             ← Back to Explore
           </Link>
           <div className="dp-surface rounded-xl p-8 text-center">
@@ -129,7 +129,7 @@ export default function CompareClient({ user1, user2 }: { user1: string; user2: 
   return (
     <div className="dp-grid-bg min-h-screen bg-transparent p-6 text-zinc-200">
       <div className="mx-auto max-w-6xl">
-        <Link href="/explore" className="mb-6 inline-block text-sm text-amber-300 transition-colors hover:text-amber-200">
+        <Link href="/explore" className="dp-control mb-6 inline-flex rounded-lg border border-[#2a2f37] px-3 py-2 text-sm text-amber-300 transition-colors hover:border-amber-400 hover:text-amber-200">
           ← Back to Explore
         </Link>
 

@@ -33,7 +33,7 @@ function normalizeWebsite(url: string): string | null {
 
 function SettingCard({ label, value }: { label: string; value: string }) {
   return (
-    <div className="dp-card-lift rounded-xl border border-[#1e2229] bg-[#0a0c0f] p-4">
+    <div className="dp-surface dp-card-lift rounded-xl p-4">
       <p className="text-xs font-semibold uppercase tracking-widest text-zinc-500">{label}</p>
       <p className="mt-1.5 break-words text-sm text-zinc-100">{value}</p>
     </div>
@@ -134,7 +134,7 @@ export default async function SettingsPage() {
               href={user.html_url}
               target="_blank"
               rel="noopener noreferrer"
-              className="dp-control inline-flex h-10 items-center justify-center rounded-lg border border-[#2a2f37] bg-[#0a0c0f] px-4 text-sm font-semibold text-zinc-200 hover:border-amber-400 hover:text-amber-300 hover:shadow-[0_4px_12px_rgba(251,191,36,0.15)]"
+              className="dp-control inline-flex h-10 items-center justify-center rounded-lg border border-[#2a2f37] px-4 text-sm font-semibold text-zinc-200 hover:border-amber-400 hover:text-amber-300 hover:shadow-[0_4px_12px_rgba(251,191,36,0.15)]"
             >
               View on GitHub
             </a>
@@ -170,7 +170,7 @@ export default async function SettingsPage() {
               <CopyProfileUrlButton value={profileUrl} />
               <Link
                 href={profileUrl}
-                className="dp-control inline-flex h-10 items-center justify-center rounded-lg border border-[#2a2f37] bg-[#111318] px-4 text-sm font-semibold text-zinc-200 hover:border-amber-400 hover:text-amber-300 hover:shadow-[0_4px_12px_rgba(251,191,36,0.15)]"
+                className="dp-control inline-flex h-10 items-center justify-center rounded-lg border border-[#2a2f37] px-4 text-sm font-semibold text-zinc-200 hover:border-amber-400 hover:text-amber-300 hover:shadow-[0_4px_12px_rgba(251,191,36,0.15)]"
               >
                 Open profile
               </Link>

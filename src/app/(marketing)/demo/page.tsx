@@ -69,11 +69,11 @@ export default function DemoPage() {
               Sign in with GitHub
               <ArrowRight className="h-4 w-4" />
             </Link>
-            <Link
-              href="/u/torvalds"
-              className="dp-control rounded-xl border border-[#2a2f37] bg-[#111318] px-5 py-3 text-sm font-semibold text-zinc-200 hover:shadow-[0_4px_12px_rgba(251,191,36,0.15)]"
-              style={{ borderColor: "var(--accent-color)" }}
-            >
+              <Link
+                href="/u/torvalds"
+                className="dp-control rounded-xl border border-[#2a2f37] px-5 py-3 text-sm font-semibold text-zinc-200 hover:border-amber-400 hover:text-amber-300 hover:shadow-[0_4px_12px_rgba(251,191,36,0.15)]"
+                style={{ borderColor: "var(--accent-color)" }}
+              >
               Open sample profile
             </Link>
           </div>
@@ -81,7 +81,7 @@ export default function DemoPage() {
 
         <section className="grid gap-6 xl:grid-cols-[1.1fr_0.9fr]">
           <div className="dp-surface dp-reveal dp-card-lift rounded-3xl p-8">
-            <div className="mb-6 inline-flex rounded-full border border-[#2a2f37] bg-[#0a0c0f] px-3 py-1 text-xs font-semibold uppercase tracking-[0.3em] text-zinc-400">
+            <div className="dp-surface mb-6 inline-flex rounded-full px-3 py-1 text-xs font-semibold uppercase tracking-[0.3em] text-zinc-400">
               What this app does
             </div>
             <h2 className="text-2xl font-semibold tracking-tight text-zinc-100 sm:text-3xl">
@@ -104,7 +104,7 @@ export default function DemoPage() {
                     style={{ animationDelay: `${index * 80}ms` }}
                   >
                     <div
-                      className="inline-flex h-11 w-11 items-center justify-center rounded-xl border border-[#2a2f37]"
+                        className="dp-surface inline-flex h-11 w-11 items-center justify-center rounded-xl"
                       style={{ color: "var(--accent-color)", borderColor: "var(--accent-color)" }}
                     >
                       <Icon className="h-5 w-5" />
@@ -143,7 +143,7 @@ export default function DemoPage() {
             <div className="mt-6 flex flex-wrap gap-3">
               <Link
                 href="/landing"
-                className="dp-control rounded-xl border border-[#2a2f37] bg-[#0a0c0f] px-4 py-2.5 text-sm font-semibold text-zinc-200 hover:shadow-[0_4px_12px_rgba(251,191,36,0.12)]"
+                className="dp-control rounded-xl border border-[#2a2f37] px-4 py-2.5 text-sm font-semibold text-zinc-200 hover:border-amber-400 hover:text-amber-300 hover:shadow-[0_4px_12px_rgba(251,191,36,0.12)]"
                 style={{ borderColor: "var(--accent-color)" }}
               >
                 Back to landing
@@ -163,15 +163,15 @@ export default function DemoPage() {
           <div className="dp-surface dp-reveal dp-card-lift rounded-3xl p-8">
             <p className="text-xs font-semibold uppercase tracking-[0.35em] text-zinc-500">Quick start checklist</p>
             <ol className="mt-5 space-y-4">
-              <li className="rounded-2xl border border-[#1e2229] bg-[#0a0c0f] p-4">
+              <li className="dp-surface rounded-2xl p-4">
                 <p className="text-sm font-semibold text-zinc-100">1. Share the landing or demo link</p>
                 <p className="mt-1 text-sm text-zinc-400">Visitors can learn the product flow before any sign-in prompt.</p>
               </li>
-              <li className="rounded-2xl border border-[#1e2229] bg-[#0a0c0f] p-4">
+              <li className="dp-surface rounded-2xl p-4">
                 <p className="text-sm font-semibold text-zinc-100">2. Ask them to continue with GitHub</p>
                 <p className="mt-1 text-sm text-zinc-400">The app uses the same deployment OAuth app and authenticates each person separately.</p>
               </li>
-              <li className="rounded-2xl border border-[#1e2229] bg-[#0a0c0f] p-4">
+              <li className="dp-surface rounded-2xl p-4">
                 <p className="text-sm font-semibold text-zinc-100">3. Start from the dashboard quick actions</p>
                 <p className="mt-1 text-sm text-zinc-400">Navigate to activity, projects, and language breakdown right away.</p>
               </li>
@@ -182,7 +182,7 @@ export default function DemoPage() {
             <p className="text-xs font-semibold uppercase tracking-[0.35em] text-zinc-500">Permissions and trust</p>
             <div className="mt-5 space-y-4">
               {permissionNotes.map((note) => (
-                <article key={note.title} className="rounded-2xl border border-[#1e2229] bg-[#0a0c0f] p-4">
+                <article key={note.title} className="dp-surface rounded-2xl p-4">
                   <h3 className="text-sm font-semibold text-zinc-100">{note.title}</h3>
                   <p className="mt-1 text-sm leading-6 text-zinc-400">{note.description}</p>
                 </article>
@@ -198,7 +198,7 @@ export default function DemoPage() {
               </Link>
               <Link
                 href="/explore"
-                className="dp-control rounded-xl border border-[#2a2f37] bg-[#0a0c0f] px-4 py-2.5 text-sm font-semibold text-zinc-200 hover:shadow-[0_4px_12px_rgba(251,191,36,0.12)]"
+                className="dp-control rounded-xl border border-[#2a2f37] px-4 py-2.5 text-sm font-semibold text-zinc-200 hover:border-amber-400 hover:text-amber-300 hover:shadow-[0_4px_12px_rgba(251,191,36,0.12)]"
                 style={{ borderColor: "var(--accent-color)" }}
               >
                 Go to Explore

@@ -62,10 +62,10 @@ function NavSection({
                 href={item.href}
                 aria-current={active ? "page" : undefined}
                 className={[
-                  "dp-control flex items-center gap-2.5 border-l-2 px-3 py-2 text-sm",
+                  "dp-control flex items-center gap-2.5 border-l-2 px-3 py-2 text-sm transition-all",
                   active
-                    ? "border-amber-400 bg-[#11151b] text-zinc-100"
-                    : "border-transparent text-zinc-400 hover:bg-[#0f1318] hover:text-zinc-200",
+                    ? "border-amber-400 bg-[color-mix(in_oklab,var(--background),var(--accent-color)_4%)] text-zinc-100"
+                    : "border-transparent text-zinc-400 hover:bg-[#0f1318] hover:text-zinc-100",
                 ].join(" ")}
               >
                 <Icon className="h-4 w-4" />

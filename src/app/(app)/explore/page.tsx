@@ -155,7 +155,7 @@ export default function ExplorePage() {
               onChange={(event) => setQuery(event.target.value)}
               placeholder="Search by GitHub username..."
               aria-label="Search GitHub users"
-              className="dp-control h-14 w-full rounded-lg border border-[#2a2f37] bg-[#0a0c0f] px-5 text-lg text-zinc-100 outline-none placeholder:text-zinc-500 focus:border-amber-400"
+                className="dp-control h-14 w-full rounded-lg border border-[#2a2f37] px-5 text-lg text-zinc-100 outline-none placeholder:text-zinc-500 focus:border-amber-400"
             />
             <button
               type="submit"
@@ -173,7 +173,7 @@ export default function ExplorePage() {
                 value={sortBy}
                 onChange={(event) => setSortBy(event.target.value)}
                 aria-label="Sort search results"
-                className="dp-control h-11 w-full rounded-lg border border-[#2a2f37] bg-[#0a0c0f] px-3 text-zinc-100 outline-none focus:border-amber-400"
+                className="dp-control h-11 w-full rounded-lg border border-[#2a2f37] px-3 text-zinc-100 outline-none focus:border-amber-400"
               >
                 <option value="best">Best match</option>
                 <option value="followers">Most followers</option>
@@ -187,7 +187,7 @@ export default function ExplorePage() {
                 value={accountType}
                 onChange={(event) => setAccountType(event.target.value)}
                 aria-label="Filter account type"
-                className="dp-control h-11 w-full rounded-lg border border-[#2a2f37] bg-[#0a0c0f] px-3 text-zinc-100 outline-none focus:border-amber-400"
+                className="dp-control h-11 w-full rounded-lg border border-[#2a2f37] px-3 text-zinc-100 outline-none focus:border-amber-400"
               >
                 <option value="all">All</option>
                 <option value="user">Users only</option>
@@ -205,7 +205,7 @@ export default function ExplorePage() {
                 value={minFollowers}
                 onChange={(event) => setMinFollowers(event.target.value)}
                 aria-label="Minimum followers"
-                className="dp-control h-11 w-full rounded-lg border border-[#2a2f37] bg-[#0a0c0f] px-3 text-zinc-100 outline-none focus:border-amber-400"
+                className="dp-control h-11 w-full rounded-lg border border-[#2a2f37] px-3 text-zinc-100 outline-none focus:border-amber-400"
               />
             </label>
           </div>
@@ -221,14 +221,14 @@ export default function ExplorePage() {
             <div className="mt-4 flex flex-wrap gap-2">
               <Link
                 href="/u/torvalds"
-                className="dp-control rounded-lg border border-[#2a2f37] bg-[#0a0c0f] px-3 py-2 text-xs font-semibold text-zinc-300 hover:shadow-[0_4px_12px_rgba(251,191,36,0.15)]"
+                className="dp-control rounded-lg border border-[#2a2f37] px-3 py-2 text-xs font-semibold text-zinc-300 hover:border-amber-400 hover:text-amber-300 hover:shadow-[0_4px_12px_rgba(251,191,36,0.15)]"
                 style={{ borderColor: "var(--accent-color)" }}
               >
                 View sample profile
               </Link>
               <Link
                 href="/compare/torvalds/gaearon"
-                className="dp-control rounded-lg border border-[#2a2f37] bg-[#0a0c0f] px-3 py-2 text-xs font-semibold text-zinc-300 hover:shadow-[0_4px_12px_rgba(251,191,36,0.15)]"
+                className="dp-control rounded-lg border border-[#2a2f37] px-3 py-2 text-xs font-semibold text-zinc-300 hover:border-amber-400 hover:text-amber-300 hover:shadow-[0_4px_12px_rgba(251,191,36,0.15)]"
                 style={{ borderColor: "var(--accent-color)" }}
               >
                 Open sample compare

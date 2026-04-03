@@ -132,9 +132,9 @@ export default async function StreakPage() {
   const maxLast30Count = last30Days.reduce((max, day) => Math.max(max, day.count), 0);
 
   return (
-    <div className="min-h-screen bg-[#0d0f12] p-6 text-zinc-200">
+    <div className="dp-grid-bg min-h-screen bg-transparent p-6 text-zinc-200">
       <div className="mx-auto max-w-6xl">
-        <div className="dp-reveal [animation-delay:40ms] mb-6 rounded-xl border border-[#1e2229] bg-[#111318] p-6 text-center">
+        <div className="dp-surface dp-reveal [animation-delay:40ms] mb-6 rounded-xl p-6 text-center">
           <p className="text-xs font-semibold uppercase tracking-widest text-zinc-500">Streak</p>
           <div className="mt-4 flex flex-col items-center gap-2">
             <p className="text-6xl font-bold tracking-tight text-amber-300 sm:text-7xl">
@@ -150,7 +150,7 @@ export default async function StreakPage() {
         </div>
 
         <div className="mb-6 grid grid-cols-1 gap-4 md:grid-cols-2">
-          <div className="dp-reveal dp-card-lift [animation-delay:80ms] rounded-xl border border-[#1e2229] bg-[#111318] p-5">
+          <div className="dp-surface dp-reveal dp-card-lift [animation-delay:80ms] rounded-xl p-5">
             <p className="text-xs font-semibold uppercase tracking-widest text-zinc-500">
               Longest Streak
             </p>
@@ -160,7 +160,7 @@ export default async function StreakPage() {
             <p className="mt-1 text-sm text-zinc-400">Best consecutive run in the calendar</p>
           </div>
 
-          <div className="dp-reveal dp-card-lift [animation-delay:110ms] rounded-xl border border-[#1e2229] bg-[#111318] p-5">
+          <div className="dp-surface dp-reveal dp-card-lift [animation-delay:110ms] rounded-xl p-5">
             <p className="text-xs font-semibold uppercase tracking-widest text-zinc-500">
               Contributions This Year
             </p>
@@ -171,7 +171,7 @@ export default async function StreakPage() {
           </div>
         </div>
 
-        <div className="dp-reveal dp-card-lift [animation-delay:150ms] rounded-xl border border-[#1e2229] bg-[#111318] p-6">
+        <div className="dp-surface dp-reveal dp-card-lift [animation-delay:150ms] rounded-xl p-6">
           <div className="mb-5 flex items-end justify-between gap-3">
             <div>
               <h2 className="text-lg font-semibold text-zinc-100">Last 30 Days</h2>

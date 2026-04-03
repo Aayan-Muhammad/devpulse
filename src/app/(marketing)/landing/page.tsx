@@ -42,7 +42,7 @@ export default function LandingPage() {
 
           <Link
             href="/login"
-            className="dp-control rounded-lg border border-[#2a2f37] bg-[#111318] px-4 py-2 text-sm font-semibold text-zinc-200 hover:shadow-[0_4px_12px_rgba(251,191,36,0.15)]"
+            className="dp-control rounded-lg border border-[#2a2f37] px-4 py-2 text-sm font-semibold text-zinc-200 hover:border-amber-400 hover:text-amber-300 hover:shadow-[0_4px_12px_rgba(251,191,36,0.15)]"
             style={{ borderColor: "var(--accent-color)" }}
           >
             Sign in with GitHub
@@ -72,14 +72,14 @@ export default function LandingPage() {
               </Link>
               <Link
                 href="/demo"
-                className="dp-control rounded-xl border border-[#2a2f37] bg-[#111318]/90 px-6 py-3 text-sm font-semibold text-zinc-200 hover:shadow-[0_4px_12px_rgba(251,191,36,0.15)]"
+                className="dp-control rounded-xl border border-[#2a2f37] px-6 py-3 text-sm font-semibold text-zinc-200 hover:border-amber-400 hover:text-amber-300 hover:shadow-[0_4px_12px_rgba(251,191,36,0.15)]"
                 style={{ borderColor: "var(--accent-color)" }}
               >
                 Open preview
               </Link>
               <Link
                 href="/u/torvalds"
-                className="dp-control rounded-xl border border-[#2a2f37] bg-[#111318]/90 px-6 py-3 text-sm font-semibold text-zinc-200 hover:shadow-[0_4px_12px_rgba(251,191,36,0.15)]"
+                className="dp-control rounded-xl border border-[#2a2f37] px-6 py-3 text-sm font-semibold text-zinc-200 hover:border-amber-400 hover:text-amber-300 hover:shadow-[0_4px_12px_rgba(251,191,36,0.15)]"
                 style={{ borderColor: "var(--accent-color)" }}
               >
                 View a sample profile
@@ -98,7 +98,7 @@ export default function LandingPage() {
                   style={{ animationDelay: `${180 + index * 80}ms` }}
                 >
                   <div
-                    className="mb-4 inline-flex h-12 w-12 items-center justify-center rounded-xl border border-[#2a2f37] bg-[#0a0c0f] shadow-[0_0_30px_color-mix(in_oklab,var(--accent-color),transparent_70%)]"
+                    className="dp-surface mb-4 inline-flex h-12 w-12 items-center justify-center rounded-xl shadow-[0_0_30px_color-mix(in_oklab,var(--accent-color),transparent_70%)]"
                     style={{ color: "var(--accent-color)", borderColor: "var(--accent-color)" }}
                   >
                     <Icon className="h-5 w-5" />
@@ -111,7 +111,7 @@ export default function LandingPage() {
           </section>
         </main>
 
-        <footer className="dp-reveal dp-reveal-delay-3 flex flex-col gap-2 border-t border-[#1e2229] py-5 text-sm text-zinc-500 sm:flex-row sm:items-center sm:justify-between">
+        <footer className="dp-reveal dp-reveal-delay-3 flex flex-col gap-2 border-t border-[#1e2229]/80 py-5 text-sm text-zinc-500 sm:flex-row sm:items-center sm:justify-between">
           <span className="font-mono" style={{ color: "var(--accent-color)" }}>devpulse</span>
           <p>Built to make GitHub activity easier to understand at a glance.</p>
         </footer>

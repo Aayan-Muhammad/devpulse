@@ -31,7 +31,7 @@ type ConnectionStatusPanelProps = {
 
 function Card({ label, value }: { label: string; value: string }) {
   return (
-    <div className="dp-card-lift rounded-xl border border-[#1e2229] bg-[#0a0c0f] p-4">
+    <div className="dp-surface dp-card-lift rounded-xl p-4">
       <p className="text-xs font-semibold uppercase tracking-widest text-zinc-500">{label}</p>
       <p className="mt-1.5 text-sm text-zinc-100">{value}</p>
     </div>

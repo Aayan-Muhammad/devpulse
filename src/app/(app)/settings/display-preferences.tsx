@@ -491,7 +491,7 @@ export function DisplayPreferences() {
     : 0;
 
   return (
-    <div className="dp-reveal [animation-delay:240ms] rounded-xl border border-[#1e2229] bg-[#111318] p-6">
+    <div className="dp-surface dp-reveal [animation-delay:240ms] rounded-xl p-6">
       <div className="mb-5">
         <h2 className="text-lg font-semibold text-zinc-100">Display Preferences</h2>
         <p className="text-sm text-zinc-400">Local settings saved in this browser only.</p>
@@ -505,7 +505,7 @@ export function DisplayPreferences() {
           <select
             value={density}
             onChange={(event) => setDensity(event.target.value as DensityMode)}
-            className="h-11 w-full rounded-lg border border-[#2a2f37] bg-[#0a0c0f] px-3 text-zinc-100 outline-none transition-colors focus:border-amber-400"
+            className="dp-control h-11 w-full rounded-lg border border-[#2a2f37] px-3 text-zinc-100 outline-none transition-colors focus:border-amber-400"
           >
             <option value="comfortable">Comfortable</option>
             <option value="compact">Compact</option>
@@ -516,7 +516,7 @@ export function DisplayPreferences() {
           <span className="mb-1 block text-xs uppercase tracking-widest text-zinc-500">
             Show helper hints
           </span>
-          <label className="flex h-11 items-center justify-between gap-3 rounded-lg border border-[#2a2f37] bg-[#0a0c0f] px-3 text-sm text-zinc-100">
+          <label className="flex h-11 items-center justify-between gap-3 rounded-lg border border-[#2a2f37] bg-[#0a0c0f]/95 px-3 text-sm text-zinc-100">
             <span className="text-sm text-zinc-300">Enable hints</span>
             <input
               type="checkbox"
@@ -531,7 +531,7 @@ export function DisplayPreferences() {
           <span className="mb-1 block text-xs uppercase tracking-widest text-zinc-500">
             Track trend history
           </span>
-          <label className="flex h-11 items-center justify-between gap-3 rounded-lg border border-[#2a2f37] bg-[#0a0c0f] px-3 text-sm text-zinc-100">
+          <label className="flex h-11 items-center justify-between gap-3 rounded-lg border border-[#2a2f37] bg-[#0a0c0f]/95 px-3 text-sm text-zinc-100">
             <span className="text-sm text-zinc-300">Save dashboard deltas</span>
             <input
               type="checkbox"
@@ -549,7 +549,7 @@ export function DisplayPreferences() {
           <select
             value={ttlDays}
             onChange={(event) => setTtlDays(event.target.value as TtlDaysMode)}
-            className="h-11 w-full rounded-lg border border-[#2a2f37] bg-[#0a0c0f] px-3 text-zinc-100 outline-none transition-colors focus:border-amber-400"
+            className="dp-control h-11 w-full rounded-lg border border-[#2a2f37] px-3 text-zinc-100 outline-none transition-colors focus:border-amber-400"
           >
             <option value="7">7 days</option>
             <option value="30">30 days</option>
@@ -563,18 +563,18 @@ export function DisplayPreferences() {
         <button
           type="button"
           onClick={handleSave}
-          className="inline-flex h-10 items-center justify-center rounded-lg bg-amber-400 px-4 text-sm font-semibold text-[#0d0f12] transition-all duration-200 hover:bg-amber-300 hover:shadow-[0_4px_12px_rgba(251,191,36,0.3)]"
+          className="dp-control inline-flex h-10 items-center justify-center rounded-lg bg-amber-400 px-4 text-sm font-semibold text-[#0d0f12] transition-all duration-200 hover:bg-amber-300 hover:shadow-[0_4px_12px_rgba(251,191,36,0.3)]"
         >
           Save preferences
         </button>
         <button
           type="button"
           onClick={exportTrendHistory}
-          className="inline-flex h-10 items-center justify-center rounded-lg border border-[#2a2f37] bg-[#0a0c0f] px-4 text-sm font-semibold text-zinc-300 transition-all duration-200 hover:border-amber-400 hover:text-amber-300"
+          className="dp-control inline-flex h-10 items-center justify-center rounded-lg border border-[#2a2f37] px-4 text-sm font-semibold text-zinc-300 transition-all duration-200 hover:border-amber-400 hover:text-amber-300"
         >
           Export trend history
         </button>
-        <label className="inline-flex h-10 items-center gap-2 rounded-lg border border-[#2a2f37] bg-[#0a0c0f] px-3 text-sm text-zinc-300">
+        <label className="inline-flex h-10 items-center gap-2 rounded-lg border border-[#2a2f37] bg-[#0a0c0f]/95 px-3 text-sm text-zinc-300">
           <input
             type="checkbox"
             checked={signExport}
@@ -606,7 +606,7 @@ export function DisplayPreferences() {
           value={importPassphrase}
           onChange={(event) => setImportPassphrase(event.target.value)}
           placeholder="Import passphrase (for signed files)"
-          className="h-10 rounded-lg border border-[#2a2f37] bg-[#0a0c0f] px-3 text-sm text-zinc-100 outline-none transition-colors placeholder:text-zinc-500 focus:border-amber-400"
+          className="dp-control h-10 rounded-lg border border-[#2a2f37] px-3 text-sm text-zinc-100 outline-none transition-colors placeholder:text-zinc-500 focus:border-amber-400"
         />
         <button
           type="button"

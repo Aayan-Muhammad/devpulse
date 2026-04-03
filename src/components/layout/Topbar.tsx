@@ -77,10 +77,10 @@ export function Topbar({ username }: TopbarProps) {
               href={item.href}
               aria-current={active ? "page" : undefined}
               className={[
-                "dp-control rounded-full px-3 py-1.5 text-sm",
+                "dp-control rounded-full px-3 py-1.5 text-sm transition-all",
                 active
-                  ? "text-amber-400"
-                  : "text-zinc-400 hover:text-zinc-200",
+                  ? "border border-[color-mix(in_oklab,var(--border),var(--accent-color)_15%)] bg-[color-mix(in_oklab,var(--background),var(--accent-color)_6%)] text-amber-300"
+                  : "border border-transparent text-zinc-400 hover:border-[color-mix(in_oklab,var(--border),var(--accent-color)_10%)] hover:bg-[#111318] hover:text-zinc-100",
               ].join(" ")}
             >
               {item.label}
@@ -93,7 +93,7 @@ export function Topbar({ username }: TopbarProps) {
         <button
           type="button"
           onClick={handleSignOut}
-          className="dp-control rounded-md border border-[#2a2f37] px-3 py-1.5 text-xs font-semibold text-zinc-300 hover:shadow-[0_4px_12px_rgba(251,191,36,0.15)]"
+          className="dp-control rounded-md border border-[color-mix(in_oklab,var(--border),var(--accent-color)_12%)] bg-[color-mix(in_oklab,var(--background),var(--accent-color)_4%)] px-3 py-1.5 text-xs font-semibold text-zinc-200 hover:border-amber-400 hover:text-amber-300 hover:shadow-[0_4px_12px_rgba(251,191,36,0.15)]"
           style={{ borderColor: "var(--accent-color)" }}
         >
           Sign out
