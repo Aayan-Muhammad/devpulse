@@ -148,7 +148,8 @@ export default async function ProjectsPage({ searchParams }: ProjectsPageProps) 
             <div className="flex items-end gap-2">
               <button
                 type="submit"
-                className="h-11 rounded-lg bg-amber-400 px-4 text-sm font-semibold text-[#0d0f12] transition-colors hover:bg-amber-300"
+                className="h-11 rounded-lg px-4 text-sm font-semibold text-[#0d0f12] transition-all duration-200 hover:shadow-[0_4px_12px_rgba(251,191,36,0.3)]"
+                style={{ backgroundColor: "var(--accent-color)" }}
               >
                 Apply
               </button>
@@ -194,7 +195,8 @@ export default async function ProjectsPage({ searchParams }: ProjectsPageProps) 
                   <div className="flex items-center gap-2">
                     <Link
                       href={`/projects/${encodeURIComponent(repo.name)}`}
-                      className="rounded-lg border border-[#1e2229] bg-[#0a0c0f] px-4 py-2 text-sm font-semibold text-zinc-200 transition-colors hover:border-amber-400 hover:text-amber-300"
+                      className="rounded-lg border border-[#1e2229] bg-[#0a0c0f] px-4 py-2 text-sm font-semibold text-zinc-200 transition-all duration-200 hover:shadow-[0_4px_12px_rgba(251,191,36,0.15)]"
+                      style={{ borderColor: "var(--accent-color)" }}
                     >
                       View details
                     </Link>
@@ -202,7 +204,8 @@ export default async function ProjectsPage({ searchParams }: ProjectsPageProps) 
                       href={repo.html_url}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="rounded-lg border border-[#1e2229] px-4 py-2 text-sm font-semibold text-amber-400 transition-colors hover:border-amber-400 hover:text-amber-300"
+                      className="rounded-lg border border-[#1e2229] px-4 py-2 text-sm font-semibold transition-all duration-200 hover:shadow-[0_4px_12px_rgba(251,191,36,0.15)]"
+                      style={{ borderColor: "var(--accent-color)", color: "var(--accent-color)" }}
                     >
                       GitHub
                     </a>

@@ -227,7 +227,8 @@ export default async function ActivityPage({ searchParams }: ActivityPageProps) 
             <div className="flex items-end gap-2">
               <button
                 type="submit"
-                className="h-11 rounded-lg bg-amber-400 px-4 text-sm font-semibold text-[#0d0f12] transition-colors hover:bg-amber-300"
+                className="h-11 rounded-lg px-4 text-sm font-semibold text-[#0d0f12] transition-all duration-200 hover:shadow-[0_4px_12px_rgba(251,191,36,0.3)]"
+                style={{ backgroundColor: "var(--accent-color)" }}
               >
                 Apply
               </button>
@@ -254,7 +255,7 @@ export default async function ActivityPage({ searchParams }: ActivityPageProps) 
               const dayEvents = groupedEvents[dateKey];
               return (
                 <section key={dateKey} className="dp-card-lift dp-reveal dp-reveal-delay-2 rounded-xl border border-[#1e2229] bg-[#111318] p-5">
-                  <h2 className="mb-4 text-base font-semibold text-amber-300">
+                  <h2 className="mb-4 text-base font-semibold" style={{ color: "var(--accent-color)" }}>
                     {formatDateHeading(dayEvents[0].created_at)}
                   </h2>
 

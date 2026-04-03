@@ -94,7 +94,9 @@ export default async function LanguagesPage() {
             {topLanguage ? (
               <div className="dp-card-lift dp-reveal dp-reveal-delay-1 rounded-lg border border-[#2a2f37] bg-[#0a0c0f] px-5 py-4 text-right">
                 <p className="text-xs uppercase tracking-widest text-zinc-500">Top Language</p>
-                <p className="mt-1 text-2xl font-bold text-amber-300">{topLanguage.name}</p>
+                <p className="mt-1 text-2xl font-bold" style={{ color: "var(--accent-color)" }}>
+                  {topLanguage.name}
+                </p>
                 <p className="mt-1 text-sm text-zinc-400">
                   {topLanguage.percentage.toFixed(1)}% • {formatBytes(topLanguage.bytes)}
                 </p>
@@ -162,7 +164,7 @@ export default async function LanguagesPage() {
                       />
                       <h3 className="text-lg font-semibold text-zinc-100">{language.name}</h3>
                     </div>
-                    <p className="text-sm font-medium text-amber-300">
+                    <p className="text-sm font-medium" style={{ color: "var(--accent-color)" }}>
                       {language.percentage.toFixed(1)}%
                     </p>
                   </div>

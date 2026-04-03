@@ -198,7 +198,8 @@ export default async function CommitsPage({ searchParams }: CommitsPageProps) {
           <div className="flex items-end gap-2">
             <button
               type="submit"
-              className="h-11 rounded-lg bg-amber-400 px-4 text-sm font-semibold text-[#0d0f12] transition-colors hover:bg-amber-300"
+              className="h-11 rounded-lg px-4 text-sm font-semibold text-[#0d0f12] transition-all duration-200 hover:shadow-[0_4px_12px_rgba(251,191,36,0.3)]"
+              style={{ backgroundColor: "var(--accent-color)" }}
             >
               Apply
             </button>
@@ -216,7 +217,7 @@ export default async function CommitsPage({ searchParams }: CommitsPageProps) {
       <div className="dp-reveal [animation-delay:120ms] rounded-xl border border-[#1e2229] bg-[#111318] p-6">
         <div className="text-center">
           <p className="text-sm uppercase tracking-widest text-zinc-500">Total Commits</p>
-          <p className="mt-2 text-5xl font-bold text-amber-400">{totalCommits}</p>
+          <p className="mt-2 text-5xl font-bold" style={{ color: "var(--accent-color)" }}>{totalCommits}</p>
           {(repoFilter || queryFilter) && (
             <p className="mt-2 text-xs text-zinc-500">Filtered from {totalUnfilteredCommits} total commits</p>
           )}
@@ -243,7 +244,8 @@ export default async function CommitsPage({ searchParams }: CommitsPageProps) {
                     href={group.repoUrl}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="text-lg font-semibold text-amber-400 transition-colors hover:text-amber-300"
+                    className="text-lg font-semibold transition-colors hover:text-amber-300"
+                    style={{ color: "var(--accent-color)" }}
                   >
                     {group.repoName}
                   </Link>
@@ -275,7 +277,8 @@ export default async function CommitsPage({ searchParams }: CommitsPageProps) {
                             href={commit.url}
                             target="_blank"
                             rel="noopener noreferrer"
-                            className="font-mono text-amber-400/70 transition-colors hover:text-amber-400"
+                            className="font-mono transition-colors hover:text-amber-400"
+                            style={{ color: "color-mix(in oklab, var(--accent-color), transparent 30%)" }}
                           >
                             {commit.sha}
                           </Link>

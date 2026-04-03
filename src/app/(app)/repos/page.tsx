@@ -146,7 +146,8 @@ export default async function ReposPage({ searchParams }: ReposPageProps) {
             <div className="flex items-end gap-2">
               <button
                 type="submit"
-                className="h-11 rounded-lg bg-amber-400 px-4 text-sm font-semibold text-[#0d0f12] transition-colors hover:bg-amber-300"
+                className="h-11 rounded-lg px-4 text-sm font-semibold text-[#0d0f12] transition-all duration-200 hover:shadow-[0_4px_12px_rgba(251,191,36,0.3)]"
+                style={{ backgroundColor: "var(--accent-color)" }}
               >
                 Apply
               </button>
@@ -180,6 +181,7 @@ export default async function ReposPage({ searchParams }: ReposPageProps) {
                     target="_blank"
                     rel="noopener noreferrer"
                     className="text-lg font-semibold text-zinc-100 transition-colors hover:text-amber-300"
+                    style={{ color: "var(--accent-color)" }}
                   >
                     {repo.name}
                   </a>
