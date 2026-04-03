@@ -277,6 +277,16 @@ html:not(.high-contrast) .accent-amber-400 {
   accent-color: var(--accent-color) !important;
 }
 
+html:not(.high-contrast)
+  .hover\:shadow-\[0_4px_12px_rgba\(251\,191\,36\,0\.15\)\]:hover {
+  box-shadow: 0 4px 12px color-mix(in oklab, var(--accent-color), transparent 85%) !important;
+}
+
+html:not(.high-contrast)
+  .hover\:shadow-\[0_4px_12px_rgba\(251\,191\,36\,0\.3\)\]:hover {
+  box-shadow: 0 4px 12px color-mix(in oklab, var(--accent-color), transparent 70%) !important;
+}
+
 /*
   Theme bridge for legacy hardcoded utility classes.
   Many pages still use fixed dark classes (bg-[#...], text-zinc-...).

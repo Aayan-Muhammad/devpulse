@@ -20,10 +20,11 @@ export function AccentColorPicker() {
   return (
     <div>
       <p className="mb-3 text-xs uppercase tracking-widest text-zinc-500">Accent Color</p>
-      <div className="flex flex-wrap gap-3">
+      <div className="flex flex-wrap gap-3" role="radiogroup" aria-label="Accent color">
         {accentOptions.map(({ name, label, color }) => (
           <button
             key={name}
+            type="button"
             onClick={() => setAccentColor(name)}
             className={`flex h-10 w-10 items-center justify-center rounded-lg border-2 transition-all ${
               accentColor === name
@@ -32,6 +33,10 @@ export function AccentColorPicker() {
             }`}
             style={{ backgroundColor: color }}
             title={label}
+            aria-label={`Set accent color ${label}`}
+            aria-pressed={accentColor === name}
+            role="radio"
+            aria-checked={accentColor === name}
           >
             {accentColor === name && (
               <span className="text-xs font-bold text-black">✓</span>
