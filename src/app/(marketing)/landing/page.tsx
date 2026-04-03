@@ -32,8 +32,7 @@ export default function LandingPage() {
             devpulse
           </Link>
 
-                className="rounded-lg border border-[#2a2f37] bg-[#111318] px-4 py-2 text-sm font-semibold text-zinc-200 transition-all duration-200 hover:shadow-[0_4px_12px_rgba(251,191,36,0.15)]"
-                style={{ borderColor: "var(--accent-color)" }}
+          <Link
             href="/login"
             className="rounded-lg border border-[#2a2f37] bg-[#111318] px-4 py-2 text-sm font-semibold text-zinc-200 transition-all duration-200 hover:shadow-[0_4px_12px_rgba(251,191,36,0.15)]"
             style={{ borderColor: "var(--accent-color)" }}
