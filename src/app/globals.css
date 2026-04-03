@@ -228,3 +228,70 @@ html.high-contrast {
 :root {
   --accent-color: #fbbf24;
 }
+
+/*
+  Theme bridge for legacy hardcoded utility classes.
+  Many pages still use fixed dark classes (bg-[#...], text-zinc-...).
+  These overrides make light/high-contrast modes visibly different
+  without rewriting every component immediately.
+*/
+html.light .bg-\[\#0d0f12\] {
+  background-color: #f4f6fb !important;
+}
+
+html.light .bg-\[\#111318\] {
+  background-color: #ffffff !important;
+}
+
+html.light .bg-\[\#0a0c0f\] {
+  background-color: #f8fafc !important;
+}
+
+html.light .border-\[\#1e2229\],
+html.light .border-\[\#2a2f37\],
+html.light .border-\[\#222832\] {
+  border-color: #d6dbe5 !important;
+}
+
+html.light .text-zinc-100,
+html.light .text-zinc-200,
+html.light .text-zinc-300 {
+  color: #111827 !important;
+}
+
+html.light .text-zinc-400,
+html.light .text-zinc-500 {
+  color: #4b5563 !important;
+}
+
+html.light .bg-zinc-900 {
+  background-color: #e5e7eb !important;
+}
+
+html.high-contrast .bg-\[\#0d0f12\],
+html.high-contrast .bg-\[\#111318\],
+html.high-contrast .bg-\[\#0a0c0f\] {
+  background-color: #000000 !important;
+}
+
+html.high-contrast .border-\[\#1e2229\],
+html.high-contrast .border-\[\#2a2f37\],
+html.high-contrast .border-\[\#222832\] {
+  border-color: #ffffff !important;
+}
+
+html.high-contrast .text-zinc-100,
+html.high-contrast .text-zinc-200,
+html.high-contrast .text-zinc-300,
+html.high-contrast .text-zinc-400,
+html.high-contrast .text-zinc-500 {
+  color: #ffffff !important;
+}
+
+html.high-contrast .text-amber-300,
+html.high-contrast .text-amber-400,
+html.high-contrast .bg-amber-400 {
+  color: #000000 !important;
+  background-color: #ffff00 !important;
+  border-color: #ffff00 !important;
+}
