@@ -116,9 +116,10 @@ export default async function SettingsPage() {
           </div>
         </section>
 
-          <AppearanceSection />
+        <section className="dp-reveal [animation-delay:120ms] rounded-xl border border-[#1e2229] bg-[#111318] p-6">
+          <div className="mb-4 flex items-center justify-between gap-3">
+            <div>
               <h2 className="text-lg font-semibold text-zinc-100">Account</h2>
-          <DisplayPreferences />
               <p className="text-sm text-zinc-400">GitHub account details and profile link.</p>
             </div>
             <a
@@ -169,8 +170,8 @@ export default async function SettingsPage() {
           </div>
         </section>
 
-        <section className="dp-reveal [animation-delay:200ms] rounded-xl border border-[#1e2229] bg-[#111318] p-6">
-         AppearanceSection /
+        <AppearanceSection />
+
         <DisplayPreferences />
 
         <section className="dp-reveal [animation-delay:240ms] rounded-xl border border-[#1e2229] bg-[#111318] p-6">
