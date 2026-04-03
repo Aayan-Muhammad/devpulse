@@ -108,54 +108,99 @@ export default async function PublicProfilePage({
       : null;
   });
 
+  const profileUrl = `/u/${encodeURIComponent(user.login)}`;
+  const topRepos = repos
+    .sort((a, b) => b.stargazers_count - a.stargazers_count)
+    .slice(0, 5);
+
   return (
     <div className="min-h-screen bg-[#0d0f12] p-6 text-zinc-200">
-      <div className="mb-8 flex items-center justify-between rounded-xl border border-[#1e2229] bg-[#111318] p-6">
-        <div className="flex items-center gap-4">
-          <img
-            src={user.avatar_url}
-            alt={user.login}
-            width={72}
-            height={72}
-            className="h-[72px] w-[72px] rounded-full object-cover"
-          />
-          <div>
-            <h1 className="text-2xl font-semibold text-zinc-100">{user.name || user.login}</h1>
-            <p className="text-sm text-zinc-400">@{user.login}</p>
-            {user.bio && <p className="mt-1 text-sm text-zinc-300">{user.bio}</p>}
+      <div className="dp-reveal [animation-delay:40ms] mb-8 rounded-xl border border-[#1e2229] bg-[#111318] p-6">
+        <div className="flex flex-col items-start justify-between gap-4 sm:flex-row sm:items-center">
+          <div className="flex items-center gap-4">
+            <img
+              src={user.avatar_url}
+              alt={user.login}
+              width={72}
+              height={72}
+              className="h-[72px] w-[72px] rounded-full object-cover"
+            />
+            <div>
+              <h1 className="text-2xl font-semibold text-zinc-100">{user.name || user.login}</h1>
+              <p className="text-sm text-zinc-400">@{user.login}</p>
+              {user.bio && <p className="mt-1 text-sm text-zinc-300">{user.bio}</p>}
+            </div>
+          </div>
+          <div className="flex flex-wrap gap-2">
+            <button
+              onClick={() => {
+                navigator.clipboard.writeText(`${window.location.origin}${profileUrl}`);
+                alert("Profile link copied!");
+              }}
+              className="rounded-lg border border-[#2a2f37] bg-[#0a0c0f] px-4 py-2 text-sm font-semibold text-zinc-200 transition-all duration-200 hover:border-amber-400 hover:text-amber-300 hover:shadow-[0_4px_12px_rgba(251,191,36,0.15)]"
+            >
+              Share
+            </button>
+            <a
+              href={user.html_url}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="rounded-lg border border-[#1e2229] bg-amber-400 px-4 py-2 text-sm font-semibold text-black transition-all duration-200 hover:bg-amber-300 hover:shadow-[0_4px_12px_rgba(251,191,36,0.3)]"
+            >
+              View on GitHub
+            </a>
           </div>
         </div>
-        <a
-          href={user.html_url}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="rounded-lg border border-[#1e2229] bg-amber-400 px-4 py-2 text-sm font-semibold text-black transition-colors hover:bg-amber-300"
-        >
-          View on GitHub
-        </a>
       </div>
 
       <div className="mb-8 grid grid-cols-1 gap-4 md:grid-cols-2 xl:grid-cols-4">
-        <div className="rounded-xl border border-[#1e2229] bg-[#111318] p-4">
+        <div className="dp-reveal dp-card-lift [animation-delay:80ms] rounded-xl border border-[#1e2229] bg-[#111318] p-4">
           <p className="text-xs font-semibold uppercase tracking-widest text-zinc-500">Total Repos</p>
           <p className="mt-2 text-3xl font-bold text-zinc-100">{user.public_repos}</p>
         </div>
-        <div className="rounded-xl border border-[#1e2229] bg-[#111318] p-4">
+        <div className="dp-reveal dp-card-lift [animation-delay:110ms] rounded-xl border border-[#1e2229] bg-[#111318] p-4">
           <p className="text-xs font-semibold uppercase tracking-widest text-zinc-500">Followers</p>
           <p className="mt-2 text-3xl font-bold text-zinc-100">{user.followers}</p>
         </div>
-        <div className="rounded-xl border border-[#1e2229] bg-[#111318] p-4">
+        <div className="dp-reveal dp-card-lift [animation-delay:140ms] rounded-xl border border-[#1e2229] bg-[#111318] p-4">
           <p className="text-xs font-semibold uppercase tracking-widest text-zinc-500">Following</p>
           <p className="mt-2 text-3xl font-bold text-zinc-100">{user.following}</p>
         </div>
-        <div className="rounded-xl border border-[#1e2229] bg-[#111318] p-4">
+        <div className="dp-reveal dp-card-lift [animation-delay:170ms] rounded-xl border border-[#1e2229] bg-[#111318] p-4">
           <p className="text-xs font-semibold uppercase tracking-widest text-zinc-500">Total Stars</p>
           <p className="mt-2 text-3xl font-bold text-zinc-100">{totalStars}</p>
         </div>
       </div>
 
+      {topRepos.length > 0 && (
+        <div className="dp-reveal [animation-delay:200ms] mb-8 rounded-xl border border-[#1e2229] bg-[#111318] p-6">
+          <h2 className="mb-4 text-lg font-semibold text-zinc-100">Top Repositories</h2>
+          <div className="space-y-3">
+            {topRepos.map((repo) => (
+              <a
+                key={repo.id}
+                href={repo.html_url}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="dp-card-lift block rounded-lg border border-[#1e2229] bg-[#0a0c0f] p-4 transition-all duration-200 hover:border-amber-400 hover:shadow-[0_4px_12px_rgba(251,191,36,0.15)]"
+              >
+                <div className="flex items-start justify-between gap-3">
+                  <div className="flex-1 min-w-0">
+                    <h3 className="truncate font-semibold text-zinc-100">{repo.name}</h3>
+                    <p className="mt-1 line-clamp-1 text-xs text-zinc-400">
+                      {repo.description || "No description"}
+                    </p>
+                  </div>
+                  <span className="text-xs font-semibold text-amber-400">★ {repo.stargazers_count}</span>
+                </div>
+              </a>
+            ))}
+          </div>
+        </div>
+      )}
+
       <div className="mb-8 grid grid-cols-1 gap-6 xl:grid-cols-2">
-        <div className="rounded-xl border border-[#1e2229] bg-[#111318] p-6">
+        <div className="dp-reveal dp-card-lift [animation-delay:240ms] rounded-xl border border-[#1e2229] bg-[#111318] p-6">
           <h2 className="mb-4 text-lg font-semibold text-zinc-100">Recent Activity</h2>
           <div className="space-y-3">
             {pushEvents.length > 0 ? (
@@ -171,7 +216,7 @@ export default async function PublicProfilePage({
           </div>
         </div>
 
-        <div className="rounded-xl border border-[#1e2229] bg-[#111318] p-6">
+        <div className="dp-reveal dp-card-lift [animation-delay:280ms] rounded-xl border border-[#1e2229] bg-[#111318] p-6">
           <h2 className="mb-4 text-lg font-semibold text-zinc-100">Top Languages</h2>
           <div className="space-y-3">
             {languageEntries.length > 0 ? (
@@ -197,7 +242,7 @@ export default async function PublicProfilePage({
         </div>
       </div>
 
-      <div className="rounded-xl border border-[#1e2229] bg-[#111318] p-6">
+      <div className="dp-reveal dp-card-lift [animation-delay:320ms] rounded-xl border border-[#1e2229] bg-[#111318] p-6">
         <div className="mb-5 flex items-end justify-between gap-3">
           <div>
             <h2 className="text-lg font-semibold text-zinc-100">Contribution Heatmap</h2>

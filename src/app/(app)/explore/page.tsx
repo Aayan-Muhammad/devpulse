@@ -33,6 +33,7 @@ export default function ExplorePage() {
   const [accountType, setAccountType] = useState("all");
   const [minFollowers, setMinFollowers] = useState("0");
   const [result, setResult] = useState<SearchResponse | null>(null);
+  const [compareUser, setCompareUser] = useState<string | null>(null);
 
   const totalPages = result ? Math.max(1, Math.ceil(result.totalCount / result.perPage)) : 1;
 
@@ -235,68 +236,96 @@ export default function ExplorePage() {
             </div>
 
             <div className="space-y-4">
-              {result.items.map((user) => (
-                <article
-                  key={user.id}
-                  className="rounded-xl border border-[#1e2229] bg-[#111318] p-5 transition-colors hover:border-[#2f353f]"
-                >
-                  <div className="flex flex-col gap-5 lg:flex-row lg:items-center lg:justify-between">
-                    <div className="min-w-0 flex-1">
-                      <div className="flex items-center gap-4">
-                        <img
-                          src={user.avatar_url}
-                          alt={user.login}
-                          width={64}
-                          height={64}
-                          className="h-16 w-16 rounded-full object-cover"
-                        />
-                        <div className="min-w-0">
-                          <h3 className="truncate text-xl font-semibold text-zinc-100">
-                            {user.name || user.login}
-                          </h3>
-                          <p className="text-sm text-zinc-400">@{user.login}</p>
+              {result.items.map((user) => {
+                const isSelected = compareUser === user.login;
+                return (
+                  <article
+                    key={user.id}
+                    className={`rounded-xl border transition-all ${
+                      isSelected
+                        ? "border-amber-400 bg-amber-400/5"
+                        : "border-[#1e2229] bg-[#111318] hover:border-[#2f353f]"
+                    } p-5`}
+                  >
+                    <div className="flex flex-col gap-5 lg:flex-row lg:items-center lg:justify-between">
+                      <div className="min-w-0 flex-1">
+                        <div className="flex items-center gap-4">
+                          <img
+                            src={user.avatar_url}
+                            alt={user.login}
+                            width={64}
+                            height={64}
+                            className="h-16 w-16 rounded-full object-cover"
+                          />
+                          <div className="min-w-0">
+                            <h3 className="truncate text-xl font-semibold text-zinc-100">
+                              {user.name || user.login}
+                            </h3>
+                            <p className="text-sm text-zinc-400">@{user.login}</p>
+                          </div>
+                        </div>
+
+                        {user.bio && (
+                          <p className="mt-3 max-w-3xl text-sm leading-6 text-zinc-300">{user.bio}</p>
+                        )}
+                      </div>
+
+                      <div className="grid grid-cols-3 gap-2 sm:gap-3 lg:w-[420px]">
+                        <div className="rounded-lg border border-[#1e2229] bg-[#0a0c0f] p-3">
+                          <p className="text-[10px] uppercase tracking-widest text-zinc-500">Followers</p>
+                          <p className="mt-1 text-lg font-bold text-zinc-100">{user.followers ?? "-"}</p>
+                        </div>
+                        <div className="rounded-lg border border-[#1e2229] bg-[#0a0c0f] p-3">
+                          <p className="text-[10px] uppercase tracking-widest text-zinc-500">Public Repos</p>
+                          <p className="mt-1 text-lg font-bold text-zinc-100">{user.public_repos ?? "-"}</p>
+                        </div>
+                        <div className="rounded-lg border border-[#1e2229] bg-[#0a0c0f] p-3">
+                          <p className="text-[10px] uppercase tracking-widest text-zinc-500">Total Stars</p>
+                          <p className="mt-1 text-lg font-bold text-zinc-100">{user.totalStars ?? "-"}</p>
                         </div>
                       </div>
 
-                      {user.bio && (
-                        <p className="mt-3 max-w-3xl text-sm leading-6 text-zinc-300">{user.bio}</p>
-                      )}
-                    </div>
-
-                    <div className="grid grid-cols-3 gap-2 sm:gap-3 lg:w-[420px]">
-                      <div className="rounded-lg border border-[#1e2229] bg-[#0a0c0f] p-3">
-                        <p className="text-[10px] uppercase tracking-widest text-zinc-500">Followers</p>
-                        <p className="mt-1 text-lg font-bold text-zinc-100">{user.followers ?? "-"}</p>
+                      <div className="flex flex-col gap-2 lg:w-[280px]">
+                        <div className="flex items-center gap-2">
+                          <Link
+                            href={`/u/${encodeURIComponent(user.login)}`}
+                            className="flex-1 rounded-lg border border-[#1e2229] bg-[#0a0c0f] px-4 py-2 text-center text-sm font-semibold text-zinc-200 transition-all duration-200 hover:border-amber-400 hover:text-amber-300 hover:shadow-[0_4px_12px_rgba(251,191,36,0.15)]"
+                          >
+                            View profile
+                          </Link>
+                          <a
+                            href={user.html_url}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="rounded-lg border border-[#1e2229] px-3 py-2 text-sm font-semibold text-amber-400 transition-colors hover:border-amber-400 hover:text-amber-300"
+                          >
+                            GitHub
+                          </a>
+                        </div>
+                        {compareUser && compareUser !== user.login ? (
+                          <Link
+                            href={`/compare/${encodeURIComponent(compareUser)}/${encodeURIComponent(user.login)}`}
+                            className="rounded-lg border border-amber-400 bg-amber-400 px-4 py-2 text-center text-sm font-semibold text-black transition-all duration-200 hover:bg-amber-300"
+                          >
+                            Compare
+                          </Link>
+                        ) : (
+                          <button
+                            onClick={() => setCompareUser(isSelected ? null : user.login)}
+                            className={`rounded-lg border px-4 py-2 text-sm font-semibold transition-all duration-200 ${
+                              isSelected
+                                ? "border-amber-400 bg-amber-400 text-black hover:bg-amber-300"
+                                : "border-amber-400 bg-transparent text-amber-400 hover:border-amber-300 hover:text-amber-300"
+                            }`}
+                          >
+                            {isSelected ? "Selected" : "Select to compare"}
+                          </button>
+                        )}
                       </div>
-                      <div className="rounded-lg border border-[#1e2229] bg-[#0a0c0f] p-3">
-                        <p className="text-[10px] uppercase tracking-widest text-zinc-500">Public Repos</p>
-                        <p className="mt-1 text-lg font-bold text-zinc-100">{user.public_repos ?? "-"}</p>
-                      </div>
-                      <div className="rounded-lg border border-[#1e2229] bg-[#0a0c0f] p-3">
-                        <p className="text-[10px] uppercase tracking-widest text-zinc-500">Total Stars</p>
-                        <p className="mt-1 text-lg font-bold text-zinc-100">{user.totalStars ?? "-"}</p>
-                      </div>
                     </div>
-
-                    <div className="flex items-center gap-3 lg:w-[210px] lg:justify-end">
-                      <Link
-                        href={`/u/${encodeURIComponent(user.login)}`}
-                        className="rounded-lg border border-[#1e2229] bg-[#0a0c0f] px-4 py-2 text-sm font-semibold text-zinc-200 transition-all duration-200 hover:border-amber-400 hover:text-amber-300 hover:shadow-[0_4px_12px_rgba(251,191,36,0.15)]"
-                      >
-                        View profile
-                      </Link>
-                      <a
-                        href={user.html_url}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="rounded-lg border border-[#1e2229] px-4 py-2 text-sm font-semibold text-amber-400 transition-colors hover:border-amber-400 hover:text-amber-300"
-                      >
-                        GitHub
-                      </a>
-                    </div>
-                  </div>
-                </article>
-              ))}
+                  </article>
+                );
+              })}
             </div>
           </div>
         )}
