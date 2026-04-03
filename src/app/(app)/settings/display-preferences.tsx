@@ -53,15 +53,20 @@ export function DisplayPreferences() {
           </select>
         </label>
 
-        <label className="flex h-11 items-center justify-between gap-3 rounded-lg border border-[#2a2f37] bg-[#0a0c0f] px-3 text-sm text-zinc-100">
-          <span className="text-xs uppercase tracking-widest text-zinc-500">Show helper hints</span>
-          <input
-            type="checkbox"
-            checked={showHints}
-            onChange={(event) => setShowHints(event.target.checked)}
-            className="h-4 w-4 accent-amber-400"
-          />
-        </label>
+        <div className="text-sm">
+          <span className="mb-1 block text-xs uppercase tracking-widest text-zinc-500">
+            Show helper hints
+          </span>
+          <label className="flex h-11 items-center justify-between gap-3 rounded-lg border border-[#2a2f37] bg-[#0a0c0f] px-3 text-sm text-zinc-100">
+            <span className="text-sm text-zinc-300">Enable hints</span>
+            <input
+              type="checkbox"
+              checked={showHints}
+              onChange={(event) => setShowHints(event.target.checked)}
+              className="h-4 w-4 accent-amber-400"
+            />
+          </label>
+        </div>
       </div>
 
       <div className="mt-4 flex items-center gap-3">
