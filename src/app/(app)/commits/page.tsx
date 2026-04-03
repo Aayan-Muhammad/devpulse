@@ -54,7 +54,12 @@ export default async function CommitsPage() {
     redirect("/login");
   }
 
-  const username = session.user?.name ?? "";
+  const username = session.user?.username ?? "";
+
+  if (!username) {
+    redirect("/login");
+  }
+
   const events = await getEvents(username, session.accessToken!);
 
   // Filter for PushEvents and group by repository
