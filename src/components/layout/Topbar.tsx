@@ -16,6 +16,7 @@ type TopbarProps = {
 const navItems: NavItem[] = [
   { label: "Dashboard", href: "/" },
   { label: "Repos", href: "/repos" },
+  { label: "Projects", href: "/projects" },
   { label: "Explore", href: "/explore" },
   { label: "Settings", href: "/settings" },
 ];

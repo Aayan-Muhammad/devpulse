@@ -25,6 +25,7 @@ const overviewItems: NavItem[] = [
   { label: "Dashboard", href: "/", icon: LayoutDashboard },
   { label: "Activity", href: "/activity", icon: Activity },
   { label: "Commits", href: "/commits", icon: GitCommitHorizontal },
+  { label: "Projects", href: "/projects", icon: Folder },
 ];
 
 const statsItems: NavItem[] = [
@@ -103,7 +104,7 @@ export function Sidebar({ repos = [] }: SidebarProps) {
       <nav className="flex-1 space-y-7 px-2 py-6">
         <NavSection title="Overview" items={overviewItems} pathname={pathname} />
         {projectItems.length > 0 && (
-          <NavSection title="Projects" items={projectItems} pathname={pathname} />
+          <NavSection title="Pinned Projects" items={projectItems} pathname={pathname} />
         )}
         <NavSection title="Stats" items={statsItems} pathname={pathname} />
       </nav>
