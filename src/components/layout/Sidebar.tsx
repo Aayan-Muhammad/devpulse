@@ -97,8 +97,10 @@ export function Sidebar({ repos = [] }: SidebarProps) {
     >
       <div className="border-b border-[#1e2229] px-4 py-5">
         <div className="flex items-center gap-2">
-          <span className="text-base font-semibold tracking-tight">devpulse</span>
-          <span className="inline-flex h-2 w-2 animate-pulse rounded-full bg-amber-400" />
+          <span className="text-base font-semibold tracking-tight" style={{ color: "var(--accent-color)" }}>
+            devpulse
+          </span>
+          <span className="inline-flex h-2 w-2 animate-pulse rounded-full" style={{ backgroundColor: "var(--accent-color)" }} />
         </div>
       </div>
 

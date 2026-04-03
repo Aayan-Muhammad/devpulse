@@ -26,14 +26,17 @@ export default function LandingPage() {
         <header className="flex items-center justify-between border-b border-[#1e2229] pb-5">
           <Link
             href="/landing"
-            className="font-mono text-lg font-semibold tracking-tight text-amber-400"
+            className="font-mono text-lg font-semibold tracking-tight transition-colors"
+            style={{ color: "var(--accent-color)" }}
           >
             devpulse
           </Link>
 
-          <Link
+                className="rounded-lg border border-[#2a2f37] bg-[#111318] px-4 py-2 text-sm font-semibold text-zinc-200 transition-all duration-200 hover:shadow-[0_4px_12px_rgba(251,191,36,0.15)]"
+                style={{ borderColor: "var(--accent-color)" }}
             href="/login"
-            className="rounded-lg border border-[#2a2f37] bg-[#111318] px-4 py-2 text-sm font-semibold text-zinc-200 transition-colors hover:border-amber-400 hover:text-amber-300"
+            className="rounded-lg border border-[#2a2f37] bg-[#111318] px-4 py-2 text-sm font-semibold text-zinc-200 transition-all duration-200 hover:shadow-[0_4px_12px_rgba(251,191,36,0.15)]"
+            style={{ borderColor: "var(--accent-color)" }}
           >
             Login with GitHub
           </Link>
@@ -55,13 +58,15 @@ export default function LandingPage() {
             <div className="mt-8 flex flex-wrap justify-center gap-3">
               <Link
                 href="/login"
-                className="rounded-xl bg-amber-400 px-6 py-3 text-sm font-semibold text-[#0d0f12] transition-colors hover:bg-amber-300"
+                className="rounded-xl px-6 py-3 text-sm font-semibold text-[#0d0f12] transition-all duration-200 hover:shadow-[0_4px_12px_rgba(251,191,36,0.3)]"
+                style={{ backgroundColor: "var(--accent-color)" }}
               >
                 Get started free
               </Link>
               <Link
                 href="/u/torvalds"
-                className="rounded-xl border border-[#2a2f37] bg-[#111318] px-6 py-3 text-sm font-semibold text-zinc-200 transition-colors hover:border-amber-400 hover:text-amber-300"
+                className="rounded-xl border border-[#2a2f37] bg-[#111318] px-6 py-3 text-sm font-semibold text-zinc-200 transition-all duration-200 hover:shadow-[0_4px_12px_rgba(251,191,36,0.15)]"
+                style={{ borderColor: "var(--accent-color)" }}
               >
                 View a sample profile
               </Link>
@@ -77,7 +82,10 @@ export default function LandingPage() {
                   key={feature.title}
                   className="rounded-2xl border border-[#1e2229] bg-[#111318] p-6 shadow-[0_0_0_1px_rgba(255,255,255,0.02)]"
                 >
-                  <div className="mb-4 inline-flex h-12 w-12 items-center justify-center rounded-xl border border-[#2a2f37] bg-[#0a0c0f] text-amber-400">
+                  <div
+                    className="mb-4 inline-flex h-12 w-12 items-center justify-center rounded-xl border border-[#2a2f37] bg-[#0a0c0f]"
+                    style={{ color: "var(--accent-color)", borderColor: "var(--accent-color)" }}
+                  >
                     <Icon className="h-5 w-5" />
                   </div>
                   <h2 className="text-lg font-semibold text-zinc-100">{feature.title}</h2>
@@ -89,7 +97,7 @@ export default function LandingPage() {
         </main>
 
         <footer className="flex flex-col gap-2 border-t border-[#1e2229] py-5 text-sm text-zinc-500 sm:flex-row sm:items-center sm:justify-between">
-          <span className="font-mono text-amber-400">devpulse</span>
+          <span className="font-mono" style={{ color: "var(--accent-color)" }}>devpulse</span>
           <p>Built to make GitHub activity easier to understand at a glance.</p>
         </footer>
       </div>

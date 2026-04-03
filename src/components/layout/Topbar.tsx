@@ -61,8 +61,10 @@ export function Topbar({ username }: TopbarProps) {
       }}
     >
       <div className="flex items-center gap-2">
-        <span className="text-sm font-semibold tracking-tight text-amber-400">devpulse</span>
-        <span className="inline-flex h-2 w-2 animate-pulse rounded-full bg-amber-400" />
+        <span className="text-sm font-semibold tracking-tight" style={{ color: "var(--accent-color)" }}>
+          devpulse
+        </span>
+        <span className="inline-flex h-2 w-2 animate-pulse rounded-full" style={{ backgroundColor: "var(--accent-color)" }} />
       </div>
 
       <div className="flex items-center gap-2" aria-label="Primary navigation">
@@ -91,7 +93,8 @@ export function Topbar({ username }: TopbarProps) {
         <button
           type="button"
           onClick={handleSignOut}
-          className="rounded-md border border-[#2a2f37] px-3 py-1.5 text-xs font-semibold text-zinc-300 transition-colors hover:border-amber-400 hover:text-amber-300"
+          className="rounded-md border border-[#2a2f37] px-3 py-1.5 text-xs font-semibold text-zinc-300 transition-all duration-200 hover:shadow-[0_4px_12px_rgba(251,191,36,0.15)]"
+          style={{ borderColor: "var(--accent-color)" }}
         >
           Sign out
         </button>
