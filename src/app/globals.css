@@ -227,6 +227,54 @@ html.high-contrast {
 /* Dynamic accent color support */
 :root {
   --accent-color: #fbbf24;
+  --accent-color-hover: color-mix(in oklab, var(--accent-color), white 16%);
+  --accent-color-soft: color-mix(in oklab, var(--accent-color), transparent 82%);
+}
+
+/* Accent bridge: map amber utility classes to the selected accent color. */
+html:not(.high-contrast) .text-amber-200,
+html:not(.high-contrast) .text-amber-300,
+html:not(.high-contrast) .text-amber-400 {
+  color: var(--accent-color) !important;
+}
+
+html:not(.high-contrast) .bg-amber-400 {
+  background-color: var(--accent-color) !important;
+  border-color: var(--accent-color) !important;
+}
+
+html:not(.high-contrast) .border-amber-400,
+html:not(.high-contrast) .border-amber-400\/20,
+html:not(.high-contrast) .border-amber-400\/30 {
+  border-color: var(--accent-color) !important;
+}
+
+html:not(.high-contrast) .bg-amber-400\/5,
+html:not(.high-contrast) .bg-amber-400\/20 {
+  background-color: var(--accent-color-soft) !important;
+}
+
+html:not(.high-contrast) .hover\:bg-amber-300:hover {
+  background-color: var(--accent-color-hover) !important;
+  border-color: var(--accent-color-hover) !important;
+}
+
+html:not(.high-contrast) .hover\:text-amber-200:hover,
+html:not(.high-contrast) .hover\:text-amber-300:hover,
+html:not(.high-contrast) .hover\:text-amber-400:hover {
+  color: var(--accent-color-hover) !important;
+}
+
+html:not(.high-contrast) .hover\:border-amber-400:hover {
+  border-color: var(--accent-color) !important;
+}
+
+html:not(.high-contrast) .focus\:border-amber-400:focus {
+  border-color: var(--accent-color) !important;
+}
+
+html:not(.high-contrast) .accent-amber-400 {
+  accent-color: var(--accent-color) !important;
 }
 
 /*
@@ -289,9 +337,12 @@ html.high-contrast .text-zinc-500 {
 }
 
 html.high-contrast .text-amber-300,
-html.high-contrast .text-amber-400,
+html.high-contrast .text-amber-400 {
+  color: #ffff00 !important;
+}
+
 html.high-contrast .bg-amber-400 {
-  color: #000000 !important;
   background-color: #ffff00 !important;
   border-color: #ffff00 !important;
+  color: #000000 !important;
 }
