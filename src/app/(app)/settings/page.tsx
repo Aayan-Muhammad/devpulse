@@ -6,8 +6,7 @@ import { CopyProfileUrlButton } from "./copy-profile-url-button";
 import { DisplayPreferences } from "./display-preferences";
 import { RefreshDataButton } from "./refresh-data-button";
 import { SignOutButton } from "./sign-out-button";
-import { ThemeToggle } from "@/components/theme-toggle";
-import { AccentColorPicker } from "@/components/accent-color-picker";
+import { AppearanceSection } from "./appearance-section";
 
 function formatDate(isoString: string): string {
   return new Date(isoString).toLocaleDateString("en-US", {
@@ -172,23 +171,7 @@ export default async function SettingsPage() {
         </section>
 
         <section className="dp-reveal [animation-delay:200ms] rounded-xl border border-[#1e2229] bg-[#111318] p-6">
-          <div className="mb-6">
-            <h2 className="text-lg font-semibold text-zinc-100">Appearance</h2>
-            <p className="mt-1 text-sm text-zinc-400">Customize your DevPulse experience.</p>
-          </div>
-
-          <div className="space-y-6">
-            <div>
-              <p className="mb-3 text-xs uppercase tracking-widest text-zinc-500">Theme</p>
-              <ThemeToggle />
-            </div>
-
-            <div>
-              <AccentColorPicker />
-            </div>
-          </div>
-        </section>
-
+         AppearanceSection /
         <DisplayPreferences />
 
         <section className="dp-reveal [animation-delay:240ms] rounded-xl border border-[#1e2229] bg-[#111318] p-6">
