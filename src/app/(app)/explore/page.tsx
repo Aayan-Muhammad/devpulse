@@ -1,8 +1,13 @@
 "use client";
 
-import { FormEvent, useState } from "react";
+import { FormEvent, useEffect, useState } from "react";
 import Link from "next/link";
 import type { GitHubSearchUser } from "@/types/github";
+import {
+  EXPLORE_MIN_FOLLOWERS_KEY,
+  EXPLORE_SORT_KEY,
+  EXPLORE_TYPE_KEY,
+} from "@/lib/preferences";
 
 type SearchResponse = {
   query: string;
@@ -34,6 +39,38 @@ export default function ExplorePage() {
   const [minFollowers, setMinFollowers] = useState("0");
   const [result, setResult] = useState<SearchResponse | null>(null);
   const [compareUser, setCompareUser] = useState<string | null>(null);
+
+  useEffect(() => {
+    try {
+      const storedSort = window.localStorage.getItem(EXPLORE_SORT_KEY);
+      const storedType = window.localStorage.getItem(EXPLORE_TYPE_KEY);
+      const storedMinFollowers = window.localStorage.getItem(EXPLORE_MIN_FOLLOWERS_KEY);
+
+      if (storedSort === "best" || storedSort === "followers" || storedSort === "repositories") {
+        setSortBy(storedSort);
+      }
+
+      if (storedType === "all" || storedType === "user" || storedType === "org") {
+        setAccountType(storedType);
+      }
+
+      if (storedMinFollowers !== null && /^\d+$/.test(storedMinFollowers)) {
+        setMinFollowers(storedMinFollowers);
+      }
+    } catch {
+      // Ignore storage exceptions so page remains usable.
+    }
+  }, []);
+
+  useEffect(() => {
+    try {
+      window.localStorage.setItem(EXPLORE_SORT_KEY, sortBy);
+      window.localStorage.setItem(EXPLORE_TYPE_KEY, accountType);
+      window.localStorage.setItem(EXPLORE_MIN_FOLLOWERS_KEY, minFollowers);
+    } catch {
+      // Ignore storage exceptions so page remains usable.
+    }
+  }, [sortBy, accountType, minFollowers]);
 
   const totalPages = result ? Math.max(1, Math.ceil(result.totalCount / result.perPage)) : 1;
 
@@ -174,9 +211,54 @@ export default function ExplorePage() {
           </div>
         </form>
 
+        {!loading && !error && !result && (
+          <div className="mb-8 rounded-xl border border-[#1e2229] bg-[#111318] p-5">
+            <p className="text-xs uppercase tracking-widest text-zinc-500">Quick start</p>
+            <h2 className="mt-2 text-xl font-semibold text-zinc-100">Search by username, then compare profiles</h2>
+            <p className="mt-2 text-sm text-zinc-400">
+              Start with a known GitHub handle or open a sample profile to see how the public pages work.
+            </p>
+            <div className="mt-4 flex flex-wrap gap-2">
+              <Link
+                href="/u/torvalds"
+                className="rounded-lg border border-[#2a2f37] bg-[#0a0c0f] px-3 py-2 text-xs font-semibold text-zinc-300 transition-all duration-200 hover:shadow-[0_4px_12px_rgba(251,191,36,0.15)]"
+                style={{ borderColor: "var(--accent-color)" }}
+              >
+                View sample profile
+              </Link>
+              <Link
+                href="/compare/torvalds/gaearon"
+                className="rounded-lg border border-[#2a2f37] bg-[#0a0c0f] px-3 py-2 text-xs font-semibold text-zinc-300 transition-all duration-200 hover:shadow-[0_4px_12px_rgba(251,191,36,0.15)]"
+                style={{ borderColor: "var(--accent-color)" }}
+              >
+                Open sample compare
+              </Link>
+            </div>
+          </div>
+        )}
+
         {error && (
           <div className="mb-8 rounded-xl border border-[#3b2620] bg-[#1b1412] p-4 text-center text-sm text-amber-300">
             {error}
+            <div className="mt-3 flex flex-wrap justify-center gap-2">
+              <button
+                type="button"
+                onClick={() => query.trim() && void fetchResults(query.trim(), 1)}
+                className="rounded-lg border border-[#4a2f27] bg-[#2a1d1a] px-3 py-2 text-xs font-semibold text-amber-200 transition-colors hover:bg-[#352421]"
+              >
+                Retry search
+              </button>
+              <button
+                type="button"
+                onClick={() => {
+                  setError(null);
+                  setResult(null);
+                }}
+                className="rounded-lg border border-[#4a2f27] bg-[#2a1d1a] px-3 py-2 text-xs font-semibold text-amber-200 transition-colors hover:bg-[#352421]"
+              >
+                Dismiss
+              </button>
+            </div>
           </div>
         )}
 
@@ -236,6 +318,14 @@ export default function ExplorePage() {
             </div>
 
             <div className="space-y-4">
+              {result.items.length === 0 ? (
+                <div className="rounded-xl border border-[#1e2229] bg-[#111318] p-8 text-center">
+                  <p className="text-lg font-semibold text-zinc-100">No users found on this page</p>
+                  <p className="mt-2 text-sm text-zinc-500">
+                    Try another query, reduce filters, or switch sorting.
+                  </p>
+                </div>
+              ) : null}
               {result.items.map((user) => {
                 const isSelected = compareUser === user.login;
                 return (

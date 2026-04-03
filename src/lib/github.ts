@@ -10,6 +10,14 @@ const GITHUB_API_BASE_URL = "https://api.github.com";
 const REVALIDATE_SECONDS = 3600;
 const PER_PAGE = 100;
 
+export type GitHubProfileSnapshot = {
+  login: string;
+  name: string | null;
+  followers: number;
+  totalStars: number;
+  topLanguage: string;
+};
+
 type FetchOptions = RequestInit & {
   next?: {
     revalidate: number;
@@ -221,5 +229,44 @@ export async function getContributionCalendar(
     return data.user?.contributionsCollection.contributionCalendar ?? fallback;
   } catch {
     return fallback;
+  }
+}
+
+export async function getProfileSnapshot(
+  username: string,
+  accessToken?: string
+): Promise<GitHubProfileSnapshot> {
+  try {
+    const [user, repos] = await Promise.all([
+      getUser(username, accessToken),
+      getRepos(username, accessToken),
+    ]);
+
+    const totalStars = repos.reduce((sum, repo) => sum + repo.stargazers_count, 0);
+
+    const languageCounts = repos.reduce<Record<string, number>>((acc, repo) => {
+      if (repo.language) {
+        acc[repo.language] = (acc[repo.language] ?? 0) + 1;
+      }
+      return acc;
+    }, {});
+
+    const topLanguageEntry = Object.entries(languageCounts).sort((a, b) => b[1] - a[1])[0];
+
+    return {
+      login: user.login,
+      name: user.name,
+      followers: user.followers,
+      totalStars,
+      topLanguage: topLanguageEntry?.[0] ?? "N/A",
+    };
+  } catch {
+    return {
+      login: username,
+      name: null,
+      followers: 0,
+      totalStars: 0,
+      topLanguage: "N/A",
+    };
   }
 }

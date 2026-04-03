@@ -9,6 +9,9 @@ import {
 } from "@/lib/github";
 import Link from "next/link";
 import ShareProfileButton from "./share-profile-button";
+import { AlertTriangle } from "lucide-react";
+import { PinnedReposPanel } from "./pinned-repos-panel";
+import { SinceLastVisitCard } from "./since-last-visit-card";
 
 function formatDate(isoString: string): string {
   const date = new Date(isoString);
@@ -51,13 +54,54 @@ export default async function Home() {
     redirect("/login");
   }
 
-  const [user, repos, events, languages, contributionCalendar] = await Promise.all([
-    getUser(username, session.accessToken),
-    getRepos(username, session.accessToken),
-    getEvents(username, session.accessToken),
-    getLanguageStats(username, session.accessToken),
-    getContributionCalendar(username, session.accessToken),
-  ]);
+  let user;
+  let repos;
+  let events;
+  let languages;
+  let contributionCalendar;
+
+  try {
+    [user, repos, events, languages, contributionCalendar] = await Promise.all([
+      getUser(username, session.accessToken),
+      getRepos(username, session.accessToken),
+      getEvents(username, session.accessToken),
+      getLanguageStats(username, session.accessToken),
+      getContributionCalendar(username, session.accessToken),
+    ]);
+  } catch {
+    return (
+      <div className="min-h-screen bg-[#0d0f12] p-6 text-zinc-200">
+        <div className="mx-auto max-w-4xl">
+          <div className="dp-card-lift dp-reveal rounded-xl border border-[#1e2229] bg-[#111318] p-8">
+            <div className="mb-4 inline-flex h-12 w-12 items-center justify-center rounded-xl border border-[#2a2f37] bg-[#0a0c0f] text-amber-300">
+              <AlertTriangle className="h-5 w-5" />
+            </div>
+            <h1 className="text-2xl font-semibold text-zinc-100">Dashboard temporarily unavailable</h1>
+            <p className="mt-2 text-sm leading-7 text-zinc-400">
+              We could not load your GitHub dashboard right now. This can happen during temporary API
+              limits or network interruptions.
+            </p>
+            <div className="mt-6 flex flex-wrap gap-3">
+              <a
+                href="/"
+                className="rounded-lg px-4 py-2 text-sm font-semibold text-[#0d0f12] transition-all duration-200 hover:shadow-[0_4px_12px_rgba(251,191,36,0.3)]"
+                style={{ backgroundColor: "var(--accent-color)" }}
+              >
+                Try again
+              </a>
+              <Link
+                href="/u/torvalds"
+                className="rounded-lg border border-[#2a2f37] bg-[#0a0c0f] px-4 py-2 text-sm font-semibold text-zinc-200 transition-all duration-200 hover:shadow-[0_4px_12px_rgba(251,191,36,0.15)]"
+                style={{ borderColor: "var(--accent-color)" }}
+              >
+                Open sample profile
+              </Link>
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+  }
 
   const totalStars = repos.reduce((sum, repo) => sum + repo.stargazers_count, 0);
   const mostStarredRepo = [...repos].sort((a, b) => b.stargazers_count - a.stargazers_count)[0];
@@ -68,6 +112,11 @@ export default async function Home() {
     .slice(0, 5);
 
   const totalBytes = languageEntries.reduce((sum, { bytes }) => sum + bytes, 0);
+  const topLanguage = languageEntries[0]?.lang ?? "N/A";
+  const topLanguageShare =
+    totalBytes > 0 && languageEntries[0]
+      ? Number(((languageEntries[0].bytes / totalBytes) * 100).toFixed(1))
+      : 0;
 
   const pushEvents = events.filter((e) => e.type === "PushEvent").slice(0, 10);
   const allPushEvents = events.filter((e) => e.type === "PushEvent");
@@ -96,6 +145,29 @@ export default async function Home() {
       .map((event) => event.repo.name)
   ).size;
 
+  const pushesPerDayLast7 = (pushesLast7Days / 7).toFixed(1);
+
+  const dayLabelMap = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
+  const weekdayTotals = new Array(7).fill(0) as number[];
+
+  allPushEvents
+    .filter((event) => new Date(event.created_at).getTime() >= thirtyDaysAgo.getTime())
+    .forEach((event) => {
+      const day = new Date(event.created_at).getDay();
+      weekdayTotals[day] += 1;
+    });
+
+  const maxWeekdayCount = Math.max(...weekdayTotals);
+  const busiestDayIndex = weekdayTotals.findIndex((value) => value === maxWeekdayCount);
+  const busiestDayLabel = maxWeekdayCount > 0 && busiestDayIndex >= 0 ? dayLabelMap[busiestDayIndex] : "N/A";
+  const busiestDayCount = maxWeekdayCount > 0 && busiestDayIndex >= 0 ? weekdayTotals[busiestDayIndex] : 0;
+
+  const repoPreviews = repos.map((repo) => ({
+    name: repo.name,
+    htmlUrl: repo.html_url,
+    stars: repo.stargazers_count,
+  }));
+
   const contributionDays = contributionCalendar.weeks.flatMap((week) => week.contributionDays);
   const maxContributionCount = contributionDays.reduce(
     (max, day) => Math.max(max, day.contributionCount),
@@ -111,7 +183,8 @@ export default async function Home() {
 
   return (
     <div className="min-h-screen bg-[#0d0f12] p-6 text-zinc-200">
-      <div className="dp-card-lift dp-reveal mb-8 flex items-center justify-between rounded-xl border border-[#1e2229] bg-[#111318] p-6">
+      <div className="dp-card-lift dp-reveal relative mb-8 flex items-center justify-between overflow-hidden rounded-xl border border-[#1e2229] bg-[#111318] p-6">
+        <div className="dp-orb -right-16 -top-20 h-40 w-40 rounded-full" style={{ backgroundColor: "var(--accent-color)" }} />
         <div className="flex items-center gap-4">
           <img
             src={user.avatar_url}
@@ -176,6 +249,32 @@ export default async function Home() {
         </div>
       </div>
 
+      <div className="mb-8 grid grid-cols-1 gap-4 xl:grid-cols-2">
+        <div className="dp-card-lift dp-reveal dp-reveal-delay-3 rounded-xl border border-[#1e2229] bg-[#111318] p-5">
+          <p className="text-xs font-semibold uppercase tracking-widest text-zinc-500">Average Pushes</p>
+          <p className="mt-2 text-3xl font-bold text-zinc-100">{pushesPerDayLast7}/day</p>
+          <p className="mt-1 text-sm text-zinc-400">Based on your last 7 days of push activity.</p>
+        </div>
+
+        <div className="dp-card-lift dp-reveal dp-reveal-delay-3 rounded-xl border border-[#1e2229] bg-[#111318] p-5">
+          <p className="text-xs font-semibold uppercase tracking-widest text-zinc-500">Most Active Day (30d)</p>
+          <p className="mt-2 text-3xl font-bold text-zinc-100">{busiestDayLabel}</p>
+          <p className="mt-1 text-sm text-zinc-400">{busiestDayCount} push events in the last 30 days.</p>
+        </div>
+      </div>
+
+      <div className="mb-8">
+        <SinceLastVisitCard
+          username={username}
+          pushesLast7Days={pushesLast7Days}
+          activeReposLast30Days={activeReposLast30Days}
+          totalStars={totalStars}
+          repoCount={repos.length}
+          topLanguageShare={topLanguageShare}
+          topLanguageName={topLanguage}
+        />
+      </div>
+
       <div className="dp-card-lift dp-reveal dp-reveal-delay-3 mb-8 rounded-xl border border-[#1e2229] bg-[#111318] p-5">
         <p className="text-xs font-semibold uppercase tracking-widest text-zinc-500">Quick Actions</p>
         <div className="mt-3 flex flex-wrap gap-2">
@@ -203,6 +302,8 @@ export default async function Home() {
         </div>
       </div>
 
+      <PinnedReposPanel repos={repoPreviews} />
+
       <div className="mb-8 grid grid-cols-1 gap-6 xl:grid-cols-2">
         <div className="dp-card-lift dp-reveal dp-reveal-delay-3 rounded-xl border border-[#1e2229] bg-[#111318] p-6">
           <h2 className="mb-4 text-lg font-semibold text-zinc-100">Recent Activity</h2>
@@ -215,7 +316,10 @@ export default async function Home() {
                 </div>
               ))
             ) : (
-              <p className="text-sm text-zinc-500">No recent activity</p>
+              <div className="rounded-lg border border-[#1e2229] bg-[#0a0c0f] p-4 text-sm text-zinc-400">
+                <p className="font-medium text-zinc-200">No recent push activity yet</p>
+                <p className="mt-1 text-zinc-500">Make a new commit and refresh to see it appear here.</p>
+              </div>
             )}
           </div>
         </div>
@@ -240,7 +344,10 @@ export default async function Home() {
                 );
               })
             ) : (
-              <p className="text-sm text-zinc-500">No language data</p>
+              <div className="rounded-lg border border-[#1e2229] bg-[#0a0c0f] p-4 text-sm text-zinc-400">
+                <p className="font-medium text-zinc-200">Language insights unavailable</p>
+                <p className="mt-1 text-zinc-500">Try again after your repositories sync or add code files to repos.</p>
+              </div>
             )}
           </div>
         </div>
@@ -305,7 +412,10 @@ export default async function Home() {
             </div>
           </div>
         ) : (
-          <p className="text-sm text-zinc-500">Unable to load contribution data right now.</p>
+          <div className="rounded-lg border border-[#1e2229] bg-[#0a0c0f] p-4 text-sm text-zinc-400">
+            <p className="font-medium text-zinc-200">Contribution heatmap unavailable</p>
+            <p className="mt-1 text-zinc-500">GitHub did not return contribution data for this request. Refresh and try again.</p>
+          </div>
         )}
       </div>
     </div>

@@ -2,9 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { toast } from "sonner";
-
-const DENSITY_KEY = "devpulse-density";
-const HINTS_KEY = "devpulse-show-hints";
+import { DENSITY_KEY, HINTS_KEY } from "@/lib/preferences";
 
 type DensityMode = "comfortable" | "compact";
 

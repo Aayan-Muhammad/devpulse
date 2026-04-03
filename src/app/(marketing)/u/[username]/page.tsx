@@ -1,4 +1,5 @@
 import { notFound } from "next/navigation";
+import type { Metadata } from "next";
 import { auth } from "@/auth";
 import {
   getContributionCalendar,
@@ -8,6 +9,44 @@ import {
   getUser,
 } from "@/lib/github";
 import { ShareButton } from "./share-button";
+
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ username: string }>;
+}): Promise<Metadata> {
+  const resolvedParams = await params;
+  const username = decodeURIComponent(resolvedParams.username);
+  const profileUrl = `/u/${encodeURIComponent(username)}`;
+  const title = `@${username} on DevPulse`;
+  const description = `Live public GitHub profile insights for @${username}: repositories, activity trends, language mix, and contribution heatmap.`;
+  const imageUrl = `${profileUrl}/opengraph-image`;
+
+  return {
+    title,
+    description,
+    openGraph: {
+      title,
+      description,
+      url: profileUrl,
+      type: "profile",
+      images: [
+        {
+          url: imageUrl,
+          width: 1200,
+          height: 630,
+          alt: `DevPulse profile snapshot for ${username}`,
+        },
+      ],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title,
+      description,
+      images: [imageUrl],
+    },
+  };
+}
 
 function formatDate(isoString: string): string {
   const date = new Date(isoString);

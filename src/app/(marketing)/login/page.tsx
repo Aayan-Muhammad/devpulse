@@ -1,5 +1,6 @@
 "use server";
 
+import Link from "next/link";
 import { redirect } from "next/navigation";
 import { auth, signIn } from "@/auth";
 import { LogIn } from "lucide-react";
@@ -47,9 +48,15 @@ export default async function LoginPage() {
           </button>
         </form>
 
+        <div className="mb-6 text-center">
+          <Link href="/demo" className="text-sm font-medium text-amber-300 transition-colors hover:text-amber-200">
+            New here? See the preview first
+          </Link>
+        </div>
+
         {/* Footer Text */}
         <p className="text-center text-xs text-zinc-500">
-          Only public data is accessed unless you grant repo access
+          Uses your GitHub sign-in to load your own dashboard data
         </p>
       </div>
     </div>

@@ -3,6 +3,7 @@ import { redirect } from "next/navigation";
 import { getEvents } from "@/lib/github";
 import Link from "next/link";
 import { formatDistanceToNow } from "date-fns";
+import { AlertTriangle } from "lucide-react";
 
 type Commit = {
   message: string;
@@ -76,7 +77,41 @@ export default async function CommitsPage({ searchParams }: CommitsPageProps) {
     redirect("/login");
   }
 
-  const events = await getEvents(username, session.accessToken!);
+  let events = [];
+
+  try {
+    events = await getEvents(username, session.accessToken!);
+  } catch {
+    return (
+      <div className="rounded-xl border border-[#1e2229] bg-[#111318] p-8 text-zinc-200">
+        <div className="mb-4 inline-flex h-12 w-12 items-center justify-center rounded-xl border border-[#2a2f37] bg-[#0a0c0f] text-amber-300">
+          <AlertTriangle className="h-5 w-5" />
+        </div>
+        <h1 className="text-2xl font-semibold text-zinc-100">Commit history temporarily unavailable</h1>
+        <p className="mt-2 text-sm leading-7 text-zinc-400">
+          We could not load commit history right now. This is usually temporary and can happen during
+          API rate-limit windows.
+        </p>
+        <div className="mt-6 flex flex-wrap gap-3">
+          <a
+            href="/commits"
+            className="rounded-lg px-4 py-2 text-sm font-semibold text-[#0d0f12] transition-all duration-200 hover:shadow-[0_4px_12px_rgba(251,191,36,0.3)]"
+            style={{ backgroundColor: "var(--accent-color)" }}
+          >
+            Try again
+          </a>
+          <Link
+            href="/activity"
+            className="rounded-lg border border-[#2a2f37] bg-[#0a0c0f] px-4 py-2 text-sm font-semibold text-zinc-200 transition-all duration-200 hover:shadow-[0_4px_12px_rgba(251,191,36,0.15)]"
+            style={{ borderColor: "var(--accent-color)" }}
+          >
+            Go to activity
+          </Link>
+        </div>
+      </div>
+    );
+  }
+
   const resolvedSearchParams = searchParams ? await searchParams : {};
   const repoFilter = getParam(resolvedSearchParams, "repo").trim();
   const queryFilter = getParam(resolvedSearchParams, "q").trim().toLowerCase();
@@ -227,7 +262,24 @@ export default async function CommitsPage({ searchParams }: CommitsPageProps) {
       {/* Commits list */}
       {filteredGroups.length === 0 ? (
         <div className="dp-reveal [animation-delay:160ms] rounded-xl border border-[#1e2229] bg-[#111318] p-8 text-center text-zinc-400">
-          No commits match the current filters. Try adjusting the search or repository.
+          <p className="text-lg font-semibold text-zinc-200">No commits match the current filters</p>
+          <p className="mt-2 text-sm text-zinc-500">Try adjusting the search or selected repository.</p>
+          <div className="mt-4 flex flex-wrap justify-center gap-2">
+            <Link
+              href="/commits"
+              className="rounded-lg border border-[#2a2f37] bg-[#0a0c0f] px-3 py-2 text-xs font-semibold text-zinc-300 transition-all duration-200 hover:shadow-[0_4px_12px_rgba(251,191,36,0.15)]"
+              style={{ borderColor: "var(--accent-color)" }}
+            >
+              Reset filters
+            </Link>
+            <Link
+              href="/repos"
+              className="rounded-lg border border-[#2a2f37] bg-[#0a0c0f] px-3 py-2 text-xs font-semibold text-zinc-300 transition-all duration-200 hover:shadow-[0_4px_12px_rgba(251,191,36,0.15)]"
+              style={{ borderColor: "var(--accent-color)" }}
+            >
+              Go to repositories
+            </Link>
+          </div>
         </div>
       ) : (
         <div className="space-y-6">

@@ -1,6 +1,8 @@
+import Link from "next/link";
 import { redirect } from "next/navigation";
 import { auth } from "@/auth";
 import { getLanguageStats } from "@/lib/github";
+import { AlertTriangle } from "lucide-react";
 
 type LanguageEntry = {
   name: string;
@@ -62,7 +64,44 @@ export default async function LanguagesPage() {
     redirect("/login");
   }
 
-  const languageStats = await getLanguageStats(username, session.accessToken);
+  let languageStats: Record<string, number> = {};
+
+  try {
+    languageStats = await getLanguageStats(username, session.accessToken);
+  } catch {
+    return (
+      <div className="min-h-screen bg-[#0d0f12] p-6 text-zinc-200">
+        <div className="mx-auto max-w-4xl">
+          <div className="dp-card-lift dp-reveal rounded-xl border border-[#1e2229] bg-[#111318] p-8">
+            <div className="mb-4 inline-flex h-12 w-12 items-center justify-center rounded-xl border border-[#2a2f37] bg-[#0a0c0f] text-amber-300">
+              <AlertTriangle className="h-5 w-5" />
+            </div>
+            <h1 className="text-2xl font-semibold text-zinc-100">Language insights temporarily unavailable</h1>
+            <p className="mt-2 text-sm leading-7 text-zinc-400">
+              We could not load language statistics right now. This is usually temporary when GitHub
+              API limits are reached.
+            </p>
+            <div className="mt-6 flex flex-wrap gap-3">
+              <a
+                href="/languages"
+                className="rounded-lg px-4 py-2 text-sm font-semibold text-[#0d0f12] transition-all duration-200 hover:shadow-[0_4px_12px_rgba(251,191,36,0.3)]"
+                style={{ backgroundColor: "var(--accent-color)" }}
+              >
+                Try again
+              </a>
+              <Link
+                href="/repos"
+                className="rounded-lg border border-[#2a2f37] bg-[#0a0c0f] px-4 py-2 text-sm font-semibold text-zinc-200 transition-all duration-200 hover:shadow-[0_4px_12px_rgba(251,191,36,0.15)]"
+                style={{ borderColor: "var(--accent-color)" }}
+              >
+                Go to repositories
+              </Link>
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+  }
 
   const totalBytes = Object.values(languageStats).reduce((sum, bytes) => sum + bytes, 0);
 
@@ -111,6 +150,22 @@ export default async function LanguagesPage() {
             <p className="mt-2 text-sm text-zinc-500">
               We could not calculate language stats for this account right now.
             </p>
+            <div className="mt-4 flex flex-wrap justify-center gap-2">
+              <Link
+                href="/repos"
+                className="rounded-lg border border-[#2a2f37] bg-[#0a0c0f] px-3 py-2 text-xs font-semibold text-zinc-300 transition-all duration-200 hover:shadow-[0_4px_12px_rgba(251,191,36,0.15)]"
+                style={{ borderColor: "var(--accent-color)" }}
+              >
+                Review repositories
+              </Link>
+              <a
+                href="/languages"
+                className="rounded-lg border border-[#2a2f37] bg-[#0a0c0f] px-3 py-2 text-xs font-semibold text-zinc-300 transition-all duration-200 hover:shadow-[0_4px_12px_rgba(251,191,36,0.15)]"
+                style={{ borderColor: "var(--accent-color)" }}
+              >
+                Try again
+              </a>
+            </div>
           </div>
         ) : (
           <>

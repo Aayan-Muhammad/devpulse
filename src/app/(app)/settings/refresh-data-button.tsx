@@ -2,6 +2,7 @@
 
 import { useRouter } from "next/navigation";
 import { useState } from "react";
+import { LAST_SYNC_AT_KEY, SYNC_UPDATED_EVENT } from "@/lib/preferences";
 
 export function RefreshDataButton() {
   const router = useRouter();
@@ -9,6 +10,9 @@ export function RefreshDataButton() {
 
   const handleRefresh = async () => {
     setRefreshing(true);
+    const now = new Date().toISOString();
+    window.localStorage.setItem(LAST_SYNC_AT_KEY, now);
+    window.dispatchEvent(new Event(SYNC_UPDATED_EVENT));
     router.refresh();
     window.setTimeout(() => setRefreshing(false), 900);
   };

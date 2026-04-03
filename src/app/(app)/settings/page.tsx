@@ -1,12 +1,14 @@
 import Link from "next/link";
 import { redirect } from "next/navigation";
 import { auth } from "@/auth";
-import { getUser } from "@/lib/github";
+import { getRepos, getUser } from "@/lib/github";
 import { CopyProfileUrlButton } from "./copy-profile-url-button";
 import { DisplayPreferences } from "./display-preferences";
 import { RefreshDataButton } from "./refresh-data-button";
 import { SignOutButton } from "./sign-out-button";
 import { AppearanceSection } from "./appearance-section";
+import { ConnectionStatusPanel } from "./connection-status-panel";
+import { PinnedReposPreferences } from "./pinned-repos-preferences";
 
 function formatDate(isoString: string): string {
   return new Date(isoString).toLocaleDateString("en-US", {
@@ -51,16 +53,22 @@ export default async function SettingsPage() {
     redirect("/login");
   }
 
-  const user = await getUser(username, session.accessToken);
+  const [user, repos] = await Promise.all([
+    getUser(username, session.accessToken),
+    getRepos(username, session.accessToken),
+  ]);
   const website = normalizeWebsite(user.blog);
   const twitterHandle = user.twitter_username ? `@${user.twitter_username}` : "Not set";
   const profileUrl = `/u/${encodeURIComponent(user.login)}`;
   const hasAccessToken = Boolean(session.accessToken);
-  const syncedAt = new Date().toLocaleTimeString("en-US", {
-    hour: "numeric",
-    minute: "2-digit",
-    second: "2-digit",
-  });
+  const syncedAt = new Date().toISOString();
+  const repoOptions = repos
+    .map((repo) => ({
+      name: repo.name,
+      htmlUrl: repo.html_url,
+      stars: repo.stargazers_count,
+    }))
+    .sort((a, b) => b.stars - a.stars);
 
   return (
     <div className="min-h-screen bg-[#0d0f12] p-6 text-zinc-200">
@@ -172,6 +180,8 @@ export default async function SettingsPage() {
 
         <AppearanceSection />
 
+        <PinnedReposPreferences repos={repoOptions} initialPinned={[]} />
+
         <DisplayPreferences />
 
         <section className="dp-reveal [animation-delay:240ms] rounded-xl border border-[#1e2229] bg-[#111318] p-6">
@@ -183,11 +193,11 @@ export default async function SettingsPage() {
             <RefreshDataButton />
           </div>
 
-          <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
-            <SettingCard label="Session" value={session.user ? "Authenticated" : "No session"} />
-            <SettingCard label="GitHub token" value={hasAccessToken ? "Available" : "Missing"} />
-            <SettingCard label="Last sync" value={syncedAt} />
-          </div>
+          <ConnectionStatusPanel
+            username={username}
+            hasAccessToken={hasAccessToken}
+            initialSyncedAt={syncedAt}
+          />
         </section>
 
         <section className="dp-reveal [animation-delay:280ms] rounded-xl border border-red-500/20 bg-[#111318] p-6">

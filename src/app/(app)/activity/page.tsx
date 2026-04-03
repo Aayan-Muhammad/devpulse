@@ -1,7 +1,10 @@
+import Link from "next/link";
 import { redirect } from "next/navigation";
 import { auth } from "@/auth";
 import { getEvents } from "@/lib/github";
 import type { GitHubEvent } from "@/types/github";
+import { AlertTriangle } from "lucide-react";
+import { ActivityFilterSync } from "./activity-filter-sync";
 
 type ActivityPageProps = {
   searchParams?:
@@ -138,7 +141,45 @@ export default async function ActivityPage({ searchParams }: ActivityPageProps) 
     redirect("/login");
   }
 
-  const events = await getEvents(username, session.accessToken);
+  let events: GitHubEvent[] = [];
+
+  try {
+    events = await getEvents(username, session.accessToken);
+  } catch {
+    return (
+      <div className="min-h-screen bg-[#0d0f12] p-6 text-zinc-200">
+        <div className="mx-auto max-w-4xl">
+          <div className="dp-card-lift dp-reveal rounded-xl border border-[#1e2229] bg-[#111318] p-8">
+            <div className="mb-4 inline-flex h-12 w-12 items-center justify-center rounded-xl border border-[#2a2f37] bg-[#0a0c0f] text-amber-300">
+              <AlertTriangle className="h-5 w-5" />
+            </div>
+            <h1 className="text-2xl font-semibold text-zinc-100">Activity feed temporarily unavailable</h1>
+            <p className="mt-2 text-sm leading-7 text-zinc-400">
+              We could not load your activity stream right now. This is usually temporary when GitHub
+              API limits are reached.
+            </p>
+            <div className="mt-6 flex flex-wrap gap-3">
+              <a
+                href="/activity"
+                className="rounded-lg px-4 py-2 text-sm font-semibold text-[#0d0f12] transition-all duration-200 hover:shadow-[0_4px_12px_rgba(251,191,36,0.3)]"
+                style={{ backgroundColor: "var(--accent-color)" }}
+              >
+                Try again
+              </a>
+              <Link
+                href="/repos"
+                className="rounded-lg border border-[#2a2f37] bg-[#0a0c0f] px-4 py-2 text-sm font-semibold text-zinc-200 transition-all duration-200 hover:shadow-[0_4px_12px_rgba(251,191,36,0.15)]"
+                style={{ borderColor: "var(--accent-color)" }}
+              >
+                Go to repositories
+              </Link>
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
   const resolvedSearchParams = searchParams ? await searchParams : {};
   const typeFilter = getParam(resolvedSearchParams, "type").trim();
   const queryFilter = getParam(resolvedSearchParams, "q").trim().toLowerCase();
@@ -183,6 +224,7 @@ export default async function ActivityPage({ searchParams }: ActivityPageProps) 
 
   return (
     <div className="min-h-screen bg-[#0d0f12] p-6 text-zinc-200">
+      <ActivityFilterSync typeFilter={typeFilter} queryFilter={queryFilter} />
       <div className="mx-auto max-w-6xl">
         <header className="dp-card-lift dp-reveal mb-6 rounded-xl border border-[#1e2229] bg-[#111318] p-6">
           <p className="text-xs font-semibold uppercase tracking-widest text-zinc-500">Activity</p>
@@ -248,6 +290,22 @@ export default async function ActivityPage({ searchParams }: ActivityPageProps) 
             <p className="mt-2 text-sm text-zinc-500">
               Try clearing the event type or search query.
             </p>
+            <div className="mt-4 flex flex-wrap justify-center gap-2">
+              <a
+                href="/activity"
+                className="rounded-lg border border-[#2a2f37] bg-[#0a0c0f] px-3 py-2 text-xs font-semibold text-zinc-300 transition-all duration-200 hover:shadow-[0_4px_12px_rgba(251,191,36,0.15)]"
+                style={{ borderColor: "var(--accent-color)" }}
+              >
+                Reset filters
+              </a>
+              <Link
+                href="/explore"
+                className="rounded-lg border border-[#2a2f37] bg-[#0a0c0f] px-3 py-2 text-xs font-semibold text-zinc-300 transition-all duration-200 hover:shadow-[0_4px_12px_rgba(251,191,36,0.15)]"
+                style={{ borderColor: "var(--accent-color)" }}
+              >
+                Explore developers
+              </Link>
+            </div>
           </div>
         ) : (
           <div className="space-y-6">

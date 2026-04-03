@@ -1,0 +1,13 @@
+export const DENSITY_KEY = "devpulse-density";
+export const HINTS_KEY = "devpulse-show-hints";
+export const PINNED_REPOS_KEY = "devpulse-pinned-repos";
+export const LAST_SYNC_AT_KEY = "devpulse-last-sync-at";
+export const SYNC_UPDATED_EVENT = "devpulse-sync-updated";
+export const EXPLORE_SORT_KEY = "devpulse-explore-sort";
+export const EXPLORE_TYPE_KEY = "devpulse-explore-type";
+export const EXPLORE_MIN_FOLLOWERS_KEY = "devpulse-explore-min-followers";
+export const ACTIVITY_TYPE_KEY = "devpulse-activity-type";
+export const ACTIVITY_QUERY_KEY = "devpulse-activity-query";
+export const REPOS_QUERY_KEY = "devpulse-repos-query";
+export const REPOS_LANGUAGE_KEY = "devpulse-repos-language";
+export const REPOS_SORT_KEY = "devpulse-repos-sort";
