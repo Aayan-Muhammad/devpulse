@@ -149,61 +149,66 @@ export default function ExplorePage() {
               </div>
             </div>
 
-            <div className="grid grid-cols-1 gap-4 md:grid-cols-2 xl:grid-cols-3">
+            <div className="space-y-4">
               {result.items.map((user) => (
                 <article
                   key={user.id}
                   className="rounded-xl border border-[#1e2229] bg-[#111318] p-5 transition-colors hover:border-[#2f353f]"
                 >
-                  <div className="flex items-center gap-4">
-                    <img
-                      src={user.avatar_url}
-                      alt={user.login}
-                      width={64}
-                      height={64}
-                      className="h-16 w-16 rounded-full object-cover"
-                    />
+                  <div className="flex flex-col gap-5 lg:flex-row lg:items-center lg:justify-between">
                     <div className="min-w-0 flex-1">
-                      <h3 className="truncate text-lg font-semibold text-zinc-100">
-                        {user.name || user.login}
-                      </h3>
-                      <p className="text-sm text-zinc-400">@{user.login}</p>
+                      <div className="flex items-center gap-4">
+                        <img
+                          src={user.avatar_url}
+                          alt={user.login}
+                          width={64}
+                          height={64}
+                          className="h-16 w-16 rounded-full object-cover"
+                        />
+                        <div className="min-w-0">
+                          <h3 className="truncate text-xl font-semibold text-zinc-100">
+                            {user.name || user.login}
+                          </h3>
+                          <p className="text-sm text-zinc-400">@{user.login}</p>
+                        </div>
+                      </div>
+
                       {user.bio && (
-                        <p className="mt-1 line-clamp-2 text-sm leading-5 text-zinc-300">{user.bio}</p>
+                        <p className="mt-3 max-w-3xl text-sm leading-6 text-zinc-300">{user.bio}</p>
                       )}
                     </div>
-                  </div>
 
-                  <div className="mt-4 grid grid-cols-3 gap-2">
-                    <div className="rounded-lg border border-[#1e2229] bg-[#0a0c0f] p-3">
-                      <p className="text-[10px] uppercase tracking-widest text-zinc-500">Followers</p>
-                      <p className="mt-1 text-lg font-bold text-zinc-100">{user.followers ?? "-"}</p>
+                    <div className="grid grid-cols-3 gap-2 sm:gap-3 lg:w-[420px]">
+                      <div className="rounded-lg border border-[#1e2229] bg-[#0a0c0f] p-3">
+                        <p className="text-[10px] uppercase tracking-widest text-zinc-500">Followers</p>
+                        <p className="mt-1 text-lg font-bold text-zinc-100">{user.followers ?? "-"}</p>
+                      </div>
+                      <div className="rounded-lg border border-[#1e2229] bg-[#0a0c0f] p-3">
+                        <p className="text-[10px] uppercase tracking-widest text-zinc-500">Public Repos</p>
+                        <p className="mt-1 text-lg font-bold text-zinc-100">{user.public_repos ?? "-"}</p>
+                      </div>
+                      <div className="rounded-lg border border-[#1e2229] bg-[#0a0c0f] p-3">
+                        <p className="text-[10px] uppercase tracking-widest text-zinc-500">Total Stars</p>
+                        <p className="mt-1 text-lg font-bold text-zinc-100">{user.totalStars ?? "-"}</p>
+                      </div>
                     </div>
-                    <div className="rounded-lg border border-[#1e2229] bg-[#0a0c0f] p-3">
-                      <p className="text-[10px] uppercase tracking-widest text-zinc-500">Public Repos</p>
-                      <p className="mt-1 text-lg font-bold text-zinc-100">{user.public_repos ?? "-"}</p>
-                    </div>
-                    <div className="rounded-lg border border-[#1e2229] bg-[#0a0c0f] p-3">
-                      <p className="text-[10px] uppercase tracking-widest text-zinc-500">Total Stars</p>
-                      <p className="mt-1 text-lg font-bold text-zinc-100">{user.totalStars ?? "-"}</p>
-                    </div>
-                  </div>
 
-                  <div className="mt-5 flex items-center justify-between gap-3">
-                    <Link
-                      href={`/u/${encodeURIComponent(user.login)}`}
-                      className="rounded-lg border border-[#1e2229] bg-[#0a0c0f] px-4 py-2 text-sm font-semibold text-zinc-200 transition-colors hover:border-amber-400 hover:text-amber-300"
-                    >
-                      View profile
-                    </Link>
-                    <a
-                      href={user.html_url}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="text-sm font-semibold text-amber-400 transition-colors hover:text-amber-300"
-                    >
-                      GitHub
-                    </a>
+                    <div className="flex items-center gap-3 lg:w-[210px] lg:justify-end">
+                      <Link
+                        href={`/u/${encodeURIComponent(user.login)}`}
+                        className="rounded-lg border border-[#1e2229] bg-[#0a0c0f] px-4 py-2 text-sm font-semibold text-zinc-200 transition-colors hover:border-amber-400 hover:text-amber-300"
+                      >
+                        View profile
+                      </Link>
+                      <a
+                        href={user.html_url}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="rounded-lg border border-[#1e2229] px-4 py-2 text-sm font-semibold text-amber-400 transition-colors hover:border-amber-400 hover:text-amber-300"
+                      >
+                        GitHub
+                      </a>
+                    </div>
                   </div>
                 </article>
               ))}
