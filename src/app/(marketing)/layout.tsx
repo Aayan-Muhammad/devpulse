@@ -3,5 +3,5 @@ export default function MarketingLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  return <div className="min-h-screen bg-[#0d0f12] text-zinc-200">{children}</div>;
+  return <div className="dp-grid-bg min-h-screen bg-transparent text-zinc-200">{children}</div>;
 }

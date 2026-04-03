@@ -102,8 +102,8 @@ export default async function PublicProfilePage({
 
   if (!user) {
     return (
-      <div className="min-h-screen bg-[#0d0f12] p-6 text-zinc-200">
-        <div className="mx-auto max-w-3xl rounded-xl border border-[#1e2229] bg-[#111318] p-8">
+      <div className="dp-grid-bg min-h-screen bg-transparent p-6 text-zinc-200">
+        <div className="mx-auto max-w-3xl rounded-xl p-8 dp-surface">
           <h1 className="mb-2 text-xl font-semibold text-zinc-100">Profile unavailable</h1>
           <p className="text-sm text-zinc-400">{profileLoadError}</p>
         </div>
@@ -154,8 +154,8 @@ export default async function PublicProfilePage({
     .slice(0, 5);
 
   return (
-    <div className="min-h-screen bg-[#0d0f12] p-6 text-zinc-200">
-      <div className="dp-reveal [animation-delay:40ms] mb-8 rounded-xl border border-[#1e2229] bg-[#111318] p-6">
+    <div className="dp-grid-bg min-h-screen bg-transparent p-6 text-zinc-200">
+      <div className="dp-surface dp-reveal [animation-delay:40ms] mb-8 rounded-xl p-6">
         <div className="flex flex-col items-start justify-between gap-4 sm:flex-row sm:items-center">
           <div className="flex items-center gap-4">
             <img
@@ -177,7 +177,7 @@ export default async function PublicProfilePage({
               href={user.html_url}
               target="_blank"
               rel="noopener noreferrer"
-              className="rounded-lg border border-[#1e2229] bg-amber-400 px-4 py-2 text-sm font-semibold text-black transition-all duration-200 hover:bg-amber-300 hover:shadow-[0_4px_12px_rgba(251,191,36,0.3)]"
+              className="dp-control rounded-lg border border-[#1e2229] bg-amber-400 px-4 py-2 text-sm font-semibold text-black hover:bg-amber-300 hover:shadow-[0_4px_12px_rgba(251,191,36,0.3)]"
             >
               View on GitHub
             </a>
@@ -186,26 +186,26 @@ export default async function PublicProfilePage({
       </div>
 
       <div className="mb-8 grid grid-cols-1 gap-4 md:grid-cols-2 xl:grid-cols-4">
-        <div className="dp-reveal dp-card-lift [animation-delay:80ms] rounded-xl border border-[#1e2229] bg-[#111318] p-4">
+        <div className="dp-surface dp-reveal dp-card-lift [animation-delay:80ms] rounded-xl p-4">
           <p className="text-xs font-semibold uppercase tracking-widest text-zinc-500">Total Repos</p>
           <p className="mt-2 text-3xl font-bold text-zinc-100">{user.public_repos}</p>
         </div>
-        <div className="dp-reveal dp-card-lift [animation-delay:110ms] rounded-xl border border-[#1e2229] bg-[#111318] p-4">
+        <div className="dp-surface dp-reveal dp-card-lift [animation-delay:110ms] rounded-xl p-4">
           <p className="text-xs font-semibold uppercase tracking-widest text-zinc-500">Followers</p>
           <p className="mt-2 text-3xl font-bold text-zinc-100">{user.followers}</p>
         </div>
-        <div className="dp-reveal dp-card-lift [animation-delay:140ms] rounded-xl border border-[#1e2229] bg-[#111318] p-4">
+        <div className="dp-surface dp-reveal dp-card-lift [animation-delay:140ms] rounded-xl p-4">
           <p className="text-xs font-semibold uppercase tracking-widest text-zinc-500">Following</p>
           <p className="mt-2 text-3xl font-bold text-zinc-100">{user.following}</p>
         </div>
-        <div className="dp-reveal dp-card-lift [animation-delay:170ms] rounded-xl border border-[#1e2229] bg-[#111318] p-4">
+        <div className="dp-surface dp-reveal dp-card-lift [animation-delay:170ms] rounded-xl p-4">
           <p className="text-xs font-semibold uppercase tracking-widest text-zinc-500">Total Stars</p>
           <p className="mt-2 text-3xl font-bold text-zinc-100">{totalStars}</p>
         </div>
       </div>
 
       {topRepos.length > 0 && (
-        <div className="dp-reveal [animation-delay:200ms] mb-8 rounded-xl border border-[#1e2229] bg-[#111318] p-6">
+        <div className="dp-surface dp-reveal [animation-delay:200ms] mb-8 rounded-xl p-6">
           <h2 className="mb-4 text-lg font-semibold text-zinc-100">Top Repositories</h2>
           <div className="space-y-3">
             {topRepos.map((repo) => (
@@ -214,7 +214,7 @@ export default async function PublicProfilePage({
                 href={repo.html_url}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="dp-card-lift block rounded-lg border border-[#1e2229] bg-[#0a0c0f] p-4 transition-all duration-200 hover:border-amber-400 hover:shadow-[0_4px_12px_rgba(251,191,36,0.15)]"
+                className="dp-surface dp-card-lift block rounded-lg p-4 transition-all duration-200 hover:border-amber-400 hover:shadow-[0_4px_12px_rgba(251,191,36,0.15)]"
               >
                 <div className="flex items-start justify-between gap-3">
                   <div className="flex-1 min-w-0">
@@ -232,7 +232,7 @@ export default async function PublicProfilePage({
       )}
 
       <div className="mb-8 grid grid-cols-1 gap-6 xl:grid-cols-2">
-        <div className="dp-reveal dp-card-lift [animation-delay:240ms] rounded-xl border border-[#1e2229] bg-[#111318] p-6">
+        <div className="dp-surface dp-reveal dp-card-lift [animation-delay:240ms] rounded-xl p-6">
           <h2 className="mb-4 text-lg font-semibold text-zinc-100">Recent Activity</h2>
           <div className="space-y-3">
             {pushEvents.length > 0 ? (
@@ -248,7 +248,7 @@ export default async function PublicProfilePage({
           </div>
         </div>
 
-        <div className="dp-reveal dp-card-lift [animation-delay:280ms] rounded-xl border border-[#1e2229] bg-[#111318] p-6">
+        <div className="dp-surface dp-reveal dp-card-lift [animation-delay:280ms] rounded-xl p-6">
           <h2 className="mb-4 text-lg font-semibold text-zinc-100">Top Languages</h2>
           <div className="space-y-3">
             {languageEntries.length > 0 ? (
@@ -274,7 +274,7 @@ export default async function PublicProfilePage({
         </div>
       </div>
 
-      <div className="dp-reveal dp-card-lift [animation-delay:320ms] rounded-xl border border-[#1e2229] bg-[#111318] p-6">
+      <div className="dp-surface dp-reveal dp-card-lift [animation-delay:320ms] rounded-xl p-6">
         <div className="mb-5 flex items-end justify-between gap-3">
           <div>
             <h2 className="text-lg font-semibold text-zinc-100">Contribution Heatmap</h2>

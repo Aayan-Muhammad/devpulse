@@ -16,9 +16,10 @@ const themeBootScript = `
     const root = document.documentElement;
     const effectiveTheme = savedTheme === "light" || savedTheme === "high-contrast" ? savedTheme : savedTheme === "system" ? systemTheme : "dark";
 
-    root.classList.remove("light", "high-contrast");
+    root.classList.remove("light", "high-contrast", "dark");
     if (effectiveTheme === "light") root.classList.add("light");
-    if (effectiveTheme === "high-contrast") root.classList.add("high-contrast");
+    else if (effectiveTheme === "high-contrast") root.classList.add("high-contrast");
+    else root.classList.add("dark");
     root.dataset.theme = effectiveTheme;
     root.dataset.themePreference = savedTheme || "dark";
 

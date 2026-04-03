@@ -37,7 +37,7 @@ export default function ShareProfileButton({ username }: { username: string }) {
     <button
       type="button"
       onClick={handleShare}
-      className="inline-flex h-10 items-center justify-center rounded-lg border border-[#1e2229] bg-amber-400 px-4 text-sm font-semibold text-black transition-all duration-200 hover:bg-amber-300 hover:shadow-[0_4px_12px_rgba(251,191,36,0.3)]"
+      className="dp-control inline-flex h-10 items-center justify-center rounded-lg border border-[#1e2229] bg-amber-400 px-4 text-sm font-semibold text-black hover:bg-amber-300 hover:shadow-[0_4px_12px_rgba(251,191,36,0.3)]"
     >
       {shared ? "Shared!" : copied ? "Copied!" : "Share profile"}
     </button>

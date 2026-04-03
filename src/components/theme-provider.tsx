@@ -71,11 +71,13 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
     const root = document.documentElement;
     const effectiveTheme = theme === "system" ? getSystemTheme() : theme;
 
-    root.classList.remove("light", "high-contrast");
+    root.classList.remove("light", "high-contrast", "dark");
     if (effectiveTheme === "light") {
       root.classList.add("light");
     } else if (effectiveTheme === "high-contrast") {
       root.classList.add("high-contrast");
+    } else {
+      root.classList.add("dark");
     }
 
     root.style.setProperty("--accent-color", accentColorMap[accentColor]);
