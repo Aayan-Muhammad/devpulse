@@ -62,10 +62,10 @@ function NavSection({
                 href={item.href}
                 aria-current={active ? "page" : undefined}
                 className={[
-                  "flex items-center gap-2.5 border-l-2 px-3 py-2 text-sm transition-colors",
+                  "flex items-center gap-2.5 border-l-2 px-3 py-2 text-sm transition-all duration-200",
                   active
                     ? "border-amber-400 bg-[#11151b] text-zinc-100"
-                    : "border-transparent text-zinc-400 hover:bg-[#0f1318] hover:text-zinc-200",
+                    : "border-transparent text-zinc-400 hover:translate-x-1 hover:bg-[#0f1318] hover:text-zinc-200",
                 ].join(" ")}
               >
                 <Icon className="h-4 w-4" />

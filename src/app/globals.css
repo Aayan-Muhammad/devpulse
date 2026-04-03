@@ -128,3 +128,48 @@
     @apply font-sans;
   }
 }
+@layer components {
+  .dp-muted {
+    color: #9ca3af;
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  @keyframes dp-fade-up {
+    from {
+      opacity: 0;
+      transform: translateY(10px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  .dp-reveal {
+    opacity: 0;
+    transform: translateY(10px);
+    animation: dp-fade-up 420ms ease-out forwards;
+  }
+
+  .dp-reveal-delay-1 {
+    animation-delay: 70ms;
+  }
+
+  .dp-reveal-delay-2 {
+    animation-delay: 130ms;
+  }
+
+  .dp-reveal-delay-3 {
+    animation-delay: 190ms;
+  }
+
+  .dp-card-lift {
+    transition: transform 180ms ease, border-color 180ms ease, box-shadow 180ms ease;
+  }
+
+  .dp-card-lift:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 28px rgba(0, 0, 0, 0.22);
+  }
+}

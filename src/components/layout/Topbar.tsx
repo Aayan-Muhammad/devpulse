@@ -75,8 +75,10 @@ export function Topbar({ username }: TopbarProps) {
               href={item.href}
               aria-current={active ? "page" : undefined}
               className={[
-                "px-3 py-1.5 text-sm transition-colors",
-                active ? "text-amber-400" : "text-zinc-400 hover:text-zinc-200",
+                "px-3 py-1.5 text-sm transition-all duration-200",
+                active
+                  ? "text-amber-400"
+                  : "text-zinc-400 hover:-translate-y-0.5 hover:text-zinc-200",
               ].join(" ")}
             >
               {item.label}

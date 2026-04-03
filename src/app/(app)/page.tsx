@@ -111,7 +111,7 @@ export default async function Home() {
 
   return (
     <div className="min-h-screen bg-[#0d0f12] p-6 text-zinc-200">
-      <div className="mb-8 flex items-center justify-between rounded-xl border border-[#1e2229] bg-[#111318] p-6">
+      <div className="dp-card-lift dp-reveal mb-8 flex items-center justify-between rounded-xl border border-[#1e2229] bg-[#111318] p-6">
         <div className="flex items-center gap-4">
           <img
             src={user.avatar_url}
@@ -130,26 +130,26 @@ export default async function Home() {
       </div>
 
       <div className="mb-8 grid grid-cols-1 gap-4 md:grid-cols-2 xl:grid-cols-4">
-        <div className="rounded-xl border border-[#1e2229] bg-[#111318] p-4">
+        <div className="dp-card-lift dp-reveal dp-reveal-delay-1 rounded-xl border border-[#1e2229] bg-[#111318] p-4">
           <p className="text-xs font-semibold uppercase tracking-widest text-zinc-500">Total Repos</p>
           <p className="mt-2 text-3xl font-bold text-zinc-100">{user.public_repos}</p>
         </div>
-        <div className="rounded-xl border border-[#1e2229] bg-[#111318] p-4">
+        <div className="dp-card-lift dp-reveal dp-reveal-delay-1 rounded-xl border border-[#1e2229] bg-[#111318] p-4">
           <p className="text-xs font-semibold uppercase tracking-widest text-zinc-500">Followers</p>
           <p className="mt-2 text-3xl font-bold text-zinc-100">{user.followers}</p>
         </div>
-        <div className="rounded-xl border border-[#1e2229] bg-[#111318] p-4">
+        <div className="dp-card-lift dp-reveal dp-reveal-delay-2 rounded-xl border border-[#1e2229] bg-[#111318] p-4">
           <p className="text-xs font-semibold uppercase tracking-widest text-zinc-500">Following</p>
           <p className="mt-2 text-3xl font-bold text-zinc-100">{user.following}</p>
         </div>
-        <div className="rounded-xl border border-[#1e2229] bg-[#111318] p-4">
+        <div className="dp-card-lift dp-reveal dp-reveal-delay-2 rounded-xl border border-[#1e2229] bg-[#111318] p-4">
           <p className="text-xs font-semibold uppercase tracking-widest text-zinc-500">Total Stars</p>
           <p className="mt-2 text-3xl font-bold text-zinc-100">{totalStars}</p>
         </div>
       </div>
 
       <div className="mb-8 grid grid-cols-1 gap-4 xl:grid-cols-3">
-        <div className="rounded-xl border border-[#1e2229] bg-[#111318] p-5">
+        <div className="dp-card-lift dp-reveal dp-reveal-delay-2 rounded-xl border border-[#1e2229] bg-[#111318] p-5">
           <p className="text-xs font-semibold uppercase tracking-widest text-zinc-500">Push Trend</p>
           <p className="mt-2 text-3xl font-bold text-zinc-100">{pushesLast7Days}</p>
           <p className={`mt-1 text-sm ${pushDelta >= 0 ? "text-emerald-300" : "text-rose-300"}`}>
@@ -157,7 +157,7 @@ export default async function Home() {
           </p>
         </div>
 
-        <div className="rounded-xl border border-[#1e2229] bg-[#111318] p-5">
+        <div className="dp-card-lift dp-reveal dp-reveal-delay-3 rounded-xl border border-[#1e2229] bg-[#111318] p-5">
           <p className="text-xs font-semibold uppercase tracking-widest text-zinc-500">
             Active Repositories
           </p>
@@ -165,7 +165,7 @@ export default async function Home() {
           <p className="mt-1 text-sm text-zinc-400">With at least one push in last 30 days</p>
         </div>
 
-        <div className="rounded-xl border border-[#1e2229] bg-[#111318] p-5">
+        <div className="dp-card-lift dp-reveal dp-reveal-delay-3 rounded-xl border border-[#1e2229] bg-[#111318] p-5">
           <p className="text-xs font-semibold uppercase tracking-widest text-zinc-500">Top Repository</p>
           <p className="mt-2 truncate text-lg font-semibold text-zinc-100">
             {mostStarredRepo?.name ?? "No repositories"}
@@ -176,7 +176,7 @@ export default async function Home() {
         </div>
       </div>
 
-      <div className="mb-8 rounded-xl border border-[#1e2229] bg-[#111318] p-5">
+      <div className="dp-card-lift dp-reveal dp-reveal-delay-3 mb-8 rounded-xl border border-[#1e2229] bg-[#111318] p-5">
         <p className="text-xs font-semibold uppercase tracking-widest text-zinc-500">Quick Actions</p>
         <div className="mt-3 flex flex-wrap gap-2">
           <Link
@@ -201,7 +201,7 @@ export default async function Home() {
       </div>
 
       <div className="mb-8 grid grid-cols-1 gap-6 xl:grid-cols-2">
-        <div className="rounded-xl border border-[#1e2229] bg-[#111318] p-6">
+        <div className="dp-card-lift dp-reveal dp-reveal-delay-3 rounded-xl border border-[#1e2229] bg-[#111318] p-6">
           <h2 className="mb-4 text-lg font-semibold text-zinc-100">Recent Activity</h2>
           <div className="space-y-3">
             {pushEvents.length > 0 ? (
@@ -217,7 +217,7 @@ export default async function Home() {
           </div>
         </div>
 
-        <div className="rounded-xl border border-[#1e2229] bg-[#111318] p-6">
+        <div className="dp-card-lift dp-reveal dp-reveal-delay-3 rounded-xl border border-[#1e2229] bg-[#111318] p-6">
           <h2 className="mb-4 text-lg font-semibold text-zinc-100">Top Languages</h2>
           <div className="space-y-3">
             {languageEntries.length > 0 ? (
@@ -243,7 +243,7 @@ export default async function Home() {
         </div>
       </div>
 
-      <div className="rounded-xl border border-[#1e2229] bg-[#111318] p-6">
+      <div className="dp-card-lift dp-reveal dp-reveal-delay-3 rounded-xl border border-[#1e2229] bg-[#111318] p-6">
         <div className="mb-5 flex items-end justify-between gap-3">
           <div>
             <h2 className="text-lg font-semibold text-zinc-100">Contribution Heatmap</h2>
