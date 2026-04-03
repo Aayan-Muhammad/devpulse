@@ -65,7 +65,7 @@ export function Topbar({ username }: TopbarProps) {
         <span className="inline-flex h-2 w-2 animate-pulse rounded-full bg-amber-400" />
       </div>
 
-      <div className="flex items-center gap-2">
+      <div className="flex items-center gap-2" aria-label="Primary navigation">
         {navItems.map((item) => {
           const active = isActive(pathname, item.href);
 
@@ -73,6 +73,7 @@ export function Topbar({ username }: TopbarProps) {
             <Link
               key={item.href}
               href={item.href}
+              aria-current={active ? "page" : undefined}
               className={[
                 "px-3 py-1.5 text-sm transition-colors",
                 active ? "text-amber-400" : "text-zinc-400 hover:text-zinc-200",

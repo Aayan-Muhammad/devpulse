@@ -3,6 +3,8 @@ import { redirect } from "next/navigation";
 import { auth } from "@/auth";
 import { getUser } from "@/lib/github";
 import { CopyProfileUrlButton } from "./copy-profile-url-button";
+import { DisplayPreferences } from "./display-preferences";
+import { RefreshDataButton } from "./refresh-data-button";
 import { SignOutButton } from "./sign-out-button";
 
 function formatDate(isoString: string): string {
@@ -52,6 +54,12 @@ export default async function SettingsPage() {
   const website = normalizeWebsite(user.blog);
   const twitterHandle = user.twitter_username ? `@${user.twitter_username}` : "Not set";
   const profileUrl = `/u/${encodeURIComponent(user.login)}`;
+  const hasAccessToken = Boolean(session.accessToken);
+  const syncedAt = new Date().toLocaleTimeString("en-US", {
+    hour: "numeric",
+    minute: "2-digit",
+    second: "2-digit",
+  });
 
   return (
     <div className="min-h-screen bg-[#0d0f12] p-6 text-zinc-200">
@@ -158,6 +166,24 @@ export default async function SettingsPage() {
                 Open profile
               </Link>
             </div>
+          </div>
+        </section>
+
+        <DisplayPreferences />
+
+        <section className="rounded-xl border border-[#1e2229] bg-[#111318] p-6">
+          <div className="mb-4 flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
+            <div>
+              <h2 className="text-lg font-semibold text-zinc-100">Diagnostics</h2>
+              <p className="text-sm text-zinc-400">Connection and session diagnostics for this profile.</p>
+            </div>
+            <RefreshDataButton />
+          </div>
+
+          <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
+            <SettingCard label="Session" value={session.user ? "Authenticated" : "No session"} />
+            <SettingCard label="GitHub token" value={hasAccessToken ? "Available" : "Missing"} />
+            <SettingCard label="Last sync" value={syncedAt} />
           </div>
         </section>
 

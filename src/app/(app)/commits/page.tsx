@@ -19,6 +19,22 @@ type GroupedCommits = {
   pushedAt: string;
 };
 
+type CommitsPageProps = {
+  searchParams?:
+    | Promise<Record<string, string | string[] | undefined>>
+    | Record<string, string | string[] | undefined>;
+};
+
+function getParam(
+  params: Record<string, string | string[] | undefined>,
+  key: string
+): string {
+  const value = params[key];
+  if (typeof value === "string") return value;
+  if (Array.isArray(value)) return value[0] ?? "";
+  return "";
+}
+
 function getObject(obj: unknown): Record<string, unknown> {
   return typeof obj === "object" && obj !== null ? (obj as Record<string, unknown>) : {};
 }
@@ -47,7 +63,7 @@ function extractCommits(payload: unknown): Commit[] {
   }
 }
 
-export default async function CommitsPage() {
+export default async function CommitsPage({ searchParams }: CommitsPageProps) {
   const session = await auth();
 
   if (!session) {
@@ -61,6 +77,9 @@ export default async function CommitsPage() {
   }
 
   const events = await getEvents(username, session.accessToken!);
+  const resolvedSearchParams = searchParams ? await searchParams : {};
+  const repoFilter = getParam(resolvedSearchParams, "repo").trim();
+  const queryFilter = getParam(resolvedSearchParams, "q").trim().toLowerCase();
 
   // Filter for PushEvents and group by repository
   const groupedByRepo: Map<string, GroupedCommits> = new Map();
@@ -100,7 +119,38 @@ export default async function CommitsPage() {
     (a, b) => new Date(b.pushedAt).getTime() - new Date(a.pushedAt).getTime()
   );
 
-  const totalCommits = sortedGroups.reduce((sum, group) => sum + group.commits.length, 0);
+  const repoOptions = Array.from(new Set(sortedGroups.map((group) => group.repoName))).sort((a, b) =>
+    a.localeCompare(b)
+  );
+
+  const filteredGroups = sortedGroups
+    .map((group) => {
+      const matchesRepo = !repoFilter || group.repoName === repoFilter;
+      if (!matchesRepo) {
+        return null;
+      }
+
+      if (!queryFilter) {
+        return group;
+      }
+
+      const filteredCommits = group.commits.filter((commit) =>
+        commit.message.toLowerCase().includes(queryFilter)
+      );
+
+      if (!filteredCommits.length) {
+        return null;
+      }
+
+      return {
+        ...group,
+        commits: filteredCommits,
+      };
+    })
+    .filter((group): group is GroupedCommits => Boolean(group));
+
+  const totalCommits = filteredGroups.reduce((sum, group) => sum + group.commits.length, 0);
+  const totalUnfilteredCommits = sortedGroups.reduce((sum, group) => sum + group.commits.length, 0);
 
   return (
     <div className="space-y-8">
@@ -111,22 +161,73 @@ export default async function CommitsPage() {
         </p>
       </div>
 
+      <form method="GET" className="rounded-xl border border-[#1e2229] bg-[#111318] p-5">
+        <div className="grid grid-cols-1 gap-3 md:grid-cols-[1.3fr_1fr_auto]">
+          <label className="text-sm">
+            <span className="mb-1 block text-xs uppercase tracking-widest text-zinc-500">
+              Search commit message
+            </span>
+            <input
+              type="text"
+              name="q"
+              defaultValue={queryFilter}
+              placeholder="fix, feature, refactor..."
+              className="h-11 w-full rounded-lg border border-[#2a2f37] bg-[#0a0c0f] px-3 text-zinc-100 outline-none transition-colors placeholder:text-zinc-500 focus:border-amber-400"
+            />
+          </label>
+
+          <label className="text-sm">
+            <span className="mb-1 block text-xs uppercase tracking-widest text-zinc-500">Repository</span>
+            <select
+              name="repo"
+              defaultValue={repoFilter}
+              className="h-11 w-full rounded-lg border border-[#2a2f37] bg-[#0a0c0f] px-3 text-zinc-100 outline-none transition-colors focus:border-amber-400"
+            >
+              <option value="">All repositories</option>
+              {repoOptions.map((repo) => (
+                <option key={repo} value={repo}>
+                  {repo}
+                </option>
+              ))}
+            </select>
+          </label>
+
+          <div className="flex items-end gap-2">
+            <button
+              type="submit"
+              className="h-11 rounded-lg bg-amber-400 px-4 text-sm font-semibold text-[#0d0f12] transition-colors hover:bg-amber-300"
+            >
+              Apply
+            </button>
+            <Link
+              href="/commits"
+              className="h-11 rounded-lg border border-[#2a2f37] px-4 py-2.5 text-sm font-semibold text-zinc-300 transition-colors hover:border-amber-400 hover:text-amber-300"
+            >
+              Reset
+            </Link>
+          </div>
+        </div>
+      </form>
+
       {/* Total commit count card */}
       <div className="rounded-xl border border-[#1e2229] bg-[#111318] p-6">
         <div className="text-center">
           <p className="text-sm uppercase tracking-widest text-zinc-500">Total Commits</p>
           <p className="mt-2 text-5xl font-bold text-amber-400">{totalCommits}</p>
+          {(repoFilter || queryFilter) && (
+            <p className="mt-2 text-xs text-zinc-500">Filtered from {totalUnfilteredCommits} total commits</p>
+          )}
         </div>
       </div>
 
       {/* Commits list */}
-      {sortedGroups.length === 0 ? (
+      {filteredGroups.length === 0 ? (
         <div className="rounded-xl border border-[#1e2229] bg-[#111318] p-8 text-center text-zinc-400">
-          No recent push events found. Start pushing to see your commits here.
+          No commits match the current filters. Try adjusting the search or repository.
         </div>
       ) : (
         <div className="space-y-6">
-          {sortedGroups.map((group) => (
+          {filteredGroups.map((group) => (
             <div key={`${group.repoName}|${group.branch}`} className="space-y-3">
               {/* Repository header */}
               <div className="flex items-center justify-between gap-4">

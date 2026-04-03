@@ -2,6 +2,12 @@ import { redirect } from "next/navigation";
 import { auth } from "@/auth";
 import { getRepos } from "@/lib/github";
 
+type ReposPageProps = {
+  searchParams?:
+    | Promise<Record<string, string | string[] | undefined>>
+    | Record<string, string | string[] | undefined>;
+};
+
 const LANGUAGE_COLORS: string[] = [
   "#f0a030",
   "#cf6a17",
@@ -33,7 +39,17 @@ function getLanguageColor(language: string): string {
   return LANGUAGE_COLORS[hash % LANGUAGE_COLORS.length];
 }
 
-export default async function ReposPage() {
+function getParam(
+  params: Record<string, string | string[] | undefined>,
+  key: string
+): string {
+  const value = params[key];
+  if (typeof value === "string") return value;
+  if (Array.isArray(value)) return value[0] ?? "";
+  return "";
+}
+
+export default async function ReposPage({ searchParams }: ReposPageProps) {
   const session = await auth();
 
   if (!session) {
@@ -47,9 +63,30 @@ export default async function ReposPage() {
   }
 
   const repos = await getRepos(username, session.accessToken);
-  const sortedRepos = [...repos].sort(
-    (a, b) => new Date(b.updated_at).getTime() - new Date(a.updated_at).getTime()
-  );
+  const resolvedSearchParams = searchParams ? await searchParams : {};
+  const queryFilter = getParam(resolvedSearchParams, "q").trim().toLowerCase();
+  const languageFilter = getParam(resolvedSearchParams, "language").trim();
+  const sortBy = getParam(resolvedSearchParams, "sort").trim() || "updated";
+
+  const languageOptions = Array.from(
+    new Set(repos.map((repo) => repo.language).filter((lang): lang is string => Boolean(lang)))
+  ).sort((a, b) => a.localeCompare(b));
+
+  const filteredRepos = repos.filter((repo) => {
+    const matchesQuery =
+      !queryFilter ||
+      repo.name.toLowerCase().includes(queryFilter) ||
+      (repo.description ?? "").toLowerCase().includes(queryFilter);
+    const matchesLanguage = !languageFilter || repo.language === languageFilter;
+    return matchesQuery && matchesLanguage;
+  });
+
+  const sortedRepos = [...filteredRepos].sort((a, b) => {
+    if (sortBy === "stars") return b.stargazers_count - a.stargazers_count;
+    if (sortBy === "forks") return b.forks_count - a.forks_count;
+    if (sortBy === "name") return a.name.localeCompare(b.name);
+    return new Date(b.updated_at).getTime() - new Date(a.updated_at).getTime();
+  });
 
   return (
     <div className="min-h-screen bg-[#0d0f12] p-6 text-zinc-200">
@@ -58,15 +95,76 @@ export default async function ReposPage() {
           <p className="text-xs font-semibold uppercase tracking-widest text-zinc-500">Repos</p>
           <h1 className="mt-2 text-3xl font-semibold text-zinc-100">Your GitHub Repositories</h1>
           <p className="mt-1 text-sm text-zinc-400">
-            {sortedRepos.length} {sortedRepos.length === 1 ? "repository" : "repositories"} found
+            {sortedRepos.length} {sortedRepos.length === 1 ? "repository" : "repositories"} shown
+            {(queryFilter || languageFilter) ? ` (from ${repos.length} total)` : ""}
           </p>
         </div>
 
+        <form method="GET" className="mb-6 rounded-xl border border-[#1e2229] bg-[#111318] p-5">
+          <div className="grid grid-cols-1 gap-3 lg:grid-cols-[1.4fr_1fr_1fr_auto]">
+            <label className="text-sm">
+              <span className="mb-1 block text-xs uppercase tracking-widest text-zinc-500">Search</span>
+              <input
+                type="text"
+                name="q"
+                defaultValue={queryFilter}
+                placeholder="Repository name or description"
+                className="h-11 w-full rounded-lg border border-[#2a2f37] bg-[#0a0c0f] px-3 text-zinc-100 outline-none transition-colors placeholder:text-zinc-500 focus:border-amber-400"
+              />
+            </label>
+
+            <label className="text-sm">
+              <span className="mb-1 block text-xs uppercase tracking-widest text-zinc-500">Language</span>
+              <select
+                name="language"
+                defaultValue={languageFilter}
+                className="h-11 w-full rounded-lg border border-[#2a2f37] bg-[#0a0c0f] px-3 text-zinc-100 outline-none transition-colors focus:border-amber-400"
+              >
+                <option value="">All languages</option>
+                {languageOptions.map((language) => (
+                  <option key={language} value={language}>
+                    {language}
+                  </option>
+                ))}
+              </select>
+            </label>
+
+            <label className="text-sm">
+              <span className="mb-1 block text-xs uppercase tracking-widest text-zinc-500">Sort by</span>
+              <select
+                name="sort"
+                defaultValue={sortBy}
+                className="h-11 w-full rounded-lg border border-[#2a2f37] bg-[#0a0c0f] px-3 text-zinc-100 outline-none transition-colors focus:border-amber-400"
+              >
+                <option value="updated">Recently updated</option>
+                <option value="stars">Most stars</option>
+                <option value="forks">Most forks</option>
+                <option value="name">Name (A-Z)</option>
+              </select>
+            </label>
+
+            <div className="flex items-end gap-2">
+              <button
+                type="submit"
+                className="h-11 rounded-lg bg-amber-400 px-4 text-sm font-semibold text-[#0d0f12] transition-colors hover:bg-amber-300"
+              >
+                Apply
+              </button>
+              <a
+                href="/repos"
+                className="h-11 rounded-lg border border-[#2a2f37] px-4 py-2.5 text-sm font-semibold text-zinc-300 transition-colors hover:border-amber-400 hover:text-amber-300"
+              >
+                Reset
+              </a>
+            </div>
+          </div>
+        </form>
+
         {sortedRepos.length === 0 ? (
           <div className="rounded-xl border border-[#1e2229] bg-[#111318] p-8 text-center">
-            <p className="text-lg font-semibold text-zinc-200">No repositories to display</p>
+            <p className="text-lg font-semibold text-zinc-200">No repositories match these filters</p>
             <p className="mt-2 text-sm text-zinc-500">
-              We could not find any repositories for this account right now.
+              Try changing search, language, or sorting options.
             </p>
           </div>
         ) : (

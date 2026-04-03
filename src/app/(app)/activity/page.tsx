@@ -3,6 +3,22 @@ import { auth } from "@/auth";
 import { getEvents } from "@/lib/github";
 import type { GitHubEvent } from "@/types/github";
 
+type ActivityPageProps = {
+  searchParams?:
+    | Promise<Record<string, string | string[] | undefined>>
+    | Record<string, string | string[] | undefined>;
+};
+
+function getParam(
+  params: Record<string, string | string[] | undefined>,
+  key: string
+): string {
+  const value = params[key];
+  if (typeof value === "string") return value;
+  if (Array.isArray(value)) return value[0] ?? "";
+  return "";
+}
+
 type IconMeta = {
   glyph: string;
   bgClass: string;
@@ -109,7 +125,7 @@ function getEventDescription(event: GitHubEvent): string {
   return `Triggered ${event.type}`;
 }
 
-export default async function ActivityPage() {
+export default async function ActivityPage({ searchParams }: ActivityPageProps) {
   const session = await auth();
 
   if (!session) {
@@ -123,11 +139,40 @@ export default async function ActivityPage() {
   }
 
   const events = await getEvents(username, session.accessToken);
+  const resolvedSearchParams = searchParams ? await searchParams : {};
+  const typeFilter = getParam(resolvedSearchParams, "type").trim();
+  const queryFilter = getParam(resolvedSearchParams, "q").trim().toLowerCase();
+
   const sortedEvents = [...events].sort(
     (a, b) => new Date(b.created_at).getTime() - new Date(a.created_at).getTime()
   );
 
-  const groupedEvents = sortedEvents.reduce<Record<string, GitHubEvent[]>>((acc, event) => {
+  const knownTypes = [
+    "PushEvent",
+    "PullRequestEvent",
+    "IssuesEvent",
+    "ForkEvent",
+    "WatchEvent",
+    "CreateEvent",
+  ];
+
+  const filteredEvents = sortedEvents.filter((event) => {
+    const typeMatches = !typeFilter || event.type === typeFilter;
+    if (!typeMatches) {
+      return false;
+    }
+
+    if (!queryFilter) {
+      return true;
+    }
+
+    const description = getEventDescription(event).toLowerCase();
+    return (
+      event.repo.name.toLowerCase().includes(queryFilter) || description.includes(queryFilter)
+    );
+  });
+
+  const groupedEvents = filteredEvents.reduce<Record<string, GitHubEvent[]>>((acc, event) => {
     const key = getDateKey(event.created_at);
     acc[key] = acc[key] ?? [];
     acc[key].push(event);
@@ -143,15 +188,64 @@ export default async function ActivityPage() {
           <p className="text-xs font-semibold uppercase tracking-widest text-zinc-500">Activity</p>
           <h1 className="mt-2 text-3xl font-semibold text-zinc-100">Recent Public Events</h1>
           <p className="mt-1 text-sm text-zinc-400">
-            {sortedEvents.length} {sortedEvents.length === 1 ? "event" : "events"} recorded
+            {filteredEvents.length} {filteredEvents.length === 1 ? "event" : "events"} shown
+            {(typeFilter || queryFilter) ? ` (from ${sortedEvents.length} total)` : ""}
           </p>
         </header>
 
-        {sortedEvents.length === 0 ? (
+        <form method="GET" className="mb-6 rounded-xl border border-[#1e2229] bg-[#111318] p-5">
+          <div className="grid grid-cols-1 gap-3 md:grid-cols-[1fr_1.3fr_auto]">
+            <label className="text-sm">
+              <span className="mb-1 block text-xs uppercase tracking-widest text-zinc-500">Event type</span>
+              <select
+                name="type"
+                defaultValue={typeFilter}
+                className="h-11 w-full rounded-lg border border-[#2a2f37] bg-[#0a0c0f] px-3 text-zinc-100 outline-none transition-colors focus:border-amber-400"
+              >
+                <option value="">All event types</option>
+                {knownTypes.map((type) => (
+                  <option key={type} value={type}>
+                    {type}
+                  </option>
+                ))}
+              </select>
+            </label>
+
+            <label className="text-sm">
+              <span className="mb-1 block text-xs uppercase tracking-widest text-zinc-500">
+                Search repo or description
+              </span>
+              <input
+                type="text"
+                name="q"
+                defaultValue={queryFilter}
+                placeholder="repo name, commit text, action..."
+                className="h-11 w-full rounded-lg border border-[#2a2f37] bg-[#0a0c0f] px-3 text-zinc-100 outline-none transition-colors placeholder:text-zinc-500 focus:border-amber-400"
+              />
+            </label>
+
+            <div className="flex items-end gap-2">
+              <button
+                type="submit"
+                className="h-11 rounded-lg bg-amber-400 px-4 text-sm font-semibold text-[#0d0f12] transition-colors hover:bg-amber-300"
+              >
+                Apply
+              </button>
+              <a
+                href="/activity"
+                className="h-11 rounded-lg border border-[#2a2f37] px-4 py-2.5 text-sm font-semibold text-zinc-300 transition-colors hover:border-amber-400 hover:text-amber-300"
+              >
+                Reset
+              </a>
+            </div>
+          </div>
+        </form>
+
+        {filteredEvents.length === 0 ? (
           <div className="rounded-xl border border-[#1e2229] bg-[#111318] p-8 text-center">
-            <p className="text-lg font-semibold text-zinc-200">No recent activity found</p>
+            <p className="text-lg font-semibold text-zinc-200">No activity matches these filters</p>
             <p className="mt-2 text-sm text-zinc-500">
-              We could not find public events for this account right now.
+              Try clearing the event type or search query.
             </p>
           </div>
         ) : (

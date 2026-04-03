@@ -2,15 +2,43 @@ import { NextResponse } from "next/server";
 import { auth } from "@/auth";
 
 const PER_PAGE = 15;
+const ENRICH_LIMIT = 6;
 
 export async function GET(request: Request) {
   const { searchParams } = new URL(request.url);
   const query = searchParams.get("query")?.trim();
   const page = Number(searchParams.get("page") ?? "1");
+  const sort = searchParams.get("sort")?.trim() ?? "best";
+  const type = searchParams.get("type")?.trim() ?? "all";
+  const minFollowers = Number(searchParams.get("minFollowers") ?? "0");
 
   if (!query) {
     return NextResponse.json({ error: "Missing query parameter." }, { status: 400 });
   }
+
+  const safePage = Number.isFinite(page) && page > 0 ? Math.floor(page) : 1;
+  const safeMinFollowers = Number.isFinite(minFollowers) && minFollowers > 0
+    ? Math.floor(minFollowers)
+    : 0;
+
+  const qualifiers: string[] = [];
+
+  if (type === "user" || type === "org") {
+    qualifiers.push(`type:${type}`);
+  }
+
+  if (safeMinFollowers > 0) {
+    qualifiers.push(`followers:>=${safeMinFollowers}`);
+  }
+
+  const fullQuery = [query, ...qualifiers].join(" ").trim();
+
+  const sortParams =
+    sort === "followers"
+      ? "&sort=followers&order=desc"
+      : sort === "repositories"
+        ? "&sort=repositories&order=desc"
+        : "";
 
   const session = await auth();
   const accessToken = session?.accessToken;
@@ -22,7 +50,7 @@ export async function GET(request: Request) {
   }
 
   const response = await fetch(
-    `https://api.github.com/search/users?q=${encodeURIComponent(query)}&per_page=${PER_PAGE}&page=${page}`,
+    `https://api.github.com/search/users?q=${encodeURIComponent(fullQuery)}&per_page=${PER_PAGE}&page=${safePage}${sortParams}`,
     { headers }
   );
 
@@ -51,8 +79,19 @@ export async function GET(request: Request) {
     }>;
   };
 
+  const remainingHeader = response.headers.get("x-ratelimit-remaining");
+  const resetHeader = response.headers.get("x-ratelimit-reset");
+  const rateLimitRemaining = remainingHeader ? Number(remainingHeader) : null;
+  const rateLimitResetAt = resetHeader ? Number(resetHeader) : null;
+
+  const shouldEnrich = rateLimitRemaining === null || rateLimitRemaining > ENRICH_LIMIT * 2;
+
   const detailedItems = await Promise.all(
-    payload.items.map(async (item) => {
+    payload.items.map(async (item, index) => {
+      if (!shouldEnrich || index >= ENRICH_LIMIT) {
+        return item;
+      }
+
       try {
         const [userResponse, reposResponse] = await Promise.all([
           fetch(`https://api.github.com/users/${encodeURIComponent(item.login)}`, { headers }),
@@ -90,11 +129,25 @@ export async function GET(request: Request) {
     })
   );
 
+  const isPartial = !shouldEnrich || payload.items.length > ENRICH_LIMIT;
+
   return NextResponse.json({
     query,
-    page,
+    page: safePage,
     perPage: PER_PAGE,
     totalCount: payload.total_count,
     items: detailedItems,
+    enrichment: {
+      isPartial,
+      enrichedCount: shouldEnrich ? Math.min(payload.items.length, ENRICH_LIMIT) : 0,
+      totalItems: payload.items.length,
+      rateLimitRemaining,
+      rateLimitResetAt,
+    },
+    filters: {
+      sort,
+      type,
+      minFollowers: safeMinFollowers,
+    },
   });
 }

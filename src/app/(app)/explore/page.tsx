@@ -10,6 +10,18 @@ type SearchResponse = {
   perPage: number;
   totalCount: number;
   items: GitHubSearchUser[];
+  filters?: {
+    sort: string;
+    type: string;
+    minFollowers: number;
+  };
+  enrichment?: {
+    isPartial: boolean;
+    enrichedCount: number;
+    totalItems: number;
+    rateLimitRemaining: number | null;
+    rateLimitResetAt: number | null;
+  };
 };
 
 export default function ExplorePage() {
@@ -17,6 +29,9 @@ export default function ExplorePage() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [page, setPage] = useState(1);
+  const [sortBy, setSortBy] = useState("best");
+  const [accountType, setAccountType] = useState("all");
+  const [minFollowers, setMinFollowers] = useState("0");
   const [result, setResult] = useState<SearchResponse | null>(null);
 
   const totalPages = result ? Math.max(1, Math.ceil(result.totalCount / result.perPage)) : 1;
@@ -26,8 +41,16 @@ export default function ExplorePage() {
     setError(null);
 
     try {
+      const params = new URLSearchParams({
+        query: searchQuery,
+        page: String(nextPage),
+        sort: sortBy,
+        type: accountType,
+        minFollowers,
+      });
+
       const response = await fetch(
-        `/api/github/search?query=${encodeURIComponent(searchQuery)}&page=${nextPage}`,
+        `/api/github/search?${params.toString()}`,
         { method: "GET" }
       );
 
@@ -93,6 +116,7 @@ export default function ExplorePage() {
               value={query}
               onChange={(event) => setQuery(event.target.value)}
               placeholder="Search by GitHub username..."
+              aria-label="Search GitHub users"
               className="h-14 w-full rounded-lg border border-[#2a2f37] bg-[#0a0c0f] px-5 text-lg text-zinc-100 outline-none transition-colors placeholder:text-zinc-500 focus:border-amber-400"
             />
             <button
@@ -102,6 +126,50 @@ export default function ExplorePage() {
             >
               {loading ? "Searching..." : "Search"}
             </button>
+          </div>
+
+          <div className="mt-4 grid grid-cols-1 gap-3 md:grid-cols-3">
+            <label className="text-sm">
+              <span className="mb-1 block text-xs uppercase tracking-widest text-zinc-500">Sort</span>
+              <select
+                value={sortBy}
+                onChange={(event) => setSortBy(event.target.value)}
+                aria-label="Sort search results"
+                className="h-11 w-full rounded-lg border border-[#2a2f37] bg-[#0a0c0f] px-3 text-zinc-100 outline-none transition-colors focus:border-amber-400"
+              >
+                <option value="best">Best match</option>
+                <option value="followers">Most followers</option>
+                <option value="repositories">Most repositories</option>
+              </select>
+            </label>
+
+            <label className="text-sm">
+              <span className="mb-1 block text-xs uppercase tracking-widest text-zinc-500">Type</span>
+              <select
+                value={accountType}
+                onChange={(event) => setAccountType(event.target.value)}
+                aria-label="Filter account type"
+                className="h-11 w-full rounded-lg border border-[#2a2f37] bg-[#0a0c0f] px-3 text-zinc-100 outline-none transition-colors focus:border-amber-400"
+              >
+                <option value="all">All</option>
+                <option value="user">Users only</option>
+                <option value="org">Organizations only</option>
+              </select>
+            </label>
+
+            <label className="text-sm">
+              <span className="mb-1 block text-xs uppercase tracking-widest text-zinc-500">
+                Min followers
+              </span>
+              <input
+                type="number"
+                min={0}
+                value={minFollowers}
+                onChange={(event) => setMinFollowers(event.target.value)}
+                aria-label="Minimum followers"
+                className="h-11 w-full rounded-lg border border-[#2a2f37] bg-[#0a0c0f] px-3 text-zinc-100 outline-none transition-colors focus:border-amber-400"
+              />
+            </label>
           </div>
         </form>
 
@@ -123,6 +191,21 @@ export default function ExplorePage() {
                   <p className="mt-1 text-sm text-zinc-400">
                     Showing page {result.page} of {totalPages}, 15 at a time
                   </p>
+                  <p className="mt-1 text-xs text-zinc-500">
+                    Sort: {result.filters?.sort ?? sortBy} | Type: {result.filters?.type ?? accountType}
+                    {` | Min followers: ${result.filters?.minFollowers ?? Number(minFollowers || 0)}`}
+                  </p>
+                  {result.enrichment?.isPartial && (
+                    <p className="mt-2 text-xs text-amber-300">
+                      Showing full metrics for {result.enrichment.enrichedCount} of {result.enrichment.totalItems} results to keep search fast.
+                    </p>
+                  )}
+                  {typeof result.enrichment?.rateLimitRemaining === "number" &&
+                    result.enrichment.rateLimitRemaining < 20 && (
+                      <p className="mt-1 text-xs text-rose-300">
+                        GitHub rate limit is low ({result.enrichment.rateLimitRemaining} remaining). Some details may be limited temporarily.
+                      </p>
+                    )}
                 </div>
 
                 <div className="flex items-center gap-2 text-sm text-zinc-400">
@@ -130,6 +213,7 @@ export default function ExplorePage() {
                     type="button"
                     onClick={() => goToPage(Math.max(1, page - 1))}
                     disabled={loading || page <= 1}
+                    aria-label="Go to previous page"
                     className="rounded-lg border border-[#1e2229] bg-[#0a0c0f] px-3 py-2 font-semibold text-zinc-200 transition-colors hover:border-amber-400 hover:text-amber-300 disabled:cursor-not-allowed disabled:opacity-50"
                   >
                     Prev
@@ -141,6 +225,7 @@ export default function ExplorePage() {
                     type="button"
                     onClick={() => goToPage(Math.min(totalPages, page + 1))}
                     disabled={loading || page >= totalPages}
+                    aria-label="Go to next page"
                     className="rounded-lg border border-[#1e2229] bg-[#0a0c0f] px-3 py-2 font-semibold text-zinc-200 transition-colors hover:border-amber-400 hover:text-amber-300 disabled:cursor-not-allowed disabled:opacity-50"
                   >
                     Next

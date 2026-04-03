@@ -7,6 +7,7 @@ import {
   getRepos,
   getUser,
 } from "@/lib/github";
+import Link from "next/link";
 import ShareProfileButton from "./share-profile-button";
 
 function formatDate(isoString: string): string {
@@ -59,6 +60,7 @@ export default async function Home() {
   ]);
 
   const totalStars = repos.reduce((sum, repo) => sum + repo.stargazers_count, 0);
+  const mostStarredRepo = [...repos].sort((a, b) => b.stargazers_count - a.stargazers_count)[0];
 
   const languageEntries = Object.entries(languages)
     .map(([lang, bytes]) => ({ lang, bytes }))
@@ -68,6 +70,31 @@ export default async function Home() {
   const totalBytes = languageEntries.reduce((sum, { bytes }) => sum + bytes, 0);
 
   const pushEvents = events.filter((e) => e.type === "PushEvent").slice(0, 10);
+  const allPushEvents = events.filter((e) => e.type === "PushEvent");
+
+  const now = new Date();
+  const oneDayMs = 24 * 60 * 60 * 1000;
+  const sevenDaysAgo = new Date(now.getTime() - 7 * oneDayMs);
+  const fourteenDaysAgo = new Date(now.getTime() - 14 * oneDayMs);
+  const thirtyDaysAgo = new Date(now.getTime() - 30 * oneDayMs);
+
+  const pushesLast7Days = allPushEvents.filter(
+    (event) => new Date(event.created_at).getTime() >= sevenDaysAgo.getTime()
+  ).length;
+  const pushesPrev7Days = allPushEvents.filter((event) => {
+    const eventTime = new Date(event.created_at).getTime();
+    return eventTime >= fourteenDaysAgo.getTime() && eventTime < sevenDaysAgo.getTime();
+  }).length;
+
+  const pushDelta = pushesLast7Days - pushesPrev7Days;
+  const pushDeltaLabel =
+    pushDelta > 0 ? `+${pushDelta} vs previous 7d` : `${pushDelta} vs previous 7d`;
+
+  const activeReposLast30Days = new Set(
+    allPushEvents
+      .filter((event) => new Date(event.created_at).getTime() >= thirtyDaysAgo.getTime())
+      .map((event) => event.repo.name)
+  ).size;
 
   const contributionDays = contributionCalendar.weeks.flatMap((week) => week.contributionDays);
   const maxContributionCount = contributionDays.reduce(
@@ -118,6 +145,58 @@ export default async function Home() {
         <div className="rounded-xl border border-[#1e2229] bg-[#111318] p-4">
           <p className="text-xs font-semibold uppercase tracking-widest text-zinc-500">Total Stars</p>
           <p className="mt-2 text-3xl font-bold text-zinc-100">{totalStars}</p>
+        </div>
+      </div>
+
+      <div className="mb-8 grid grid-cols-1 gap-4 xl:grid-cols-3">
+        <div className="rounded-xl border border-[#1e2229] bg-[#111318] p-5">
+          <p className="text-xs font-semibold uppercase tracking-widest text-zinc-500">Push Trend</p>
+          <p className="mt-2 text-3xl font-bold text-zinc-100">{pushesLast7Days}</p>
+          <p className={`mt-1 text-sm ${pushDelta >= 0 ? "text-emerald-300" : "text-rose-300"}`}>
+            {pushDeltaLabel}
+          </p>
+        </div>
+
+        <div className="rounded-xl border border-[#1e2229] bg-[#111318] p-5">
+          <p className="text-xs font-semibold uppercase tracking-widest text-zinc-500">
+            Active Repositories
+          </p>
+          <p className="mt-2 text-3xl font-bold text-zinc-100">{activeReposLast30Days}</p>
+          <p className="mt-1 text-sm text-zinc-400">With at least one push in last 30 days</p>
+        </div>
+
+        <div className="rounded-xl border border-[#1e2229] bg-[#111318] p-5">
+          <p className="text-xs font-semibold uppercase tracking-widest text-zinc-500">Top Repository</p>
+          <p className="mt-2 truncate text-lg font-semibold text-zinc-100">
+            {mostStarredRepo?.name ?? "No repositories"}
+          </p>
+          <p className="mt-1 text-sm text-zinc-400">
+            {mostStarredRepo ? `${mostStarredRepo.stargazers_count} stars` : "Add repositories to see this insight"}
+          </p>
+        </div>
+      </div>
+
+      <div className="mb-8 rounded-xl border border-[#1e2229] bg-[#111318] p-5">
+        <p className="text-xs font-semibold uppercase tracking-widest text-zinc-500">Quick Actions</p>
+        <div className="mt-3 flex flex-wrap gap-2">
+          <Link
+            href="/activity"
+            className="rounded-lg border border-[#2a2f37] bg-[#0a0c0f] px-4 py-2 text-sm font-semibold text-zinc-200 transition-colors hover:border-amber-400 hover:text-amber-300"
+          >
+            Review Activity Feed
+          </Link>
+          <Link
+            href="/projects"
+            className="rounded-lg border border-[#2a2f37] bg-[#0a0c0f] px-4 py-2 text-sm font-semibold text-zinc-200 transition-colors hover:border-amber-400 hover:text-amber-300"
+          >
+            Open Project Index
+          </Link>
+          <Link
+            href="/languages"
+            className="rounded-lg border border-[#2a2f37] bg-[#0a0c0f] px-4 py-2 text-sm font-semibold text-zinc-200 transition-colors hover:border-amber-400 hover:text-amber-300"
+          >
+            Inspect Language Mix
+          </Link>
         </div>
       </div>
 

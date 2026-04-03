@@ -60,6 +60,7 @@ function NavSection({
             <li key={item.href}>
               <Link
                 href={item.href}
+                aria-current={active ? "page" : undefined}
                 className={[
                   "flex items-center gap-2.5 border-l-2 px-3 py-2 text-sm transition-colors",
                   active

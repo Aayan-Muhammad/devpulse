@@ -3,6 +3,12 @@ import { redirect } from "next/navigation";
 import { auth } from "@/auth";
 import { getRepos } from "@/lib/github";
 
+type ProjectsPageProps = {
+  searchParams?:
+    | Promise<Record<string, string | string[] | undefined>>
+    | Record<string, string | string[] | undefined>;
+};
+
 function formatUpdatedDate(isoString: string): string {
   return new Date(isoString).toLocaleDateString("en-US", {
     month: "short",
@@ -11,7 +17,17 @@ function formatUpdatedDate(isoString: string): string {
   });
 }
 
-export default async function ProjectsPage() {
+function getParam(
+  params: Record<string, string | string[] | undefined>,
+  key: string
+): string {
+  const value = params[key];
+  if (typeof value === "string") return value;
+  if (Array.isArray(value)) return value[0] ?? "";
+  return "";
+}
+
+export default async function ProjectsPage({ searchParams }: ProjectsPageProps) {
   const session = await auth();
 
   if (!session) {
@@ -25,9 +41,30 @@ export default async function ProjectsPage() {
   }
 
   const repos = await getRepos(username, session.accessToken);
-  const sortedRepos = [...repos].sort(
-    (a, b) => new Date(b.updated_at).getTime() - new Date(a.updated_at).getTime()
-  );
+  const resolvedSearchParams = searchParams ? await searchParams : {};
+  const queryFilter = getParam(resolvedSearchParams, "q").trim().toLowerCase();
+  const languageFilter = getParam(resolvedSearchParams, "language").trim();
+  const sortBy = getParam(resolvedSearchParams, "sort").trim() || "updated";
+
+  const languageOptions = Array.from(
+    new Set(repos.map((repo) => repo.language).filter((lang): lang is string => Boolean(lang)))
+  ).sort((a, b) => a.localeCompare(b));
+
+  const filteredRepos = repos.filter((repo) => {
+    const matchesQuery =
+      !queryFilter ||
+      repo.name.toLowerCase().includes(queryFilter) ||
+      (repo.description ?? "").toLowerCase().includes(queryFilter);
+    const matchesLanguage = !languageFilter || repo.language === languageFilter;
+    return matchesQuery && matchesLanguage;
+  });
+
+  const sortedRepos = [...filteredRepos].sort((a, b) => {
+    if (sortBy === "stars") return b.stargazers_count - a.stargazers_count;
+    if (sortBy === "forks") return b.forks_count - a.forks_count;
+    if (sortBy === "name") return a.name.localeCompare(b.name);
+    return new Date(b.updated_at).getTime() - new Date(a.updated_at).getTime();
+  });
 
   const totalStars = sortedRepos.reduce((sum, repo) => sum + repo.stargazers_count, 0);
   const totalForks = sortedRepos.reduce((sum, repo) => sum + repo.forks_count, 0);
@@ -56,13 +93,77 @@ export default async function ProjectsPage() {
               <p className="mt-1 text-2xl font-bold text-zinc-100">{totalForks}</p>
             </div>
           </div>
+
+          {(queryFilter || languageFilter) && (
+            <p className="mt-3 text-xs text-zinc-500">Filtered from {repos.length} total repositories</p>
+          )}
         </div>
+
+        <form method="GET" className="rounded-xl border border-[#1e2229] bg-[#111318] p-5">
+          <div className="grid grid-cols-1 gap-3 lg:grid-cols-[1.4fr_1fr_1fr_auto]">
+            <label className="text-sm">
+              <span className="mb-1 block text-xs uppercase tracking-widest text-zinc-500">Search</span>
+              <input
+                type="text"
+                name="q"
+                defaultValue={queryFilter}
+                placeholder="Project name or description"
+                className="h-11 w-full rounded-lg border border-[#2a2f37] bg-[#0a0c0f] px-3 text-zinc-100 outline-none transition-colors placeholder:text-zinc-500 focus:border-amber-400"
+              />
+            </label>
+
+            <label className="text-sm">
+              <span className="mb-1 block text-xs uppercase tracking-widest text-zinc-500">Language</span>
+              <select
+                name="language"
+                defaultValue={languageFilter}
+                className="h-11 w-full rounded-lg border border-[#2a2f37] bg-[#0a0c0f] px-3 text-zinc-100 outline-none transition-colors focus:border-amber-400"
+              >
+                <option value="">All languages</option>
+                {languageOptions.map((language) => (
+                  <option key={language} value={language}>
+                    {language}
+                  </option>
+                ))}
+              </select>
+            </label>
+
+            <label className="text-sm">
+              <span className="mb-1 block text-xs uppercase tracking-widest text-zinc-500">Sort by</span>
+              <select
+                name="sort"
+                defaultValue={sortBy}
+                className="h-11 w-full rounded-lg border border-[#2a2f37] bg-[#0a0c0f] px-3 text-zinc-100 outline-none transition-colors focus:border-amber-400"
+              >
+                <option value="updated">Recently updated</option>
+                <option value="stars">Most stars</option>
+                <option value="forks">Most forks</option>
+                <option value="name">Name (A-Z)</option>
+              </select>
+            </label>
+
+            <div className="flex items-end gap-2">
+              <button
+                type="submit"
+                className="h-11 rounded-lg bg-amber-400 px-4 text-sm font-semibold text-[#0d0f12] transition-colors hover:bg-amber-300"
+              >
+                Apply
+              </button>
+              <Link
+                href="/projects"
+                className="h-11 rounded-lg border border-[#2a2f37] px-4 py-2.5 text-sm font-semibold text-zinc-300 transition-colors hover:border-amber-400 hover:text-amber-300"
+              >
+                Reset
+              </Link>
+            </div>
+          </div>
+        </form>
 
         {sortedRepos.length === 0 ? (
           <div className="rounded-xl border border-[#1e2229] bg-[#111318] p-8 text-center">
-            <p className="text-lg font-semibold text-zinc-100">No projects found</p>
+            <p className="text-lg font-semibold text-zinc-100">No projects match these filters</p>
             <p className="mt-2 text-sm text-zinc-500">
-              We could not load repositories for this account at the moment.
+              Try changing search text, language, or sorting.
             </p>
           </div>
         ) : (
