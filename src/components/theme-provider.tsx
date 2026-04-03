@@ -39,7 +39,6 @@ const accentColorMap: Record<AccentColor, string> = {
 export function ThemeProvider({ children }: { children: React.ReactNode }) {
   const [theme, setThemeState] = useState<Theme>("dark");
   const [accentColor, setAccentColorState] = useState<AccentColor>("amber");
-  const [mounted, setMounted] = useState(false);
 
   // Hydrate from localStorage on mount
   useEffect(() => {
@@ -53,14 +52,10 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
     if (savedAccent && Object.keys(accentColorMap).includes(savedAccent)) {
       setAccentColorState(savedAccent);
     }
-
-    setMounted(true);
   }, []);
 
   // Apply theme and accent to document
   useEffect(() => {
-    if (!mounted) return;
-
     const root = document.documentElement;
 
     // Set theme class
@@ -77,7 +72,7 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
     // Save to localStorage
     localStorage.setItem(THEME_KEY, theme);
     localStorage.setItem(ACCENT_KEY, accentColor);
-  }, [theme, accentColor, mounted]);
+  }, [theme, accentColor]);
 
   const setTheme = (newTheme: Theme) => {
     setThemeState(newTheme);
@@ -86,10 +81,6 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
   const setAccentColor = (newColor: AccentColor) => {
     setAccentColorState(newColor);
   };
-
-  if (!mounted) {
-    return children;
-  }
 
   return (
     <ThemeContext.Provider value={{ theme, accentColor, setTheme, setAccentColor }}>
