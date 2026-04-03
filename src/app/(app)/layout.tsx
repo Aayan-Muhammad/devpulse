@@ -31,11 +31,11 @@ export default async function AppLayout({
   }
 
   return (
-    <div className="flex min-h-screen flex-col bg-[#0a0c0f] text-zinc-200">
+    <div className="flex min-h-screen flex-col bg-transparent text-zinc-200">
       <Topbar username={username} />
       <div className="flex min-h-0 flex-1 overflow-hidden">
         <Sidebar repos={repos} />
-        <main className="min-h-0 flex-1 overflow-y-auto bg-[#0d0f12]">{children}</main>
+        <main className="dp-grid-bg min-h-0 flex-1 overflow-y-auto bg-transparent">{children}</main>
       </div>
     </div>
   );

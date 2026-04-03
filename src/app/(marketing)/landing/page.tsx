@@ -21,16 +21,17 @@ const features = [
 
 export default function LandingPage() {
   return (
-    <div className="relative min-h-screen overflow-hidden bg-[#0d0f12] text-zinc-200">
-      <div className="dp-orb -left-24 top-16 h-72 w-72 rounded-full" style={{ backgroundColor: "var(--accent-color)" }} />
+    <div className="dp-grid-bg relative min-h-screen overflow-hidden bg-transparent text-zinc-200">
+      <div className="dp-hero-glow -left-24 top-16 h-72 w-72 rounded-full" style={{ backgroundColor: "var(--accent-color)" }} />
       <div
-        className="dp-orb dp-orb--slow -right-32 top-48 h-96 w-96 rounded-full"
+        className="dp-hero-glow dp-orb--slow -right-32 top-48 h-96 w-96 rounded-full"
         style={{ backgroundColor: "color-mix(in oklab, var(--accent-color), #06b6d4 35%)" }}
       />
-      <div className="absolute inset-0 dp-grid-bg opacity-30" />
+      <div className="absolute inset-0 bg-[radial-gradient(circle_at_top,rgba(255,255,255,0.03),transparent_35%)] opacity-80" />
+      <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(10,12,15,0)_0%,rgba(10,12,15,0.42)_100%)]" />
 
       <div className="relative mx-auto flex min-h-screen max-w-7xl flex-col px-6 py-5">
-        <header className="dp-reveal flex items-center justify-between border-b border-[#1e2229] pb-5">
+        <header className="dp-surface dp-reveal flex items-center justify-between rounded-2xl px-5 py-4">
           <Link
             href="/landing"
             className="font-mono text-lg font-semibold tracking-tight transition-colors"
@@ -41,7 +42,7 @@ export default function LandingPage() {
 
           <Link
             href="/login"
-            className="rounded-lg border border-[#2a2f37] bg-[#111318] px-4 py-2 text-sm font-semibold text-zinc-200 transition-all duration-200 hover:shadow-[0_4px_12px_rgba(251,191,36,0.15)]"
+            className="dp-control rounded-lg border border-[#2a2f37] bg-[#111318] px-4 py-2 text-sm font-semibold text-zinc-200 hover:shadow-[0_4px_12px_rgba(251,191,36,0.15)]"
             style={{ borderColor: "var(--accent-color)" }}
           >
             Sign in with GitHub
@@ -64,21 +65,21 @@ export default function LandingPage() {
             <div className="mt-8 flex flex-wrap justify-center gap-3">
               <Link
                 href="/login"
-                className="rounded-xl px-6 py-3 text-sm font-semibold text-[#0d0f12] transition-all duration-200 hover:-translate-y-0.5 hover:shadow-[0_4px_12px_rgba(251,191,36,0.3)]"
+                className="dp-control rounded-xl px-6 py-3 text-sm font-semibold text-[#0d0f12] hover:shadow-[0_4px_12px_rgba(251,191,36,0.3)]"
                 style={{ backgroundColor: "var(--accent-color)" }}
               >
                 Get started
               </Link>
               <Link
                 href="/demo"
-                className="rounded-xl border border-[#2a2f37] bg-[#111318]/90 px-6 py-3 text-sm font-semibold text-zinc-200 transition-all duration-200 hover:-translate-y-0.5 hover:shadow-[0_4px_12px_rgba(251,191,36,0.15)]"
+                className="dp-control rounded-xl border border-[#2a2f37] bg-[#111318]/90 px-6 py-3 text-sm font-semibold text-zinc-200 hover:shadow-[0_4px_12px_rgba(251,191,36,0.15)]"
                 style={{ borderColor: "var(--accent-color)" }}
               >
                 Open preview
               </Link>
               <Link
                 href="/u/torvalds"
-                className="rounded-xl border border-[#2a2f37] bg-[#111318]/90 px-6 py-3 text-sm font-semibold text-zinc-200 transition-all duration-200 hover:-translate-y-0.5 hover:shadow-[0_4px_12px_rgba(251,191,36,0.15)]"
+                className="dp-control rounded-xl border border-[#2a2f37] bg-[#111318]/90 px-6 py-3 text-sm font-semibold text-zinc-200 hover:shadow-[0_4px_12px_rgba(251,191,36,0.15)]"
                 style={{ borderColor: "var(--accent-color)" }}
               >
                 View a sample profile
@@ -93,11 +94,11 @@ export default function LandingPage() {
               return (
                 <article
                   key={feature.title}
-                  className="dp-reveal dp-card-lift rounded-2xl border border-[#1e2229] bg-[#111318]/95 p-6 shadow-[0_0_0_1px_rgba(255,255,255,0.02)]"
+                  className="dp-surface dp-reveal dp-card-lift rounded-2xl p-6 shadow-[0_0_0_1px_rgba(255,255,255,0.02)]"
                   style={{ animationDelay: `${180 + index * 80}ms` }}
                 >
                   <div
-                    className="mb-4 inline-flex h-12 w-12 items-center justify-center rounded-xl border border-[#2a2f37] bg-[#0a0c0f]"
+                    className="mb-4 inline-flex h-12 w-12 items-center justify-center rounded-xl border border-[#2a2f37] bg-[#0a0c0f] shadow-[0_0_30px_color-mix(in_oklab,var(--accent-color),transparent_70%)]"
                     style={{ color: "var(--accent-color)", borderColor: "var(--accent-color)" }}
                   >
                     <Icon className="h-5 w-5" />

@@ -71,15 +71,15 @@ export default async function SettingsPage() {
     .sort((a, b) => b.stars - a.stars);
 
   return (
-    <div className="min-h-screen bg-[#0d0f12] p-6 text-zinc-200">
+    <div className="dp-grid-bg min-h-screen bg-transparent p-6 text-zinc-200">
       <div className="mx-auto max-w-6xl space-y-6">
-        <header className="dp-reveal [animation-delay:40ms] rounded-xl border border-[#1e2229] bg-[#111318] p-6">
+        <header className="dp-surface dp-reveal [animation-delay:40ms] rounded-xl p-6">
           <p className="text-xs font-semibold uppercase tracking-widest text-zinc-500">Settings</p>
           <h1 className="mt-2 text-3xl font-semibold text-zinc-100">Account Preferences</h1>
           <p className="mt-1 text-sm text-zinc-400">Your GitHub profile details and DevPulse sharing options.</p>
         </header>
 
-        <section className="dp-reveal [animation-delay:80ms] rounded-xl border border-[#1e2229] bg-[#111318] p-6">
+        <section className="dp-surface dp-reveal [animation-delay:80ms] rounded-xl p-6">
           <div className="mb-5 flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
             <div>
               <h2 className="text-lg font-semibold text-zinc-100">Profile</h2>
@@ -89,14 +89,14 @@ export default async function SettingsPage() {
               href="https://github.com/settings/profile"
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex h-10 items-center justify-center rounded-lg border border-[#2a2f37] bg-amber-400 px-4 text-sm font-semibold text-[#0d0f12] transition-all duration-200 hover:bg-amber-300 hover:shadow-[0_4px_12px_rgba(251,191,36,0.3)]"
+              className="dp-control inline-flex h-10 items-center justify-center rounded-lg border border-[#2a2f37] bg-amber-400 px-4 text-sm font-semibold text-[#0d0f12] hover:bg-amber-300 hover:shadow-[0_4px_12px_rgba(251,191,36,0.3)]"
             >
               Edit on GitHub
             </a>
           </div>
 
           <div className="grid grid-cols-1 gap-4 lg:grid-cols-[auto_1fr]">
-            <div className="dp-card-lift rounded-xl border border-[#1e2229] bg-[#0a0c0f] p-5">
+            <div className="dp-surface dp-card-lift rounded-xl p-5">
               <div className="flex items-center gap-4 lg:flex-col lg:items-start">
                 <img
                   src={user.avatar_url}
@@ -124,7 +124,7 @@ export default async function SettingsPage() {
           </div>
         </section>
 
-        <section className="dp-reveal [animation-delay:120ms] rounded-xl border border-[#1e2229] bg-[#111318] p-6">
+        <section className="dp-surface dp-reveal [animation-delay:120ms] rounded-xl p-6">
           <div className="mb-5 flex items-center justify-between gap-3">
             <div>
               <h2 className="text-lg font-semibold text-zinc-100">Account</h2>
@@ -134,7 +134,7 @@ export default async function SettingsPage() {
               href={user.html_url}
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex h-10 items-center justify-center rounded-lg border border-[#2a2f37] bg-[#0a0c0f] px-4 text-sm font-semibold text-zinc-200 transition-all duration-200 hover:border-amber-400 hover:text-amber-300 hover:shadow-[0_4px_12px_rgba(251,191,36,0.15)]"
+              className="dp-control inline-flex h-10 items-center justify-center rounded-lg border border-[#2a2f37] bg-[#0a0c0f] px-4 text-sm font-semibold text-zinc-200 hover:border-amber-400 hover:text-amber-300 hover:shadow-[0_4px_12px_rgba(251,191,36,0.15)]"
             >
               View on GitHub
             </a>
@@ -147,13 +147,13 @@ export default async function SettingsPage() {
           </div>
         </section>
 
-        <section className="dp-reveal [animation-delay:160ms] rounded-xl border border-[#1e2229] bg-[#111318] p-6">
+        <section className="dp-surface dp-reveal [animation-delay:160ms] rounded-xl p-6">
           <div className="mb-5">
             <h2 className="text-lg font-semibold text-zinc-100">Share</h2>
             <p className="text-sm text-zinc-400">Share your public DevPulse profile with others.</p>
           </div>
 
-          <div className="dp-card-lift flex flex-col gap-4 rounded-xl border border-[#1e2229] bg-[#0a0c0f] p-4 md:flex-row md:items-center md:justify-between">
+          <div className="dp-surface dp-card-lift flex flex-col gap-4 rounded-xl p-4 md:flex-row md:items-center md:justify-between">
             <div>
               <p className="text-xs font-semibold uppercase tracking-widest text-zinc-500">
                 Public profile URL
@@ -170,7 +170,7 @@ export default async function SettingsPage() {
               <CopyProfileUrlButton value={profileUrl} />
               <Link
                 href={profileUrl}
-                className="inline-flex h-10 items-center justify-center rounded-lg border border-[#2a2f37] bg-[#111318] px-4 text-sm font-semibold text-zinc-200 transition-all duration-200 hover:border-amber-400 hover:text-amber-300 hover:shadow-[0_4px_12px_rgba(251,191,36,0.15)]"
+                className="dp-control inline-flex h-10 items-center justify-center rounded-lg border border-[#2a2f37] bg-[#111318] px-4 text-sm font-semibold text-zinc-200 hover:border-amber-400 hover:text-amber-300 hover:shadow-[0_4px_12px_rgba(251,191,36,0.15)]"
               >
                 Open profile
               </Link>
@@ -184,7 +184,7 @@ export default async function SettingsPage() {
 
         <DisplayPreferences />
 
-        <section className="dp-reveal [animation-delay:240ms] rounded-xl border border-[#1e2229] bg-[#111318] p-6">
+        <section className="dp-surface dp-reveal [animation-delay:240ms] rounded-xl p-6">
           <div className="mb-5 flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
             <div>
               <h2 className="text-lg font-semibold text-zinc-100">Diagnostics</h2>
@@ -200,7 +200,7 @@ export default async function SettingsPage() {
           />
         </section>
 
-        <section className="dp-reveal [animation-delay:280ms] rounded-xl border border-red-500/20 bg-[#111318] p-6">
+        <section className="dp-surface dp-reveal [animation-delay:280ms] rounded-xl border border-red-500/20 p-6">
           <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
             <div>
               <h2 className="text-lg font-semibold text-zinc-100">Danger Zone</h2>

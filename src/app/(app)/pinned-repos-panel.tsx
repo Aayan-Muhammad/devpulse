@@ -43,12 +43,12 @@ export function PinnedReposPanel({ repos }: PinnedReposPanelProps) {
   }, [repos, pinnedNames]);
 
   return (
-    <section className="dp-card-lift dp-reveal dp-reveal-delay-3 mb-8 rounded-xl border border-[#1e2229] bg-[#111318] p-5">
+    <section className="dp-surface dp-card-lift dp-reveal dp-reveal-delay-3 mb-8 rounded-xl p-5">
       <div className="mb-3 flex items-center justify-between gap-3">
         <p className="text-xs font-semibold uppercase tracking-widest text-zinc-500">Pinned repositories</p>
         <Link
           href="/settings"
-          className="text-xs font-semibold text-zinc-400 transition-colors hover:text-amber-300"
+          className="dp-control text-xs font-semibold text-zinc-400 hover:text-amber-300"
         >
           Manage in settings
         </Link>
@@ -62,7 +62,7 @@ export function PinnedReposPanel({ repos }: PinnedReposPanelProps) {
               href={repo.htmlUrl}
               target="_blank"
               rel="noopener noreferrer"
-              className="rounded-lg border border-[#1e2229] bg-[#0a0c0f] px-4 py-3 text-sm transition-all duration-200 hover:shadow-[0_4px_12px_rgba(251,191,36,0.15)]"
+              className="dp-surface dp-control rounded-lg px-4 py-3 text-sm hover:shadow-[0_4px_12px_rgba(251,191,36,0.15)]"
             >
               <p className="truncate font-semibold text-zinc-100">{repo.name}</p>
               <p className="mt-1 text-xs text-zinc-500">★ {repo.stars}</p>
@@ -70,7 +70,7 @@ export function PinnedReposPanel({ repos }: PinnedReposPanelProps) {
           ))}
         </div>
       ) : (
-        <div className="rounded-lg border border-[#1e2229] bg-[#0a0c0f] p-4 text-sm text-zinc-400">
+        <div className="dp-surface rounded-lg p-4 text-sm text-zinc-400">
           No pinned repositories yet. Pick a few in Settings to keep them here.
         </div>
       )}

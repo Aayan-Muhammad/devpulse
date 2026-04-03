@@ -4,8 +4,8 @@ import { Toaster } from "sonner";
 import { ThemeProvider, useTheme } from "@/components/theme-provider";
 
 function ThemedToaster() {
-  const { theme } = useTheme();
-  const toasterTheme = theme === "light" ? "light" : "dark";
+  const { resolvedTheme } = useTheme();
+  const toasterTheme = resolvedTheme === "light" ? "light" : "dark";
 
   return (
     <Toaster

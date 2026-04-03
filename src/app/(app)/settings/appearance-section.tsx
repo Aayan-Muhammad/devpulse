@@ -5,7 +5,7 @@ import { AccentColorPicker } from "@/components/accent-color-picker";
 
 export function AppearanceSection() {
   return (
-    <section className="dp-reveal [animation-delay:200ms] rounded-xl border border-[#1e2229] bg-[#111318] p-6">
+    <section className="dp-surface dp-reveal [animation-delay:200ms] rounded-xl p-6">
       <div className="mb-5">
         <h2 className="text-lg font-semibold text-zinc-100">Appearance</h2>
         <p className="mt-1 text-sm text-zinc-400">Customize your DevPulse experience.</p>

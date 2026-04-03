@@ -47,9 +47,9 @@ export default async function ProjectsPage({ searchParams }: ProjectsPageProps) 
     repos = await getRepos(username, session.accessToken);
   } catch {
     return (
-      <div className="min-h-screen bg-[#0d0f12] p-6 text-zinc-200">
+      <div className="dp-grid-bg min-h-screen bg-transparent p-6 text-zinc-200">
         <div className="mx-auto max-w-4xl">
-          <div className="dp-card-lift dp-reveal rounded-xl border border-[#1e2229] bg-[#111318] p-8">
+          <div className="dp-surface dp-card-lift dp-reveal rounded-xl p-8">
             <div className="mb-4 inline-flex h-12 w-12 items-center justify-center rounded-xl border border-[#2a2f37] bg-[#0a0c0f] text-amber-300">
               <AlertTriangle className="h-5 w-5" />
             </div>
@@ -61,14 +61,14 @@ export default async function ProjectsPage({ searchParams }: ProjectsPageProps) 
             <div className="mt-6 flex flex-wrap gap-3">
               <a
                 href="/projects"
-                className="rounded-lg px-4 py-2 text-sm font-semibold text-[#0d0f12] transition-all duration-200 hover:shadow-[0_4px_12px_rgba(251,191,36,0.3)]"
+                className="dp-control rounded-lg px-4 py-2 text-sm font-semibold text-[#0d0f12] hover:shadow-[0_4px_12px_rgba(251,191,36,0.3)]"
                 style={{ backgroundColor: "var(--accent-color)" }}
               >
                 Try again
               </a>
               <Link
                 href="/repos"
-                className="rounded-lg border border-[#2a2f37] bg-[#0a0c0f] px-4 py-2 text-sm font-semibold text-zinc-200 transition-all duration-200 hover:shadow-[0_4px_12px_rgba(251,191,36,0.15)]"
+                className="dp-control rounded-lg border border-[#2a2f37] bg-[#0a0c0f] px-4 py-2 text-sm font-semibold text-zinc-200 hover:shadow-[0_4px_12px_rgba(251,191,36,0.15)]"
                 style={{ borderColor: "var(--accent-color)" }}
               >
                 Go to repositories
@@ -109,9 +109,9 @@ export default async function ProjectsPage({ searchParams }: ProjectsPageProps) 
   const totalForks = sortedRepos.reduce((sum, repo) => sum + repo.forks_count, 0);
 
   return (
-    <div className="min-h-screen bg-[#0d0f12] p-6 text-zinc-200">
+    <div className="dp-grid-bg min-h-screen bg-transparent p-6 text-zinc-200">
       <div className="mx-auto max-w-7xl space-y-6">
-        <div className="dp-reveal [animation-delay:40ms] rounded-xl border border-[#1e2229] bg-[#111318] p-6">
+        <div className="dp-surface dp-reveal [animation-delay:40ms] rounded-xl p-6">
           <p className="text-xs font-semibold uppercase tracking-widest text-zinc-500">Projects</p>
           <h1 className="mt-2 text-3xl font-semibold text-zinc-100">Repository Index</h1>
           <p className="mt-2 text-sm text-zinc-400">
@@ -119,15 +119,15 @@ export default async function ProjectsPage({ searchParams }: ProjectsPageProps) 
           </p>
 
           <div className="mt-5 grid grid-cols-1 gap-3 sm:grid-cols-3">
-            <div className="rounded-lg border border-[#1e2229] bg-[#0a0c0f] p-4">
+            <div className="dp-surface rounded-lg p-4">
               <p className="text-xs uppercase tracking-widest text-zinc-500">Total Projects</p>
               <p className="mt-1 text-2xl font-bold text-zinc-100">{sortedRepos.length}</p>
             </div>
-            <div className="rounded-lg border border-[#1e2229] bg-[#0a0c0f] p-4">
+            <div className="dp-surface rounded-lg p-4">
               <p className="text-xs uppercase tracking-widest text-zinc-500">Total Stars</p>
               <p className="mt-1 text-2xl font-bold text-zinc-100">{totalStars}</p>
             </div>
-            <div className="rounded-lg border border-[#1e2229] bg-[#0a0c0f] p-4">
+            <div className="dp-surface rounded-lg p-4">
               <p className="text-xs uppercase tracking-widest text-zinc-500">Total Forks</p>
               <p className="mt-1 text-2xl font-bold text-zinc-100">{totalForks}</p>
             </div>
@@ -138,10 +138,7 @@ export default async function ProjectsPage({ searchParams }: ProjectsPageProps) 
           )}
         </div>
 
-        <form
-          method="GET"
-          className="dp-reveal [animation-delay:80ms] rounded-xl border border-[#1e2229] bg-[#111318] p-5"
-        >
+        <form method="GET" className="dp-surface dp-reveal [animation-delay:80ms] rounded-xl p-5">
           <div className="grid grid-cols-1 gap-3 lg:grid-cols-[1.4fr_1fr_1fr_auto]">
             <label className="text-sm">
               <span className="mb-1 block text-xs uppercase tracking-widest text-zinc-500">Search</span>
@@ -150,7 +147,7 @@ export default async function ProjectsPage({ searchParams }: ProjectsPageProps) 
                 name="q"
                 defaultValue={queryFilter}
                 placeholder="Project name or description"
-                className="h-11 w-full rounded-lg border border-[#2a2f37] bg-[#0a0c0f] px-3 text-zinc-100 outline-none transition-colors placeholder:text-zinc-500 focus:border-amber-400"
+                className="dp-control h-11 w-full rounded-lg border border-[#2a2f37] bg-[#0a0c0f] px-3 text-zinc-100 outline-none placeholder:text-zinc-500 focus:border-amber-400"
               />
             </label>
 
@@ -159,7 +156,7 @@ export default async function ProjectsPage({ searchParams }: ProjectsPageProps) 
               <select
                 name="language"
                 defaultValue={languageFilter}
-                className="h-11 w-full rounded-lg border border-[#2a2f37] bg-[#0a0c0f] px-3 text-zinc-100 outline-none transition-colors focus:border-amber-400"
+                className="dp-control h-11 w-full rounded-lg border border-[#2a2f37] bg-[#0a0c0f] px-3 text-zinc-100 outline-none focus:border-amber-400"
               >
                 <option value="">All languages</option>
                 {languageOptions.map((language) => (
@@ -175,7 +172,7 @@ export default async function ProjectsPage({ searchParams }: ProjectsPageProps) 
               <select
                 name="sort"
                 defaultValue={sortBy}
-                className="h-11 w-full rounded-lg border border-[#2a2f37] bg-[#0a0c0f] px-3 text-zinc-100 outline-none transition-colors focus:border-amber-400"
+                className="dp-control h-11 w-full rounded-lg border border-[#2a2f37] bg-[#0a0c0f] px-3 text-zinc-100 outline-none focus:border-amber-400"
               >
                 <option value="updated">Recently updated</option>
                 <option value="stars">Most stars</option>
@@ -187,14 +184,14 @@ export default async function ProjectsPage({ searchParams }: ProjectsPageProps) 
             <div className="flex items-end gap-2">
               <button
                 type="submit"
-                className="h-11 rounded-lg px-4 text-sm font-semibold text-[#0d0f12] transition-all duration-200 hover:shadow-[0_4px_12px_rgba(251,191,36,0.3)]"
+                className="dp-control h-11 rounded-lg px-4 text-sm font-semibold text-[#0d0f12] hover:shadow-[0_4px_12px_rgba(251,191,36,0.3)]"
                 style={{ backgroundColor: "var(--accent-color)" }}
               >
                 Apply
               </button>
               <Link
                 href="/projects"
-                className="h-11 rounded-lg border border-[#2a2f37] px-4 py-2.5 text-sm font-semibold text-zinc-300 transition-all duration-200 hover:border-amber-400 hover:text-amber-300 hover:shadow-[0_4px_12px_rgba(251,191,36,0.15)]"
+                className="dp-control h-11 rounded-lg border border-[#2a2f37] px-4 py-2.5 text-sm font-semibold text-zinc-300 hover:border-amber-400 hover:text-amber-300 hover:shadow-[0_4px_12px_rgba(251,191,36,0.15)]"
               >
                 Reset
               </Link>
@@ -203,7 +200,7 @@ export default async function ProjectsPage({ searchParams }: ProjectsPageProps) 
         </form>
 
         {sortedRepos.length === 0 ? (
-          <div className="dp-reveal [animation-delay:120ms] rounded-xl border border-[#1e2229] bg-[#111318] p-8 text-center">
+          <div className="dp-surface dp-reveal [animation-delay:120ms] rounded-xl p-8 text-center">
             <p className="text-lg font-semibold text-zinc-100">No projects match these filters</p>
             <p className="mt-2 text-sm text-zinc-500">
               Try changing search text, language, or sorting.
@@ -211,14 +208,14 @@ export default async function ProjectsPage({ searchParams }: ProjectsPageProps) 
             <div className="mt-4 flex flex-wrap justify-center gap-2">
               <Link
                 href="/projects"
-                className="rounded-lg border border-[#2a2f37] bg-[#0a0c0f] px-3 py-2 text-xs font-semibold text-zinc-300 transition-all duration-200 hover:shadow-[0_4px_12px_rgba(251,191,36,0.15)]"
+                className="dp-control rounded-lg border border-[#2a2f37] bg-[#0a0c0f] px-3 py-2 text-xs font-semibold text-zinc-300 hover:shadow-[0_4px_12px_rgba(251,191,36,0.15)]"
                 style={{ borderColor: "var(--accent-color)" }}
               >
                 Reset filters
               </Link>
               <Link
                 href="/explore"
-                className="rounded-lg border border-[#2a2f37] bg-[#0a0c0f] px-3 py-2 text-xs font-semibold text-zinc-300 transition-all duration-200 hover:shadow-[0_4px_12px_rgba(251,191,36,0.15)]"
+                className="dp-control rounded-lg border border-[#2a2f37] bg-[#0a0c0f] px-3 py-2 text-xs font-semibold text-zinc-300 hover:shadow-[0_4px_12px_rgba(251,191,36,0.15)]"
                 style={{ borderColor: "var(--accent-color)" }}
               >
                 Explore developers
@@ -228,11 +225,7 @@ export default async function ProjectsPage({ searchParams }: ProjectsPageProps) 
         ) : (
           <div className="space-y-3">
             {sortedRepos.map((repo, index) => (
-              <article
-                key={repo.id}
-                className="dp-reveal dp-card-lift rounded-xl border border-[#1e2229] bg-[#111318] p-5 transition-colors hover:border-[#2f353f]"
-                style={{ animationDelay: `${120 + index * 28}ms` }}
-              >
+              <article key={repo.id} className="dp-surface dp-reveal dp-card-lift rounded-xl p-5" style={{ animationDelay: `${120 + index * 28}ms` }}>
                 <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
                   <div className="min-w-0">
                     <h2 className="truncate text-lg font-semibold text-zinc-100">{repo.name}</h2>
@@ -250,7 +243,7 @@ export default async function ProjectsPage({ searchParams }: ProjectsPageProps) 
                   <div className="flex items-center gap-2">
                     <Link
                       href={`/projects/${encodeURIComponent(repo.name)}`}
-                      className="rounded-lg border border-[#1e2229] bg-[#0a0c0f] px-4 py-2 text-sm font-semibold text-zinc-200 transition-all duration-200 hover:shadow-[0_4px_12px_rgba(251,191,36,0.15)]"
+                      className="dp-control rounded-lg border border-[#1e2229] bg-[#0a0c0f] px-4 py-2 text-sm font-semibold text-zinc-200 hover:shadow-[0_4px_12px_rgba(251,191,36,0.15)]"
                       style={{ borderColor: "var(--accent-color)" }}
                     >
                       View details
@@ -259,7 +252,7 @@ export default async function ProjectsPage({ searchParams }: ProjectsPageProps) 
                       href={repo.html_url}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="rounded-lg border border-[#1e2229] px-4 py-2 text-sm font-semibold transition-all duration-200 hover:shadow-[0_4px_12px_rgba(251,191,36,0.15)]"
+                      className="dp-control rounded-lg border border-[#1e2229] px-4 py-2 text-sm font-semibold hover:shadow-[0_4px_12px_rgba(251,191,36,0.15)]"
                       style={{ borderColor: "var(--accent-color)", color: "var(--accent-color)" }}
                     >
                       GitHub

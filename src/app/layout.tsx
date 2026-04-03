@@ -12,11 +12,15 @@ const themeBootScript = `
   try {
     const savedTheme = localStorage.getItem("devpulse-theme");
     const savedAccent = localStorage.getItem("devpulse-accent");
+    const systemTheme = window.matchMedia("(prefers-color-scheme: light)").matches ? "light" : "dark";
     const root = document.documentElement;
+    const effectiveTheme = savedTheme === "light" || savedTheme === "high-contrast" ? savedTheme : savedTheme === "system" ? systemTheme : "dark";
 
     root.classList.remove("light", "high-contrast");
-    if (savedTheme === "light") root.classList.add("light");
-    if (savedTheme === "high-contrast") root.classList.add("high-contrast");
+    if (effectiveTheme === "light") root.classList.add("light");
+    if (effectiveTheme === "high-contrast") root.classList.add("high-contrast");
+    root.dataset.theme = effectiveTheme;
+    root.dataset.themePreference = savedTheme || "dark";
 
     const accentMap = {
       amber: "#fbbf24",
@@ -46,8 +50,16 @@ export default async function RootLayout({
       <head>
         <script dangerouslySetInnerHTML={{ __html: themeBootScript }} />
       </head>
-      <body className="min-h-screen bg-[#0a0c0f] text-zinc-200">
-        <Providers>{children}</Providers>
+      <body className="min-h-screen bg-[#0a0c0f] text-zinc-200 antialiased">
+        <div className="dp-app-shell min-h-screen">
+          <div className="dp-app-shell__ambient" aria-hidden="true">
+            <span className="dp-orb dp-orb--slow dp-app-shell__orb dp-app-shell__orb--one" />
+            <span className="dp-orb dp-app-shell__orb dp-app-shell__orb--two" />
+            <span className="dp-app-shell__texture" />
+            <span className="dp-app-shell__vignette" />
+          </div>
+          <Providers>{children}</Providers>
+        </div>
       </body>
     </html>
   );

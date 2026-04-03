@@ -62,10 +62,10 @@ function NavSection({
                 href={item.href}
                 aria-current={active ? "page" : undefined}
                 className={[
-                  "flex items-center gap-2.5 border-l-2 px-3 py-2 text-sm transition-all duration-200",
+                  "dp-control flex items-center gap-2.5 border-l-2 px-3 py-2 text-sm",
                   active
                     ? "border-amber-400 bg-[#11151b] text-zinc-100"
-                    : "border-transparent text-zinc-400 hover:translate-x-1 hover:bg-[#0f1318] hover:text-zinc-200",
+                    : "border-transparent text-zinc-400 hover:bg-[#0f1318] hover:text-zinc-200",
                 ].join(" ")}
               >
                 <Icon className="h-4 w-4" />
@@ -89,13 +89,13 @@ export function Sidebar({ repos = [] }: SidebarProps) {
 
   return (
     <aside
-      className="flex h-screen w-[220px] shrink-0 flex-col border-r border-[#1e2229] bg-[#0a0c0f] text-zinc-200"
+      className="dp-surface dp-panel-divider flex h-screen w-[220px] shrink-0 flex-col border-r text-zinc-200"
       style={{
         fontFamily:
           '"JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace',
       }}
     >
-      <div className="border-b border-[#1e2229] px-4 py-5">
+      <div className="border-b border-[color-mix(in_oklab,var(--border),var(--accent-color)_10%)] px-4 py-5">
         <div className="flex items-center gap-2">
           <span className="text-base font-semibold tracking-tight" style={{ color: "var(--accent-color)" }}>
             devpulse

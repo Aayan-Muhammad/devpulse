@@ -121,14 +121,87 @@
   * {
     @apply border-border outline-ring/50;
   }
+  html {
+    color-scheme: dark;
+    background:
+      radial-gradient(circle at top left, color-mix(in oklab, var(--accent-color), transparent 82%) 0%, transparent 32%),
+      radial-gradient(circle at 85% 15%, rgba(59, 130, 246, 0.12) 0%, transparent 26%),
+      linear-gradient(180deg, #0a0c0f 0%, #090b0e 100%);
+  }
+  html.light {
+    color-scheme: light;
+    background:
+      radial-gradient(circle at top left, color-mix(in oklab, var(--accent-color), transparent 86%) 0%, transparent 30%),
+      radial-gradient(circle at 85% 15%, rgba(59, 130, 246, 0.08) 0%, transparent 24%),
+      linear-gradient(180deg, #f7f8fb 0%, #eef2f7 100%);
+  }
+  html.high-contrast {
+    color-scheme: dark;
+    background: #000000;
+  }
   body {
-    @apply bg-background text-foreground;
+    @apply bg-transparent text-foreground;
+    min-height: 100vh;
   }
   html {
     @apply font-sans;
   }
 }
 @layer components {
+  .dp-app-shell {
+    position: relative;
+    isolation: isolate;
+  }
+
+  .dp-app-shell__ambient {
+    position: fixed;
+    inset: 0;
+    overflow: hidden;
+    pointer-events: none;
+    z-index: -1;
+  }
+
+  .dp-app-shell__orb {
+    left: auto;
+    right: auto;
+    top: auto;
+    bottom: auto;
+    border-radius: 9999px;
+  }
+
+  .dp-app-shell__orb--one {
+    top: -6rem;
+    left: -5rem;
+    width: 20rem;
+    height: 20rem;
+    background: color-mix(in oklab, var(--accent-color), transparent 72%);
+  }
+
+  .dp-app-shell__orb--two {
+    right: -7rem;
+    top: 18vh;
+    width: 24rem;
+    height: 24rem;
+    background: rgba(59, 130, 246, 0.18);
+  }
+
+  .dp-app-shell__texture {
+    position: absolute;
+    inset: 0;
+    opacity: 0.22;
+    background-image:
+      linear-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+    background-size: 48px 48px;
+    mask-image: linear-gradient(180deg, rgba(0, 0, 0, 0.9), transparent 80%);
+  }
+
+  .dp-app-shell__vignette {
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(circle at center, transparent 35%, rgba(0, 0, 0, 0.38) 100%);
+  }
+
   .dp-muted {
     color: #9ca3af;
   }
@@ -168,6 +241,23 @@
     background-image: linear-gradient(to right, rgba(148, 163, 184, 0.08) 1px, transparent 1px),
       linear-gradient(to bottom, rgba(148, 163, 184, 0.08) 1px, transparent 1px);
     background-size: 28px 28px;
+  }
+
+  .dp-surface {
+    background:
+      linear-gradient(180deg, color-mix(in oklab, var(--background), white 2%) 0%, var(--background) 100%),
+      color-mix(in oklab, var(--background), var(--accent-color) 3%);
+    border: 1px solid color-mix(in oklab, var(--border), var(--accent-color) 10%);
+    box-shadow:
+      0 1px 0 rgba(255, 255, 255, 0.02) inset,
+      0 20px 60px rgba(0, 0, 0, 0.18);
+    backdrop-filter: blur(14px);
+  }
+
+  .dp-surface--warm {
+    background:
+      linear-gradient(180deg, color-mix(in oklab, var(--background), white 3%) 0%, var(--background) 100%),
+      color-mix(in oklab, var(--background), var(--accent-color) 5%);
   }
 }
 
@@ -224,6 +314,44 @@
   .dp-card-lift:hover {
     transform: translateY(-2px);
     box-shadow: 0 10px 28px rgba(0, 0, 0, 0.22);
+  }
+
+  .dp-control {
+    transition:
+      transform 180ms ease,
+      border-color 180ms ease,
+      background-color 180ms ease,
+      box-shadow 180ms ease,
+      color 180ms ease;
+  }
+
+  .dp-control:hover {
+    transform: translateY(-1px);
+  }
+
+  .dp-control:active {
+    transform: translateY(0);
+  }
+
+  .dp-press {
+    transition: transform 140ms ease, box-shadow 140ms ease;
+  }
+
+  .dp-press:active {
+    transform: translateY(1px) scale(0.99);
+  }
+
+  .dp-hero-glow {
+    position: absolute;
+    inset: auto;
+    border-radius: 9999px;
+    filter: blur(56px);
+    pointer-events: none;
+    opacity: 0.4;
+  }
+
+  .dp-panel-divider {
+    border-color: color-mix(in oklab, var(--border), var(--accent-color) 12%);
   }
 }
 

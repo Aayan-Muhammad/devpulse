@@ -54,7 +54,7 @@ export function Topbar({ username }: TopbarProps) {
 
   return (
     <nav
-      className="flex items-center justify-between w-full h-[57px] px-6 bg-[#0a0c0f] border-b border-[#1e2229] text-zinc-200"
+      className="dp-surface dp-panel-divider flex h-[57px] w-full items-center justify-between border-b px-6 text-zinc-200"
       style={{
         fontFamily:
           '"JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace',
@@ -77,10 +77,10 @@ export function Topbar({ username }: TopbarProps) {
               href={item.href}
               aria-current={active ? "page" : undefined}
               className={[
-                "px-3 py-1.5 text-sm transition-all duration-200",
+                "dp-control rounded-full px-3 py-1.5 text-sm",
                 active
                   ? "text-amber-400"
-                  : "text-zinc-400 hover:-translate-y-0.5 hover:text-zinc-200",
+                  : "text-zinc-400 hover:text-zinc-200",
               ].join(" ")}
             >
               {item.label}
@@ -93,7 +93,7 @@ export function Topbar({ username }: TopbarProps) {
         <button
           type="button"
           onClick={handleSignOut}
-          className="rounded-md border border-[#2a2f37] px-3 py-1.5 text-xs font-semibold text-zinc-300 transition-all duration-200 hover:shadow-[0_4px_12px_rgba(251,191,36,0.15)]"
+          className="dp-control rounded-md border border-[#2a2f37] px-3 py-1.5 text-xs font-semibold text-zinc-300 hover:shadow-[0_4px_12px_rgba(251,191,36,0.15)]"
           style={{ borderColor: "var(--accent-color)" }}
         >
           Sign out

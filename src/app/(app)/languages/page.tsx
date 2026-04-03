@@ -70,9 +70,9 @@ export default async function LanguagesPage() {
     languageStats = await getLanguageStats(username, session.accessToken);
   } catch {
     return (
-      <div className="min-h-screen bg-[#0d0f12] p-6 text-zinc-200">
+      <div className="dp-grid-bg min-h-screen bg-transparent p-6 text-zinc-200">
         <div className="mx-auto max-w-4xl">
-          <div className="dp-card-lift dp-reveal rounded-xl border border-[#1e2229] bg-[#111318] p-8">
+          <div className="dp-surface dp-card-lift dp-reveal rounded-xl p-8">
             <div className="mb-4 inline-flex h-12 w-12 items-center justify-center rounded-xl border border-[#2a2f37] bg-[#0a0c0f] text-amber-300">
               <AlertTriangle className="h-5 w-5" />
             </div>
@@ -84,14 +84,14 @@ export default async function LanguagesPage() {
             <div className="mt-6 flex flex-wrap gap-3">
               <a
                 href="/languages"
-                className="rounded-lg px-4 py-2 text-sm font-semibold text-[#0d0f12] transition-all duration-200 hover:shadow-[0_4px_12px_rgba(251,191,36,0.3)]"
+                className="dp-control rounded-lg px-4 py-2 text-sm font-semibold text-[#0d0f12] hover:shadow-[0_4px_12px_rgba(251,191,36,0.3)]"
                 style={{ backgroundColor: "var(--accent-color)" }}
               >
                 Try again
               </a>
               <Link
                 href="/repos"
-                className="rounded-lg border border-[#2a2f37] bg-[#0a0c0f] px-4 py-2 text-sm font-semibold text-zinc-200 transition-all duration-200 hover:shadow-[0_4px_12px_rgba(251,191,36,0.15)]"
+                className="dp-control rounded-lg border border-[#2a2f37] bg-[#0a0c0f] px-4 py-2 text-sm font-semibold text-zinc-200 hover:shadow-[0_4px_12px_rgba(251,191,36,0.15)]"
                 style={{ borderColor: "var(--accent-color)" }}
               >
                 Go to repositories
@@ -116,9 +116,9 @@ export default async function LanguagesPage() {
   const topLanguage = entries[0] ?? null;
 
   return (
-    <div className="min-h-screen bg-[#0d0f12] p-6 text-zinc-200">
+    <div className="dp-grid-bg min-h-screen bg-transparent p-6 text-zinc-200">
       <div className="mx-auto max-w-7xl">
-        <div className="dp-card-lift dp-reveal mb-6 rounded-xl border border-[#1e2229] bg-[#111318] p-6">
+        <div className="dp-surface dp-card-lift dp-reveal mb-6 rounded-xl p-6">
           <div className="flex flex-col gap-4 lg:flex-row lg:items-end lg:justify-between">
             <div>
               <p className="text-xs font-semibold uppercase tracking-widest text-zinc-500">
@@ -131,7 +131,7 @@ export default async function LanguagesPage() {
             </div>
 
             {topLanguage ? (
-              <div className="dp-card-lift dp-reveal dp-reveal-delay-1 rounded-lg border border-[#2a2f37] bg-[#0a0c0f] px-5 py-4 text-right">
+              <div className="dp-surface dp-card-lift dp-reveal dp-reveal-delay-1 rounded-lg px-5 py-4 text-right">
                 <p className="text-xs uppercase tracking-widest text-zinc-500">Top Language</p>
                 <p className="mt-1 text-2xl font-bold" style={{ color: "var(--accent-color)" }}>
                   {topLanguage.name}
@@ -145,7 +145,7 @@ export default async function LanguagesPage() {
         </div>
 
         {entries.length === 0 ? (
-          <div className="dp-card-lift dp-reveal dp-reveal-delay-1 rounded-xl border border-[#1e2229] bg-[#111318] p-8 text-center">
+          <div className="dp-surface dp-card-lift dp-reveal dp-reveal-delay-1 rounded-xl p-8 text-center">
             <p className="text-lg font-semibold text-zinc-200">No language data available</p>
             <p className="mt-2 text-sm text-zinc-500">
               We could not calculate language stats for this account right now.
@@ -153,14 +153,14 @@ export default async function LanguagesPage() {
             <div className="mt-4 flex flex-wrap justify-center gap-2">
               <Link
                 href="/repos"
-                className="rounded-lg border border-[#2a2f37] bg-[#0a0c0f] px-3 py-2 text-xs font-semibold text-zinc-300 transition-all duration-200 hover:shadow-[0_4px_12px_rgba(251,191,36,0.15)]"
+                className="dp-control rounded-lg border border-[#2a2f37] bg-[#0a0c0f] px-3 py-2 text-xs font-semibold text-zinc-300 hover:shadow-[0_4px_12px_rgba(251,191,36,0.15)]"
                 style={{ borderColor: "var(--accent-color)" }}
               >
                 Review repositories
               </Link>
               <a
                 href="/languages"
-                className="rounded-lg border border-[#2a2f37] bg-[#0a0c0f] px-3 py-2 text-xs font-semibold text-zinc-300 transition-all duration-200 hover:shadow-[0_4px_12px_rgba(251,191,36,0.15)]"
+                className="dp-control rounded-lg border border-[#2a2f37] bg-[#0a0c0f] px-3 py-2 text-xs font-semibold text-zinc-300 hover:shadow-[0_4px_12px_rgba(251,191,36,0.15)]"
                 style={{ borderColor: "var(--accent-color)" }}
               >
                 Try again
@@ -169,7 +169,7 @@ export default async function LanguagesPage() {
           </div>
         ) : (
           <>
-            <section className="dp-card-lift dp-reveal dp-reveal-delay-1 mb-6 rounded-xl border border-[#1e2229] bg-[#111318] p-6">
+            <section className="dp-surface dp-card-lift dp-reveal dp-reveal-delay-1 mb-6 rounded-xl p-6">
               <h2 className="mb-4 text-lg font-semibold text-zinc-100">Usage Distribution</h2>
               <div className="h-6 w-full overflow-hidden rounded-md bg-[#0a0c0f] ring-1 ring-[#1e2229]">
                 <div className="flex h-full w-full">
@@ -209,7 +209,7 @@ export default async function LanguagesPage() {
               {entries.map((language) => (
                 <article
                   key={language.name}
-                  className="dp-card-lift dp-reveal dp-reveal-delay-2 rounded-xl border border-[#1e2229] bg-[#111318] p-5"
+                  className="dp-surface dp-card-lift dp-reveal dp-reveal-delay-2 rounded-xl p-5"
                 >
                   <div className="mb-4 flex items-center justify-between">
                     <div className="inline-flex items-center gap-2">

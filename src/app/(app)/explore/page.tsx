@@ -138,7 +138,7 @@ export default function ExplorePage() {
   };
 
   return (
-    <div className="min-h-screen bg-[#0d0f12] p-6 text-zinc-200">
+    <div className="dp-grid-bg min-h-screen bg-transparent p-6 text-zinc-200">
       <div className="mx-auto max-w-4xl">
         <h1 className="mb-8 text-center text-4xl font-semibold text-zinc-100">
           Explore GitHub Users
@@ -146,7 +146,7 @@ export default function ExplorePage() {
 
         <form
           onSubmit={handleSearch}
-          className="mb-8 rounded-xl border border-[#1e2229] bg-[#111318] p-5"
+          className="dp-surface mb-8 rounded-xl p-5"
         >
           <div className="flex flex-col items-center gap-4 sm:flex-row">
             <input
@@ -155,12 +155,12 @@ export default function ExplorePage() {
               onChange={(event) => setQuery(event.target.value)}
               placeholder="Search by GitHub username..."
               aria-label="Search GitHub users"
-              className="h-14 w-full rounded-lg border border-[#2a2f37] bg-[#0a0c0f] px-5 text-lg text-zinc-100 outline-none transition-colors placeholder:text-zinc-500 focus:border-amber-400"
+              className="dp-control h-14 w-full rounded-lg border border-[#2a2f37] bg-[#0a0c0f] px-5 text-lg text-zinc-100 outline-none placeholder:text-zinc-500 focus:border-amber-400"
             />
             <button
               type="submit"
               disabled={loading}
-              className="h-14 w-full rounded-lg bg-amber-400 px-6 text-sm font-bold text-[#0d0f12] transition-colors hover:bg-amber-300 disabled:cursor-not-allowed disabled:opacity-70 sm:w-auto"
+              className="dp-control h-14 w-full rounded-lg bg-amber-400 px-6 text-sm font-bold text-[#0d0f12] disabled:cursor-not-allowed disabled:opacity-70 sm:w-auto"
             >
               {loading ? "Searching..." : "Search"}
             </button>
@@ -173,7 +173,7 @@ export default function ExplorePage() {
                 value={sortBy}
                 onChange={(event) => setSortBy(event.target.value)}
                 aria-label="Sort search results"
-                className="h-11 w-full rounded-lg border border-[#2a2f37] bg-[#0a0c0f] px-3 text-zinc-100 outline-none transition-colors focus:border-amber-400"
+                className="dp-control h-11 w-full rounded-lg border border-[#2a2f37] bg-[#0a0c0f] px-3 text-zinc-100 outline-none focus:border-amber-400"
               >
                 <option value="best">Best match</option>
                 <option value="followers">Most followers</option>
@@ -187,7 +187,7 @@ export default function ExplorePage() {
                 value={accountType}
                 onChange={(event) => setAccountType(event.target.value)}
                 aria-label="Filter account type"
-                className="h-11 w-full rounded-lg border border-[#2a2f37] bg-[#0a0c0f] px-3 text-zinc-100 outline-none transition-colors focus:border-amber-400"
+                className="dp-control h-11 w-full rounded-lg border border-[#2a2f37] bg-[#0a0c0f] px-3 text-zinc-100 outline-none focus:border-amber-400"
               >
                 <option value="all">All</option>
                 <option value="user">Users only</option>
@@ -205,14 +205,14 @@ export default function ExplorePage() {
                 value={minFollowers}
                 onChange={(event) => setMinFollowers(event.target.value)}
                 aria-label="Minimum followers"
-                className="h-11 w-full rounded-lg border border-[#2a2f37] bg-[#0a0c0f] px-3 text-zinc-100 outline-none transition-colors focus:border-amber-400"
+                className="dp-control h-11 w-full rounded-lg border border-[#2a2f37] bg-[#0a0c0f] px-3 text-zinc-100 outline-none focus:border-amber-400"
               />
             </label>
           </div>
         </form>
 
         {!loading && !error && !result && (
-          <div className="mb-8 rounded-xl border border-[#1e2229] bg-[#111318] p-5">
+          <div className="dp-surface mb-8 rounded-xl p-5">
             <p className="text-xs uppercase tracking-widest text-zinc-500">Quick start</p>
             <h2 className="mt-2 text-xl font-semibold text-zinc-100">Search by username, then compare profiles</h2>
             <p className="mt-2 text-sm text-zinc-400">
@@ -221,14 +221,14 @@ export default function ExplorePage() {
             <div className="mt-4 flex flex-wrap gap-2">
               <Link
                 href="/u/torvalds"
-                className="rounded-lg border border-[#2a2f37] bg-[#0a0c0f] px-3 py-2 text-xs font-semibold text-zinc-300 transition-all duration-200 hover:shadow-[0_4px_12px_rgba(251,191,36,0.15)]"
+                className="dp-control rounded-lg border border-[#2a2f37] bg-[#0a0c0f] px-3 py-2 text-xs font-semibold text-zinc-300 hover:shadow-[0_4px_12px_rgba(251,191,36,0.15)]"
                 style={{ borderColor: "var(--accent-color)" }}
               >
                 View sample profile
               </Link>
               <Link
                 href="/compare/torvalds/gaearon"
-                className="rounded-lg border border-[#2a2f37] bg-[#0a0c0f] px-3 py-2 text-xs font-semibold text-zinc-300 transition-all duration-200 hover:shadow-[0_4px_12px_rgba(251,191,36,0.15)]"
+                className="dp-control rounded-lg border border-[#2a2f37] bg-[#0a0c0f] px-3 py-2 text-xs font-semibold text-zinc-300 hover:shadow-[0_4px_12px_rgba(251,191,36,0.15)]"
                 style={{ borderColor: "var(--accent-color)" }}
               >
                 Open sample compare
@@ -238,13 +238,13 @@ export default function ExplorePage() {
         )}
 
         {error && (
-          <div className="mb-8 rounded-xl border border-[#3b2620] bg-[#1b1412] p-4 text-center text-sm text-amber-300">
+          <div className="dp-surface mb-8 rounded-xl border border-[#3b2620] p-4 text-center text-sm text-amber-300">
             {error}
             <div className="mt-3 flex flex-wrap justify-center gap-2">
               <button
                 type="button"
                 onClick={() => query.trim() && void fetchResults(query.trim(), 1)}
-                className="rounded-lg border border-[#4a2f27] bg-[#2a1d1a] px-3 py-2 text-xs font-semibold text-amber-200 transition-colors hover:bg-[#352421]"
+                className="dp-control rounded-lg border border-[#4a2f27] bg-[#2a1d1a] px-3 py-2 text-xs font-semibold text-amber-200 hover:bg-[#352421]"
               >
                 Retry search
               </button>
@@ -254,7 +254,7 @@ export default function ExplorePage() {
                   setError(null);
                   setResult(null);
                 }}
-                className="rounded-lg border border-[#4a2f27] bg-[#2a1d1a] px-3 py-2 text-xs font-semibold text-amber-200 transition-colors hover:bg-[#352421]"
+                className="dp-control rounded-lg border border-[#4a2f27] bg-[#2a1d1a] px-3 py-2 text-xs font-semibold text-amber-200 hover:bg-[#352421]"
               >
                 Dismiss
               </button>
@@ -264,7 +264,7 @@ export default function ExplorePage() {
 
         {result && (
           <div className="space-y-4">
-            <div className="rounded-xl border border-[#1e2229] bg-[#111318] p-5">
+            <div className="dp-surface rounded-xl p-5">
               <div className="flex flex-col gap-2 sm:flex-row sm:items-end sm:justify-between">
                 <div>
                   <p className="text-xs uppercase tracking-widest text-zinc-500">Results</p>
@@ -297,7 +297,7 @@ export default function ExplorePage() {
                     onClick={() => goToPage(Math.max(1, page - 1))}
                     disabled={loading || page <= 1}
                     aria-label="Go to previous page"
-                    className="rounded-lg border border-[#1e2229] bg-[#0a0c0f] px-3 py-2 font-semibold text-zinc-200 transition-all duration-200 hover:border-amber-400 hover:text-amber-300 hover:shadow-[0_4px_12px_rgba(251,191,36,0.15)] disabled:cursor-not-allowed disabled:opacity-50"
+                    className="dp-control rounded-lg border border-[#1e2229] bg-[#0a0c0f] px-3 py-2 font-semibold text-zinc-200 hover:border-amber-400 hover:text-amber-300 hover:shadow-[0_4px_12px_rgba(251,191,36,0.15)] disabled:cursor-not-allowed disabled:opacity-50"
                   >
                     Prev
                   </button>
@@ -309,7 +309,7 @@ export default function ExplorePage() {
                     onClick={() => goToPage(Math.min(totalPages, page + 1))}
                     disabled={loading || page >= totalPages}
                     aria-label="Go to next page"
-                    className="rounded-lg border border-[#1e2229] bg-[#0a0c0f] px-3 py-2 font-semibold text-zinc-200 transition-all duration-200 hover:border-amber-400 hover:text-amber-300 hover:shadow-[0_4px_12px_rgba(251,191,36,0.15)] disabled:cursor-not-allowed disabled:opacity-50"
+                    className="dp-control rounded-lg border border-[#1e2229] bg-[#0a0c0f] px-3 py-2 font-semibold text-zinc-200 hover:border-amber-400 hover:text-amber-300 hover:shadow-[0_4px_12px_rgba(251,191,36,0.15)] disabled:cursor-not-allowed disabled:opacity-50"
                   >
                     Next
                   </button>
@@ -319,7 +319,7 @@ export default function ExplorePage() {
 
             <div className="space-y-4">
               {result.items.length === 0 ? (
-                <div className="rounded-xl border border-[#1e2229] bg-[#111318] p-8 text-center">
+                <div className="dp-surface rounded-xl p-8 text-center">
                   <p className="text-lg font-semibold text-zinc-100">No users found on this page</p>
                   <p className="mt-2 text-sm text-zinc-500">
                     Try another query, reduce filters, or switch sorting.
@@ -331,7 +331,7 @@ export default function ExplorePage() {
                 return (
                   <article
                     key={user.id}
-                    className={`rounded-xl border transition-all ${
+                    className={`dp-surface rounded-xl border transition-all ${
                       isSelected
                         ? "border-amber-400 bg-amber-400/5"
                         : "border-[#1e2229] bg-[#111318] hover:border-[#2f353f]"
@@ -379,7 +379,7 @@ export default function ExplorePage() {
                         <div className="flex items-center gap-2">
                           <Link
                             href={`/u/${encodeURIComponent(user.login)}`}
-                            className="flex-1 rounded-lg border border-[#1e2229] bg-[#0a0c0f] px-4 py-2 text-center text-sm font-semibold text-zinc-200 transition-all duration-200 hover:border-amber-400 hover:text-amber-300 hover:shadow-[0_4px_12px_rgba(251,191,36,0.15)]"
+                            className="dp-control flex-1 rounded-lg border border-[#1e2229] bg-[#0a0c0f] px-4 py-2 text-center text-sm font-semibold text-zinc-200 hover:border-amber-400 hover:text-amber-300 hover:shadow-[0_4px_12px_rgba(251,191,36,0.15)]"
                           >
                             View profile
                           </Link>
@@ -387,7 +387,7 @@ export default function ExplorePage() {
                             href={user.html_url}
                             target="_blank"
                             rel="noopener noreferrer"
-                            className="rounded-lg border border-[#1e2229] px-3 py-2 text-sm font-semibold text-amber-400 transition-colors hover:border-amber-400 hover:text-amber-300"
+                            className="dp-control rounded-lg border border-[#1e2229] px-3 py-2 text-sm font-semibold text-amber-400 hover:border-amber-400 hover:text-amber-300"
                           >
                             GitHub
                           </a>
@@ -395,14 +395,14 @@ export default function ExplorePage() {
                         {compareUser && compareUser !== user.login ? (
                           <Link
                             href={`/compare/${encodeURIComponent(compareUser)}/${encodeURIComponent(user.login)}`}
-                            className="rounded-lg border border-amber-400 bg-amber-400 px-4 py-2 text-center text-sm font-semibold text-black transition-all duration-200 hover:bg-amber-300"
+                            className="dp-control rounded-lg border border-amber-400 bg-amber-400 px-4 py-2 text-center text-sm font-semibold text-black hover:bg-amber-300"
                           >
                             Compare
                           </Link>
                         ) : (
                           <button
                             onClick={() => setCompareUser(isSelected ? null : user.login)}
-                            className={`rounded-lg border px-4 py-2 text-sm font-semibold transition-all duration-200 ${
+                            className={`dp-control rounded-lg border px-4 py-2 text-sm font-semibold ${
                               isSelected
                                 ? "border-amber-400 bg-amber-400 text-black hover:bg-amber-300"
                                 : "border-amber-400 bg-transparent text-amber-400 hover:border-amber-300 hover:text-amber-300"

@@ -70,9 +70,9 @@ export default async function Home() {
     ]);
   } catch {
     return (
-      <div className="min-h-screen bg-[#0d0f12] p-6 text-zinc-200">
+      <div className="dp-grid-bg min-h-screen bg-transparent p-6 text-zinc-200">
         <div className="mx-auto max-w-4xl">
-          <div className="dp-card-lift dp-reveal rounded-xl border border-[#1e2229] bg-[#111318] p-8">
+          <div className="dp-surface dp-card-lift dp-reveal rounded-xl p-8">
             <div className="mb-4 inline-flex h-12 w-12 items-center justify-center rounded-xl border border-[#2a2f37] bg-[#0a0c0f] text-amber-300">
               <AlertTriangle className="h-5 w-5" />
             </div>
@@ -183,7 +183,7 @@ export default async function Home() {
 
   return (
     <div className="min-h-screen bg-[#0d0f12] p-6 text-zinc-200">
-      <div className="dp-card-lift dp-reveal relative mb-8 flex items-center justify-between overflow-hidden rounded-xl border border-[#1e2229] bg-[#111318] p-6">
+      <div className="dp-surface dp-card-lift dp-reveal relative mb-8 flex items-center justify-between overflow-hidden rounded-xl p-6">
         <div className="dp-orb -right-16 -top-20 h-40 w-40 rounded-full" style={{ backgroundColor: "var(--accent-color)" }} />
         <div className="flex items-center gap-4">
           <img
@@ -203,19 +203,19 @@ export default async function Home() {
       </div>
 
       <div className="mb-8 grid grid-cols-1 gap-4 md:grid-cols-2 xl:grid-cols-4">
-        <div className="dp-card-lift dp-reveal dp-reveal-delay-1 rounded-xl border border-[#1e2229] bg-[#111318] p-4">
+        <div className="dp-surface dp-card-lift dp-reveal dp-reveal-delay-1 rounded-xl p-4">
           <p className="text-xs font-semibold uppercase tracking-widest text-zinc-500">Total Repos</p>
           <p className="mt-2 text-3xl font-bold text-zinc-100">{user.public_repos}</p>
         </div>
-        <div className="dp-card-lift dp-reveal dp-reveal-delay-1 rounded-xl border border-[#1e2229] bg-[#111318] p-4">
+        <div className="dp-surface dp-card-lift dp-reveal dp-reveal-delay-1 rounded-xl p-4">
           <p className="text-xs font-semibold uppercase tracking-widest text-zinc-500">Followers</p>
           <p className="mt-2 text-3xl font-bold text-zinc-100">{user.followers}</p>
         </div>
-        <div className="dp-card-lift dp-reveal dp-reveal-delay-2 rounded-xl border border-[#1e2229] bg-[#111318] p-4">
+        <div className="dp-surface dp-card-lift dp-reveal dp-reveal-delay-2 rounded-xl p-4">
           <p className="text-xs font-semibold uppercase tracking-widest text-zinc-500">Following</p>
           <p className="mt-2 text-3xl font-bold text-zinc-100">{user.following}</p>
         </div>
-        <div className="dp-card-lift dp-reveal dp-reveal-delay-2 rounded-xl border border-[#1e2229] bg-[#111318] p-4">
+        <div className="dp-surface dp-card-lift dp-reveal dp-reveal-delay-2 rounded-xl p-4">
           <p className="text-xs font-semibold uppercase tracking-widest text-zinc-500">Total Stars</p>
           <p className="mt-2 text-3xl font-bold text-zinc-100">{totalStars}</p>
         </div>
@@ -230,7 +230,7 @@ export default async function Home() {
           </p>
         </div>
 
-        <div className="dp-card-lift dp-reveal dp-reveal-delay-3 rounded-xl border border-[#1e2229] bg-[#111318] p-5">
+        <div className="dp-surface dp-card-lift dp-reveal dp-reveal-delay-3 rounded-xl p-5">
           <p className="text-xs font-semibold uppercase tracking-widest text-zinc-500">
             Active Repositories
           </p>
@@ -238,7 +238,7 @@ export default async function Home() {
           <p className="mt-1 text-sm text-zinc-400">With at least one push in last 30 days</p>
         </div>
 
-        <div className="dp-card-lift dp-reveal dp-reveal-delay-3 rounded-xl border border-[#1e2229] bg-[#111318] p-5">
+        <div className="dp-surface dp-card-lift dp-reveal dp-reveal-delay-3 rounded-xl p-5">
           <p className="text-xs font-semibold uppercase tracking-widest text-zinc-500">Top Repository</p>
           <p className="mt-2 truncate text-lg font-semibold text-zinc-100">
             {mostStarredRepo?.name ?? "No repositories"}
@@ -250,7 +250,7 @@ export default async function Home() {
       </div>
 
       <div className="mb-8 grid grid-cols-1 gap-4 xl:grid-cols-2">
-        <div className="dp-card-lift dp-reveal dp-reveal-delay-3 rounded-xl border border-[#1e2229] bg-[#111318] p-5">
+        <div className="dp-surface dp-card-lift dp-reveal dp-reveal-delay-3 rounded-xl p-5">
           <p className="text-xs font-semibold uppercase tracking-widest text-zinc-500">Average Pushes</p>
           <p className="mt-2 text-3xl font-bold text-zinc-100">{pushesPerDayLast7}/day</p>
           <p className="mt-1 text-sm text-zinc-400">Based on your last 7 days of push activity.</p>
@@ -275,26 +275,26 @@ export default async function Home() {
         />
       </div>
 
-      <div className="dp-card-lift dp-reveal dp-reveal-delay-3 mb-8 rounded-xl border border-[#1e2229] bg-[#111318] p-5">
+      <div className="dp-surface dp-card-lift dp-reveal dp-reveal-delay-3 mb-8 rounded-xl p-5">
         <p className="text-xs font-semibold uppercase tracking-widest text-zinc-500">Quick Actions</p>
         <div className="mt-3 flex flex-wrap gap-2">
           <Link
             href="/activity"
-            className="rounded-lg border border-[#2a2f37] bg-[#0a0c0f] px-4 py-2 text-sm font-semibold text-zinc-200 transition-all duration-200 hover:shadow-[0_4px_12px_rgba(251,191,36,0.15)]"
+            className="dp-control rounded-lg border border-[#2a2f37] bg-[#0a0c0f] px-4 py-2 text-sm font-semibold text-zinc-200 hover:shadow-[0_4px_12px_rgba(251,191,36,0.15)]"
             style={{ borderColor: "var(--accent-color)" }}
           >
             Review Activity Feed
           </Link>
           <Link
             href="/projects"
-            className="rounded-lg border border-[#2a2f37] bg-[#0a0c0f] px-4 py-2 text-sm font-semibold text-zinc-200 transition-all duration-200 hover:shadow-[0_4px_12px_rgba(251,191,36,0.15)]"
+            className="dp-control rounded-lg border border-[#2a2f37] bg-[#0a0c0f] px-4 py-2 text-sm font-semibold text-zinc-200 hover:shadow-[0_4px_12px_rgba(251,191,36,0.15)]"
             style={{ borderColor: "var(--accent-color)" }}
           >
             Open Project Index
           </Link>
           <Link
             href="/languages"
-            className="rounded-lg border border-[#2a2f37] bg-[#0a0c0f] px-4 py-2 text-sm font-semibold text-zinc-200 transition-all duration-200 hover:shadow-[0_4px_12px_rgba(251,191,36,0.15)]"
+            className="dp-control rounded-lg border border-[#2a2f37] bg-[#0a0c0f] px-4 py-2 text-sm font-semibold text-zinc-200 hover:shadow-[0_4px_12px_rgba(251,191,36,0.15)]"
             style={{ borderColor: "var(--accent-color)" }}
           >
             Inspect Language Mix
@@ -305,7 +305,7 @@ export default async function Home() {
       <PinnedReposPanel repos={repoPreviews} />
 
       <div className="mb-8 grid grid-cols-1 gap-6 xl:grid-cols-2">
-        <div className="dp-card-lift dp-reveal dp-reveal-delay-3 rounded-xl border border-[#1e2229] bg-[#111318] p-6">
+        <div className="dp-surface dp-card-lift dp-reveal dp-reveal-delay-3 rounded-xl p-6">
           <h2 className="mb-4 text-lg font-semibold text-zinc-100">Recent Activity</h2>
           <div className="space-y-3">
             {pushEvents.length > 0 ? (
@@ -316,7 +316,7 @@ export default async function Home() {
                 </div>
               ))
             ) : (
-              <div className="rounded-lg border border-[#1e2229] bg-[#0a0c0f] p-4 text-sm text-zinc-400">
+              <div className="dp-surface rounded-lg p-4 text-sm text-zinc-400">
                 <p className="font-medium text-zinc-200">No recent push activity yet</p>
                 <p className="mt-1 text-zinc-500">Make a new commit and refresh to see it appear here.</p>
               </div>
@@ -324,7 +324,7 @@ export default async function Home() {
           </div>
         </div>
 
-        <div className="dp-card-lift dp-reveal dp-reveal-delay-3 rounded-xl border border-[#1e2229] bg-[#111318] p-6">
+        <div className="dp-surface dp-card-lift dp-reveal dp-reveal-delay-3 rounded-xl p-6">
           <h2 className="mb-4 text-lg font-semibold text-zinc-100">Top Languages</h2>
           <div className="space-y-3">
             {languageEntries.length > 0 ? (
@@ -344,7 +344,7 @@ export default async function Home() {
                 );
               })
             ) : (
-              <div className="rounded-lg border border-[#1e2229] bg-[#0a0c0f] p-4 text-sm text-zinc-400">
+              <div className="dp-surface rounded-lg p-4 text-sm text-zinc-400">
                 <p className="font-medium text-zinc-200">Language insights unavailable</p>
                 <p className="mt-1 text-zinc-500">Try again after your repositories sync or add code files to repos.</p>
               </div>
@@ -353,7 +353,7 @@ export default async function Home() {
         </div>
       </div>
 
-      <div className="dp-card-lift dp-reveal dp-reveal-delay-3 rounded-xl border border-[#1e2229] bg-[#111318] p-6">
+      <div className="dp-surface dp-card-lift dp-reveal dp-reveal-delay-3 rounded-xl p-6">
         <div className="mb-5 flex items-end justify-between gap-3">
           <div>
             <h2 className="text-lg font-semibold text-zinc-100">Contribution Heatmap</h2>
@@ -412,7 +412,7 @@ export default async function Home() {
             </div>
           </div>
         ) : (
-          <div className="rounded-lg border border-[#1e2229] bg-[#0a0c0f] p-4 text-sm text-zinc-400">
+          <div className="dp-surface rounded-lg p-4 text-sm text-zinc-400">
             <p className="font-medium text-zinc-200">Contribution heatmap unavailable</p>
             <p className="mt-1 text-zinc-500">GitHub did not return contribution data for this request. Refresh and try again.</p>
           </div>

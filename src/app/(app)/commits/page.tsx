@@ -83,7 +83,7 @@ export default async function CommitsPage({ searchParams }: CommitsPageProps) {
     events = await getEvents(username, session.accessToken!);
   } catch {
     return (
-      <div className="rounded-xl border border-[#1e2229] bg-[#111318] p-8 text-zinc-200">
+      <div className="dp-surface rounded-xl p-8 text-zinc-200">
         <div className="mb-4 inline-flex h-12 w-12 items-center justify-center rounded-xl border border-[#2a2f37] bg-[#0a0c0f] text-amber-300">
           <AlertTriangle className="h-5 w-5" />
         </div>
@@ -95,14 +95,14 @@ export default async function CommitsPage({ searchParams }: CommitsPageProps) {
         <div className="mt-6 flex flex-wrap gap-3">
           <a
             href="/commits"
-            className="rounded-lg px-4 py-2 text-sm font-semibold text-[#0d0f12] transition-all duration-200 hover:shadow-[0_4px_12px_rgba(251,191,36,0.3)]"
+            className="dp-control rounded-lg px-4 py-2 text-sm font-semibold text-[#0d0f12] hover:shadow-[0_4px_12px_rgba(251,191,36,0.3)]"
             style={{ backgroundColor: "var(--accent-color)" }}
           >
             Try again
           </a>
           <Link
             href="/activity"
-            className="rounded-lg border border-[#2a2f37] bg-[#0a0c0f] px-4 py-2 text-sm font-semibold text-zinc-200 transition-all duration-200 hover:shadow-[0_4px_12px_rgba(251,191,36,0.15)]"
+            className="dp-control rounded-lg border border-[#2a2f37] bg-[#0a0c0f] px-4 py-2 text-sm font-semibold text-zinc-200 hover:shadow-[0_4px_12px_rgba(251,191,36,0.15)]"
             style={{ borderColor: "var(--accent-color)" }}
           >
             Go to activity
@@ -188,7 +188,7 @@ export default async function CommitsPage({ searchParams }: CommitsPageProps) {
   const totalUnfilteredCommits = sortedGroups.reduce((sum, group) => sum + group.commits.length, 0);
 
   return (
-    <div className="space-y-8">
+    <div className="dp-grid-bg space-y-8 bg-transparent">
       <div className="dp-reveal [animation-delay:40ms]">
         <h1 className="text-3xl font-bold text-zinc-100">Commits</h1>
         <p className="mt-2 text-zinc-400">
@@ -198,7 +198,7 @@ export default async function CommitsPage({ searchParams }: CommitsPageProps) {
 
       <form
         method="GET"
-        className="dp-reveal [animation-delay:80ms] rounded-xl border border-[#1e2229] bg-[#111318] p-5"
+        className="dp-surface dp-reveal [animation-delay:80ms] rounded-xl p-5"
       >
         <div className="grid grid-cols-1 gap-3 md:grid-cols-[1.3fr_1fr_auto]">
           <label className="text-sm">
@@ -210,7 +210,7 @@ export default async function CommitsPage({ searchParams }: CommitsPageProps) {
               name="q"
               defaultValue={queryFilter}
               placeholder="fix, feature, refactor..."
-              className="h-11 w-full rounded-lg border border-[#2a2f37] bg-[#0a0c0f] px-3 text-zinc-100 outline-none transition-colors placeholder:text-zinc-500 focus:border-amber-400"
+                className="dp-control h-11 w-full rounded-lg border border-[#2a2f37] bg-[#0a0c0f] px-3 text-zinc-100 outline-none placeholder:text-zinc-500 focus:border-amber-400"
             />
           </label>
 
@@ -219,7 +219,7 @@ export default async function CommitsPage({ searchParams }: CommitsPageProps) {
             <select
               name="repo"
               defaultValue={repoFilter}
-              className="h-11 w-full rounded-lg border border-[#2a2f37] bg-[#0a0c0f] px-3 text-zinc-100 outline-none transition-colors focus:border-amber-400"
+              className="dp-control h-11 w-full rounded-lg border border-[#2a2f37] bg-[#0a0c0f] px-3 text-zinc-100 outline-none focus:border-amber-400"
             >
               <option value="">All repositories</option>
               {repoOptions.map((repo) => (
@@ -233,14 +233,14 @@ export default async function CommitsPage({ searchParams }: CommitsPageProps) {
           <div className="flex items-end gap-2">
             <button
               type="submit"
-              className="h-11 rounded-lg px-4 text-sm font-semibold text-[#0d0f12] transition-all duration-200 hover:shadow-[0_4px_12px_rgba(251,191,36,0.3)]"
+              className="dp-control h-11 rounded-lg px-4 text-sm font-semibold text-[#0d0f12] hover:shadow-[0_4px_12px_rgba(251,191,36,0.3)]"
               style={{ backgroundColor: "var(--accent-color)" }}
             >
               Apply
             </button>
             <Link
               href="/commits"
-              className="h-11 rounded-lg border border-[#2a2f37] px-4 py-2.5 text-sm font-semibold text-zinc-300 transition-all duration-200 hover:border-amber-400 hover:text-amber-300 hover:shadow-[0_4px_12px_rgba(251,191,36,0.15)]"
+              className="dp-control h-11 rounded-lg border border-[#2a2f37] px-4 py-2.5 text-sm font-semibold text-zinc-300 hover:border-amber-400 hover:text-amber-300 hover:shadow-[0_4px_12px_rgba(251,191,36,0.15)]"
             >
               Reset
             </Link>
@@ -249,7 +249,7 @@ export default async function CommitsPage({ searchParams }: CommitsPageProps) {
       </form>
 
       {/* Total commit count card */}
-      <div className="dp-reveal [animation-delay:120ms] rounded-xl border border-[#1e2229] bg-[#111318] p-6">
+      <div className="dp-surface dp-reveal [animation-delay:120ms] rounded-xl p-6">
         <div className="text-center">
           <p className="text-sm uppercase tracking-widest text-zinc-500">Total Commits</p>
           <p className="mt-2 text-5xl font-bold" style={{ color: "var(--accent-color)" }}>{totalCommits}</p>
@@ -261,20 +261,20 @@ export default async function CommitsPage({ searchParams }: CommitsPageProps) {
 
       {/* Commits list */}
       {filteredGroups.length === 0 ? (
-        <div className="dp-reveal [animation-delay:160ms] rounded-xl border border-[#1e2229] bg-[#111318] p-8 text-center text-zinc-400">
+        <div className="dp-surface dp-reveal [animation-delay:160ms] rounded-xl p-8 text-center text-zinc-400">
           <p className="text-lg font-semibold text-zinc-200">No commits match the current filters</p>
           <p className="mt-2 text-sm text-zinc-500">Try adjusting the search or selected repository.</p>
           <div className="mt-4 flex flex-wrap justify-center gap-2">
             <Link
               href="/commits"
-              className="rounded-lg border border-[#2a2f37] bg-[#0a0c0f] px-3 py-2 text-xs font-semibold text-zinc-300 transition-all duration-200 hover:shadow-[0_4px_12px_rgba(251,191,36,0.15)]"
+              className="dp-control rounded-lg border border-[#2a2f37] bg-[#0a0c0f] px-3 py-2 text-xs font-semibold text-zinc-300 hover:shadow-[0_4px_12px_rgba(251,191,36,0.15)]"
               style={{ borderColor: "var(--accent-color)" }}
             >
               Reset filters
             </Link>
             <Link
               href="/repos"
-              className="rounded-lg border border-[#2a2f37] bg-[#0a0c0f] px-3 py-2 text-xs font-semibold text-zinc-300 transition-all duration-200 hover:shadow-[0_4px_12px_rgba(251,191,36,0.15)]"
+              className="dp-control rounded-lg border border-[#2a2f37] bg-[#0a0c0f] px-3 py-2 text-xs font-semibold text-zinc-300 hover:shadow-[0_4px_12px_rgba(251,191,36,0.15)]"
               style={{ borderColor: "var(--accent-color)" }}
             >
               Go to repositories
@@ -312,13 +312,9 @@ export default async function CommitsPage({ searchParams }: CommitsPageProps) {
               </div>
 
               {/* Commits for this repository */}
-              <div className="space-y-2 border-l-2 border-[#1e2229] pl-4">
+                  <div className="space-y-2 border-l-2 border-[#1e2229] pl-4">
                 {group.commits.map((commit, commitIndex) => (
-                  <div
-                    key={commit.sha}
-                    className="dp-card-lift rounded-lg border border-[#1e2229] bg-[#0a0c0f] p-4 transition-colors hover:border-amber-400/30 hover:bg-[#111318]"
-                    style={{ animationDelay: `${220 + commitIndex * 18}ms` }}
-                  >
+                  <div key={commit.sha} className="dp-surface dp-card-lift rounded-lg p-4" style={{ animationDelay: `${220 + commitIndex * 18}ms` }}>
                     <div className="flex items-start justify-between gap-4">
                       <div className="flex-1 min-w-0">
                         <p className="whitespace-pre-wrap break-words text-sm font-medium text-zinc-100">

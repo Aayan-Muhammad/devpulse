@@ -2,7 +2,7 @@
 
 import { createContext, useContext, useEffect, useState } from "react";
 
-type Theme = "dark" | "light" | "high-contrast";
+type Theme = "dark" | "light" | "high-contrast" | "system";
 export type AccentColor =
   | "amber"
   | "blue"
@@ -15,6 +15,7 @@ export type AccentColor =
 
 interface ThemeContextType {
   theme: Theme;
+  resolvedTheme: Exclude<Theme, "system">;
   accentColor: AccentColor;
   setTheme: (theme: Theme) => void;
   setAccentColor: (color: AccentColor) => void;
@@ -24,6 +25,18 @@ const ThemeContext = createContext<ThemeContextType | undefined>(undefined);
 
 const THEME_KEY = "devpulse-theme";
 const ACCENT_KEY = "devpulse-accent";
+
+function isTheme(value: string | null): value is Theme {
+  return value === "dark" || value === "light" || value === "high-contrast" || value === "system";
+}
+
+function getSystemTheme(): Exclude<Theme, "system"> {
+  if (typeof window === "undefined") {
+    return "dark";
+  }
+
+  return window.matchMedia("(prefers-color-scheme: light)").matches ? "light" : "dark";
+}
 
 const accentColorMap: Record<AccentColor, string> = {
   amber: "#fbbf24",
@@ -38,14 +51,14 @@ const accentColorMap: Record<AccentColor, string> = {
 
 export function ThemeProvider({ children }: { children: React.ReactNode }) {
   const [theme, setThemeState] = useState<Theme>("dark");
+  const [resolvedTheme, setResolvedTheme] = useState<Exclude<Theme, "system">>("dark");
   const [accentColor, setAccentColorState] = useState<AccentColor>("amber");
 
-  // Hydrate from localStorage on mount
   useEffect(() => {
-    const savedTheme = localStorage.getItem(THEME_KEY) as Theme | null;
+    const savedTheme = localStorage.getItem(THEME_KEY);
     const savedAccent = localStorage.getItem(ACCENT_KEY) as AccentColor | null;
 
-    if (savedTheme && ["dark", "light", "high-contrast"].includes(savedTheme)) {
+    if (isTheme(savedTheme)) {
       setThemeState(savedTheme);
     }
 
@@ -54,25 +67,44 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
     }
   }, []);
 
-  // Apply theme and accent to document
   useEffect(() => {
     const root = document.documentElement;
+    const effectiveTheme = theme === "system" ? getSystemTheme() : theme;
 
-    // Set theme class
     root.classList.remove("light", "high-contrast");
-    if (theme === "light") {
+    if (effectiveTheme === "light") {
       root.classList.add("light");
-    } else if (theme === "high-contrast") {
+    } else if (effectiveTheme === "high-contrast") {
       root.classList.add("high-contrast");
     }
 
-    // Set accent color CSS variable
     root.style.setProperty("--accent-color", accentColorMap[accentColor]);
+    root.dataset.theme = effectiveTheme;
+    root.dataset.themePreference = theme;
 
-    // Save to localStorage
+    setResolvedTheme(effectiveTheme);
+
     localStorage.setItem(THEME_KEY, theme);
     localStorage.setItem(ACCENT_KEY, accentColor);
   }, [theme, accentColor]);
+
+  useEffect(() => {
+    if (theme !== "system") {
+      return;
+    }
+
+    const mediaQuery = window.matchMedia("(prefers-color-scheme: light)");
+    const handleChange = () => {
+      setResolvedTheme(mediaQuery.matches ? "light" : "dark");
+    };
+
+    handleChange();
+    mediaQuery.addEventListener("change", handleChange);
+
+    return () => {
+      mediaQuery.removeEventListener("change", handleChange);
+    };
+  }, [theme]);
 
   const setTheme = (newTheme: Theme) => {
     setThemeState(newTheme);
@@ -83,7 +115,7 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
   };
 
   return (
-    <ThemeContext.Provider value={{ theme, accentColor, setTheme, setAccentColor }}>
+    <ThemeContext.Provider value={{ theme, resolvedTheme, accentColor, setTheme, setAccentColor }}>
       {children}
     </ThemeContext.Provider>
   );

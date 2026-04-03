@@ -26,7 +26,7 @@ export function AccentColorPicker() {
             key={name}
             type="button"
             onClick={() => setAccentColor(name)}
-            className={`flex h-10 w-10 items-center justify-center rounded-lg border-2 transition-all ${
+            className={`dp-control dp-press flex h-10 w-10 items-center justify-center rounded-lg border-2 ${
               accentColor === name
                 ? "border-white"
                 : "border-transparent hover:border-zinc-500"

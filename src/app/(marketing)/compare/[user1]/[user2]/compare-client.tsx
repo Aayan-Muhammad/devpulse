@@ -52,7 +52,7 @@ function ComparisonStat({
   const user2Advantage = isHighBetter ? value2 > value1 : value2 < value1;
 
   return (
-    <div className="rounded-lg border border-[#1e2229] bg-[#0a0c0f] p-4 transition-all duration-200 hover:shadow-[0_4px_12px_rgba(251,191,36,0.12)]">
+    <div className="dp-surface rounded-lg p-4 transition-all duration-200 hover:shadow-[0_4px_12px_rgba(251,191,36,0.12)]">
       <p className="text-xs uppercase tracking-widest text-zinc-500">{label}</p>
       <div className="mt-3 flex items-center justify-between gap-3">
         <div className={`flex-1 text-center ${user1Advantage ? "text-amber-400" : "text-zinc-400"}`}>
@@ -102,8 +102,8 @@ export default function CompareClient({ user1, user2 }: { user1: string; user2: 
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-[#0d0f12] p-6 text-zinc-200">
-        <div className="mx-auto max-w-6xl rounded-xl border border-[#1e2229] bg-[#111318] p-8 text-center">
+      <div className="dp-grid-bg min-h-screen bg-transparent p-6 text-zinc-200">
+        <div className="mx-auto max-w-6xl rounded-xl p-8 text-center dp-surface">
           <p className="text-zinc-400">Loading comparison...</p>
         </div>
       </div>
@@ -112,12 +112,12 @@ export default function CompareClient({ user1, user2 }: { user1: string; user2: 
 
   if (error || !data) {
     return (
-      <div className="min-h-screen bg-[#0d0f12] p-6 text-zinc-200">
+      <div className="dp-grid-bg min-h-screen bg-transparent p-6 text-zinc-200">
         <div className="mx-auto max-w-6xl">
           <Link href="/explore" className="mb-6 inline-block text-sm text-amber-300 transition-colors hover:text-amber-200">
             ← Back to Explore
           </Link>
-          <div className="rounded-xl border border-[#1e2229] bg-[#111318] p-8 text-center">
+          <div className="dp-surface rounded-xl p-8 text-center">
             <h1 className="text-xl font-semibold text-zinc-100">Comparison unavailable</h1>
             <p className="mt-2 text-sm text-zinc-400">{error}</p>
           </div>
@@ -127,7 +127,7 @@ export default function CompareClient({ user1, user2 }: { user1: string; user2: 
   }
 
   return (
-    <div className="min-h-screen bg-[#0d0f12] p-6 text-zinc-200">
+    <div className="dp-grid-bg min-h-screen bg-transparent p-6 text-zinc-200">
       <div className="mx-auto max-w-6xl">
         <Link href="/explore" className="mb-6 inline-block text-sm text-amber-300 transition-colors hover:text-amber-200">
           ← Back to Explore
@@ -144,7 +144,7 @@ export default function CompareClient({ user1, user2 }: { user1: string; user2: 
 
         <div className="dp-reveal [animation-delay:80ms] mb-8 grid grid-cols-1 gap-6 md:grid-cols-2">
           {[data.user1, data.user2].map((user) => (
-            <div key={user.login} className="dp-card-lift rounded-xl border border-[#1e2229] bg-[#111318] p-6">
+            <div key={user.login} className="dp-surface dp-card-lift rounded-xl p-6">
               <div className="flex flex-col items-center gap-4 text-center">
                 <img
                   src={user.avatar_url}
@@ -171,13 +171,13 @@ export default function CompareClient({ user1, user2 }: { user1: string; user2: 
           <ComparisonStat label="Active (90d)" value1={data.user1.repos_updated_90d} value2={data.user2.repos_updated_90d} />
         </div>
 
-        <div className="dp-reveal [animation-delay:160ms] mb-8 rounded-xl border border-[#1e2229] bg-[#111318] p-6">
+        <div className="dp-surface dp-reveal [animation-delay:160ms] mb-8 rounded-xl p-6">
           <h2 className="text-lg font-semibold text-zinc-100">Language Skills</h2>
           <p className="mt-1 text-sm text-zinc-400">Languages used in their repositories</p>
 
           <div className="mt-6 grid grid-cols-1 gap-6 md:grid-cols-3">
             {data.comparison.shared_languages.length > 0 && (
-              <div className="rounded-lg border border-amber-400/20 bg-amber-400/5 p-4 transition-all duration-200 hover:shadow-[0_4px_12px_rgba(251,191,36,0.12)]">
+              <div className="dp-surface rounded-lg border border-amber-400/20 p-4 transition-all duration-200 hover:shadow-[0_4px_12px_rgba(251,191,36,0.12)]">
                 <p className="text-xs uppercase tracking-widest text-amber-300">Shared ({data.comparison.shared_languages.length})</p>
                 <div className="mt-3 flex flex-wrap gap-2">
                   {data.comparison.shared_languages.slice(0, 6).map((lang) => (
@@ -193,7 +193,7 @@ export default function CompareClient({ user1, user2 }: { user1: string; user2: 
             )}
 
             {data.comparison.only_user1_languages.length > 0 && (
-              <div className="rounded-lg border border-blue-400/20 bg-blue-400/5 p-4 transition-all duration-200 hover:shadow-[0_4px_12px_rgba(59,130,246,0.12)]">
+              <div className="dp-surface rounded-lg border border-blue-400/20 p-4 transition-all duration-200 hover:shadow-[0_4px_12px_rgba(59,130,246,0.12)]">
                 <p className="text-xs uppercase tracking-widest text-blue-300">Only {data.user1.name || data.user1.login}</p>
                 <div className="mt-3 flex flex-wrap gap-2">
                   {data.comparison.only_user1_languages.slice(0, 6).map((lang) => (
@@ -209,7 +209,7 @@ export default function CompareClient({ user1, user2 }: { user1: string; user2: 
             )}
 
             {data.comparison.only_user2_languages.length > 0 && (
-              <div className="rounded-lg border border-green-400/20 bg-green-400/5 p-4 transition-all duration-200 hover:shadow-[0_4px_12px_rgba(16,185,129,0.12)]">
+              <div className="dp-surface rounded-lg border border-green-400/20 p-4 transition-all duration-200 hover:shadow-[0_4px_12px_rgba(16,185,129,0.12)]">
                 <p className="text-xs uppercase tracking-widest text-green-300">Only {data.user2.name || data.user2.login}</p>
                 <div className="mt-3 flex flex-wrap gap-2">
                   {data.comparison.only_user2_languages.slice(0, 6).map((lang) => (
@@ -233,7 +233,7 @@ export default function CompareClient({ user1, user2 }: { user1: string; user2: 
           ].map(({ user, title }) => {
             const totalBytes = user.top_languages.reduce((sum, { bytes }) => sum + bytes, 0);
             return (
-              <div key={user.login} className="dp-card-lift rounded-xl border border-[#1e2229] bg-[#111318] p-6 transition-all duration-200 hover:shadow-[0_4px_12px_rgba(251,191,36,0.12)]">
+              <div key={user.login} className="dp-surface dp-card-lift rounded-xl p-6 transition-all duration-200 hover:shadow-[0_4px_12px_rgba(251,191,36,0.12)]">
                 <h3 className="text-lg font-semibold text-zinc-100">{title}</h3>
                 <div className="mt-4 space-y-3">
                   {user.top_languages.map(({ lang, bytes }) => {

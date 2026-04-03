@@ -1,7 +1,7 @@
 "use client";
 
 import { useTheme } from "@/components/theme-provider";
-import { Moon, Sun, Contrast } from "lucide-react";
+import { Moon, Sun, Contrast, Monitor } from "lucide-react";
 
 export function ThemeToggle() {
   const { theme, setTheme } = useTheme();
@@ -15,7 +15,7 @@ export function ThemeToggle() {
       <button
         type="button"
         onClick={() => setTheme("dark")}
-        className={`rounded px-3 py-2 text-sm font-medium transition-all ${
+        className={`dp-control dp-press rounded px-3 py-2 text-sm font-medium ${
           theme === "dark"
             ? "bg-amber-400 text-black"
             : "text-zinc-400 hover:text-zinc-200"
@@ -31,7 +31,7 @@ export function ThemeToggle() {
       <button
         type="button"
         onClick={() => setTheme("light")}
-        className={`rounded px-3 py-2 text-sm font-medium transition-all ${
+        className={`dp-control dp-press rounded px-3 py-2 text-sm font-medium ${
           theme === "light"
             ? "bg-amber-400 text-black"
             : "text-zinc-400 hover:text-zinc-200"
@@ -47,7 +47,7 @@ export function ThemeToggle() {
       <button
         type="button"
         onClick={() => setTheme("high-contrast")}
-        className={`rounded px-3 py-2 text-sm font-medium transition-all ${
+        className={`dp-control dp-press rounded px-3 py-2 text-sm font-medium ${
           theme === "high-contrast"
             ? "bg-amber-400 text-black"
             : "text-zinc-400 hover:text-zinc-200"
@@ -59,6 +59,22 @@ export function ThemeToggle() {
         aria-checked={theme === "high-contrast"}
       >
         <Contrast className="h-4 w-4" />
+      </button>
+      <button
+        type="button"
+        onClick={() => setTheme("system")}
+        className={`dp-control dp-press rounded px-3 py-2 text-sm font-medium ${
+          theme === "system"
+            ? "bg-amber-400 text-black"
+            : "text-zinc-400 hover:text-zinc-200"
+        }`}
+        title="System theme"
+        aria-label="Set system theme"
+        aria-pressed={theme === "system"}
+        role="radio"
+        aria-checked={theme === "system"}
+      >
+        <Monitor className="h-4 w-4" />
       </button>
     </div>
   );
