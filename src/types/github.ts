@@ -7,6 +7,11 @@ export interface GitHubSearchUser {
   html_url: string;
   type: string;
   score: number;
+  name?: string | null;
+  bio?: string | null;
+  followers?: number;
+  public_repos?: number;
+  totalStars?: number;
 }
 
 export interface GitHubUser {

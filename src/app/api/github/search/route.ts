@@ -51,11 +51,50 @@ export async function GET(request: Request) {
     }>;
   };
 
+  const detailedItems = await Promise.all(
+    payload.items.map(async (item) => {
+      try {
+        const [userResponse, reposResponse] = await Promise.all([
+          fetch(`https://api.github.com/users/${encodeURIComponent(item.login)}`, { headers }),
+          fetch(
+            `https://api.github.com/users/${encodeURIComponent(item.login)}/repos?per_page=100`,
+            { headers }
+          ),
+        ]);
+
+        if (!userResponse.ok || !reposResponse.ok) {
+          return item;
+        }
+
+        const user = (await userResponse.json()) as {
+          name: string | null;
+          bio: string | null;
+          followers: number;
+          public_repos: number;
+        };
+
+        const repos = (await reposResponse.json()) as Array<{ stargazers_count: number }>;
+        const totalStars = repos.reduce((sum, repo) => sum + (repo.stargazers_count ?? 0), 0);
+
+        return {
+          ...item,
+          name: user.name,
+          bio: user.bio,
+          followers: user.followers,
+          public_repos: user.public_repos,
+          totalStars,
+        };
+      } catch {
+        return item;
+      }
+    })
+  );
+
   return NextResponse.json({
     query,
     page,
     perPage: PER_PAGE,
     totalCount: payload.total_count,
-    items: payload.items,
+    items: detailedItems,
   });
 }

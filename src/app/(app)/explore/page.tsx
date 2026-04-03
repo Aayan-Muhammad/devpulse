@@ -165,12 +165,27 @@ export default function ExplorePage() {
                     />
                     <div className="min-w-0 flex-1">
                       <h3 className="truncate text-lg font-semibold text-zinc-100">
-                        {user.login}
+                        {user.name || user.login}
                       </h3>
-                      <p className="text-sm text-zinc-400">{user.type}</p>
-                      <p className="mt-1 text-xs uppercase tracking-widest text-zinc-500">
-                        Score {user.score.toFixed(2)}
-                      </p>
+                      <p className="text-sm text-zinc-400">@{user.login}</p>
+                      {user.bio && (
+                        <p className="mt-1 line-clamp-2 text-sm leading-5 text-zinc-300">{user.bio}</p>
+                      )}
+                    </div>
+                  </div>
+
+                  <div className="mt-4 grid grid-cols-3 gap-2">
+                    <div className="rounded-lg border border-[#1e2229] bg-[#0a0c0f] p-3">
+                      <p className="text-[10px] uppercase tracking-widest text-zinc-500">Followers</p>
+                      <p className="mt-1 text-lg font-bold text-zinc-100">{user.followers ?? "-"}</p>
+                    </div>
+                    <div className="rounded-lg border border-[#1e2229] bg-[#0a0c0f] p-3">
+                      <p className="text-[10px] uppercase tracking-widest text-zinc-500">Public Repos</p>
+                      <p className="mt-1 text-lg font-bold text-zinc-100">{user.public_repos ?? "-"}</p>
+                    </div>
+                    <div className="rounded-lg border border-[#1e2229] bg-[#0a0c0f] p-3">
+                      <p className="text-[10px] uppercase tracking-widest text-zinc-500">Total Stars</p>
+                      <p className="mt-1 text-lg font-bold text-zinc-100">{user.totalStars ?? "-"}</p>
                     </div>
                   </div>
 
