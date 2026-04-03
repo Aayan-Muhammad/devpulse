@@ -7,6 +7,7 @@ import {
   getRepos,
   getUser,
 } from "@/lib/github";
+import { ShareButton } from "./share-button";
 
 function formatDate(isoString: string): string {
   const date = new Date(isoString);
@@ -132,15 +133,7 @@ export default async function PublicProfilePage({
             </div>
           </div>
           <div className="flex flex-wrap gap-2">
-            <button
-              onClick={() => {
-                navigator.clipboard.writeText(`${window.location.origin}${profileUrl}`);
-                alert("Profile link copied!");
-              }}
-              className="rounded-lg border border-[#2a2f37] bg-[#0a0c0f] px-4 py-2 text-sm font-semibold text-zinc-200 transition-all duration-200 hover:border-amber-400 hover:text-amber-300 hover:shadow-[0_4px_12px_rgba(251,191,36,0.15)]"
-            >
-              Share
-            </button>
+            <ShareButton username={user.login} />
             <a
               href={user.html_url}
               target="_blank"

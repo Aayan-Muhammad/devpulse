@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { toast } from "sonner";
 
 const DENSITY_KEY = "devpulse-density";
 const HINTS_KEY = "devpulse-show-hints";
@@ -10,7 +11,6 @@ type DensityMode = "comfortable" | "compact";
 export function DisplayPreferences() {
   const [density, setDensity] = useState<DensityMode>("comfortable");
   const [showHints, setShowHints] = useState(true);
-  const [saved, setSaved] = useState(false);
 
   useEffect(() => {
     const savedDensity = window.localStorage.getItem(DENSITY_KEY);
@@ -28,12 +28,11 @@ export function DisplayPreferences() {
   const handleSave = () => {
     window.localStorage.setItem(DENSITY_KEY, density);
     window.localStorage.setItem(HINTS_KEY, String(showHints));
-    setSaved(true);
-    window.setTimeout(() => setSaved(false), 1400);
+    toast.success("Display preferences saved!");
   };
 
   return (
-    <div className="dp-reveal dp-card-lift [animation-delay:200ms] rounded-xl border border-[#1e2229] bg-[#111318] p-6">
+    <div className="dp-reveal [animation-delay:240ms] rounded-xl border border-[#1e2229] bg-[#111318] p-6">
       <div className="mb-4">
         <h2 className="text-lg font-semibold text-zinc-100">Display Preferences</h2>
         <p className="text-sm text-zinc-400">Local settings saved in this browser only.</p>
@@ -69,11 +68,10 @@ export function DisplayPreferences() {
         <button
           type="button"
           onClick={handleSave}
-          className="rounded-lg bg-amber-400 px-4 py-2 text-sm font-semibold text-[#0d0f12] transition-colors hover:bg-amber-300"
+          className="rounded-lg bg-amber-400 px-4 py-2 text-sm font-semibold text-[#0d0f12] transition-all duration-200 hover:bg-amber-300 hover:shadow-[0_4px_12px_rgba(251,191,36,0.3)]"
         >
           Save preferences
         </button>
-        <span className="text-xs text-zinc-500">{saved ? "Saved" : " "}</span>
       </div>
     </div>
   );

@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { JetBrains_Mono } from "next/font/google";
+import { Providers } from "@/app/providers";
 import "./globals.css";
 
 const jetbrainsMono = JetBrains_Mono({
@@ -19,7 +20,9 @@ export default async function RootLayout({
 }>) {
   return (
     <html lang="en" className={jetbrainsMono.variable}>
-      <body className="min-h-screen bg-[#0a0c0f] text-zinc-200">{children}</body>
+      <body className="min-h-screen bg-[#0a0c0f] text-zinc-200">
+        <Providers>{children}</Providers>
+      </body>
     </html>
   );
 }
