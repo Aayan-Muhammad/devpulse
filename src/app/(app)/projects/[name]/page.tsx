@@ -43,7 +43,7 @@ export default async function ProjectPage({
   return (
     <div className="min-h-screen bg-[#0d0f12] p-6 text-zinc-200">
       <div className="mx-auto max-w-5xl space-y-6">
-        <div className="rounded-xl border border-[#1e2229] bg-[#111318] p-6">
+        <div className="dp-reveal [animation-delay:40ms] rounded-xl border border-[#1e2229] bg-[#111318] p-6">
           <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
             <div>
               <p className="text-xs font-semibold uppercase tracking-widest text-zinc-500">
@@ -58,7 +58,7 @@ export default async function ProjectPage({
             <div className="flex flex-wrap gap-3">
               <Link
                 href="/repos"
-                className="rounded-lg border border-[#1e2229] bg-[#0a0c0f] px-4 py-2 text-sm font-semibold text-zinc-300 transition-colors hover:border-amber-400 hover:text-amber-300"
+                className="rounded-lg border border-[#1e2229] bg-[#0a0c0f] px-4 py-2 text-sm font-semibold text-zinc-300 transition-all duration-200 hover:border-amber-400 hover:text-amber-300 hover:shadow-[0_4px_12px_rgba(251,191,36,0.15)]"
               >
                 Back to repos
               </Link>
@@ -75,26 +75,26 @@ export default async function ProjectPage({
         </div>
 
         <div className="grid grid-cols-1 gap-4 md:grid-cols-2 xl:grid-cols-4">
-          <div className="rounded-xl border border-[#1e2229] bg-[#111318] p-5">
+          <div className="dp-reveal dp-card-lift [animation-delay:80ms] rounded-xl border border-[#1e2229] bg-[#111318] p-5">
             <p className="text-xs font-semibold uppercase tracking-widest text-zinc-500">Stars</p>
             <p className="mt-2 text-3xl font-bold text-zinc-100">{repo.stargazers_count}</p>
           </div>
-          <div className="rounded-xl border border-[#1e2229] bg-[#111318] p-5">
+          <div className="dp-reveal dp-card-lift [animation-delay:110ms] rounded-xl border border-[#1e2229] bg-[#111318] p-5">
             <p className="text-xs font-semibold uppercase tracking-widest text-zinc-500">Forks</p>
             <p className="mt-2 text-3xl font-bold text-zinc-100">{repo.forks_count}</p>
           </div>
-          <div className="rounded-xl border border-[#1e2229] bg-[#111318] p-5">
+          <div className="dp-reveal dp-card-lift [animation-delay:140ms] rounded-xl border border-[#1e2229] bg-[#111318] p-5">
             <p className="text-xs font-semibold uppercase tracking-widest text-zinc-500">Open Issues</p>
             <p className="mt-2 text-3xl font-bold text-zinc-100">{repo.open_issues_count}</p>
           </div>
-          <div className="rounded-xl border border-[#1e2229] bg-[#111318] p-5">
+          <div className="dp-reveal dp-card-lift [animation-delay:170ms] rounded-xl border border-[#1e2229] bg-[#111318] p-5">
             <p className="text-xs font-semibold uppercase tracking-widest text-zinc-500">Default Branch</p>
             <p className="mt-2 text-3xl font-bold text-zinc-100">{repo.default_branch}</p>
           </div>
         </div>
 
         <div className="grid grid-cols-1 gap-6 xl:grid-cols-2">
-          <div className="rounded-xl border border-[#1e2229] bg-[#111318] p-6">
+          <div className="dp-reveal dp-card-lift [animation-delay:210ms] rounded-xl border border-[#1e2229] bg-[#111318] p-6">
             <h2 className="text-lg font-semibold text-zinc-100">Repository Details</h2>
             <dl className="mt-4 space-y-4 text-sm">
               <div className="flex items-center justify-between gap-4 border-b border-[#1e2229] pb-3">
@@ -116,7 +116,7 @@ export default async function ProjectPage({
             </dl>
           </div>
 
-          <div className="rounded-xl border border-[#1e2229] bg-[#111318] p-6">
+          <div className="dp-reveal dp-card-lift [animation-delay:250ms] rounded-xl border border-[#1e2229] bg-[#111318] p-6">
             <h2 className="text-lg font-semibold text-zinc-100">Quick Context</h2>
             <p className="mt-4 text-sm leading-6 text-zinc-400">
               This project page is the destination for the sidebar project links. It uses the

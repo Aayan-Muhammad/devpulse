@@ -91,7 +91,7 @@ export default async function ReposPage({ searchParams }: ReposPageProps) {
   return (
     <div className="min-h-screen bg-[#0d0f12] p-6 text-zinc-200">
       <div className="mx-auto max-w-7xl">
-        <div className="mb-6 rounded-xl border border-[#1e2229] bg-[#111318] p-5">
+        <div className="dp-card-lift dp-reveal mb-6 rounded-xl border border-[#1e2229] bg-[#111318] p-5">
           <p className="text-xs font-semibold uppercase tracking-widest text-zinc-500">Repos</p>
           <h1 className="mt-2 text-3xl font-semibold text-zinc-100">Your GitHub Repositories</h1>
           <p className="mt-1 text-sm text-zinc-400">
@@ -100,7 +100,7 @@ export default async function ReposPage({ searchParams }: ReposPageProps) {
           </p>
         </div>
 
-        <form method="GET" className="mb-6 rounded-xl border border-[#1e2229] bg-[#111318] p-5">
+        <form method="GET" className="dp-card-lift dp-reveal dp-reveal-delay-1 mb-6 rounded-xl border border-[#1e2229] bg-[#111318] p-5">
           <div className="grid grid-cols-1 gap-3 lg:grid-cols-[1.4fr_1fr_1fr_auto]">
             <label className="text-sm">
               <span className="mb-1 block text-xs uppercase tracking-widest text-zinc-500">Search</span>
@@ -152,7 +152,7 @@ export default async function ReposPage({ searchParams }: ReposPageProps) {
               </button>
               <a
                 href="/repos"
-                className="h-11 rounded-lg border border-[#2a2f37] px-4 py-2.5 text-sm font-semibold text-zinc-300 transition-colors hover:border-amber-400 hover:text-amber-300"
+                className="h-11 rounded-lg border border-[#2a2f37] px-4 py-2.5 text-sm font-semibold text-zinc-300 transition-all duration-200 hover:border-amber-400 hover:text-amber-300 hover:shadow-[0_4px_12px_rgba(251,191,36,0.15)]"
               >
                 Reset
               </a>
@@ -161,7 +161,7 @@ export default async function ReposPage({ searchParams }: ReposPageProps) {
         </form>
 
         {sortedRepos.length === 0 ? (
-          <div className="rounded-xl border border-[#1e2229] bg-[#111318] p-8 text-center">
+          <div className="dp-card-lift dp-reveal dp-reveal-delay-2 rounded-xl border border-[#1e2229] bg-[#111318] p-8 text-center">
             <p className="text-lg font-semibold text-zinc-200">No repositories match these filters</p>
             <p className="mt-2 text-sm text-zinc-500">
               Try changing search, language, or sorting options.
@@ -172,7 +172,7 @@ export default async function ReposPage({ searchParams }: ReposPageProps) {
             {sortedRepos.map((repo) => (
               <article
                 key={repo.id}
-                className="rounded-xl border border-[#1e2229] bg-[#111318] p-5 transition-colors hover:border-[#2f353f]"
+                className="dp-card-lift dp-reveal dp-reveal-delay-2 rounded-xl border border-[#1e2229] bg-[#111318] p-5 transition-colors hover:border-[#2f353f]"
               >
                 <div className="mb-3 flex items-start justify-between gap-3">
                   <a

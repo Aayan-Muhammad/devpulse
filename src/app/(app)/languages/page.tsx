@@ -79,7 +79,7 @@ export default async function LanguagesPage() {
   return (
     <div className="min-h-screen bg-[#0d0f12] p-6 text-zinc-200">
       <div className="mx-auto max-w-7xl">
-        <div className="mb-6 rounded-xl border border-[#1e2229] bg-[#111318] p-6">
+        <div className="dp-card-lift dp-reveal mb-6 rounded-xl border border-[#1e2229] bg-[#111318] p-6">
           <div className="flex flex-col gap-4 lg:flex-row lg:items-end lg:justify-between">
             <div>
               <p className="text-xs font-semibold uppercase tracking-widest text-zinc-500">
@@ -92,7 +92,7 @@ export default async function LanguagesPage() {
             </div>
 
             {topLanguage ? (
-              <div className="rounded-lg border border-[#2a2f37] bg-[#0a0c0f] px-5 py-4 text-right">
+              <div className="dp-card-lift dp-reveal dp-reveal-delay-1 rounded-lg border border-[#2a2f37] bg-[#0a0c0f] px-5 py-4 text-right">
                 <p className="text-xs uppercase tracking-widest text-zinc-500">Top Language</p>
                 <p className="mt-1 text-2xl font-bold text-amber-300">{topLanguage.name}</p>
                 <p className="mt-1 text-sm text-zinc-400">
@@ -104,7 +104,7 @@ export default async function LanguagesPage() {
         </div>
 
         {entries.length === 0 ? (
-          <div className="rounded-xl border border-[#1e2229] bg-[#111318] p-8 text-center">
+          <div className="dp-card-lift dp-reveal dp-reveal-delay-1 rounded-xl border border-[#1e2229] bg-[#111318] p-8 text-center">
             <p className="text-lg font-semibold text-zinc-200">No language data available</p>
             <p className="mt-2 text-sm text-zinc-500">
               We could not calculate language stats for this account right now.
@@ -112,7 +112,7 @@ export default async function LanguagesPage() {
           </div>
         ) : (
           <>
-            <section className="mb-6 rounded-xl border border-[#1e2229] bg-[#111318] p-6">
+            <section className="dp-card-lift dp-reveal dp-reveal-delay-1 mb-6 rounded-xl border border-[#1e2229] bg-[#111318] p-6">
               <h2 className="mb-4 text-lg font-semibold text-zinc-100">Usage Distribution</h2>
               <div className="h-6 w-full overflow-hidden rounded-md bg-[#0a0c0f] ring-1 ring-[#1e2229]">
                 <div className="flex h-full w-full">
@@ -152,7 +152,7 @@ export default async function LanguagesPage() {
               {entries.map((language) => (
                 <article
                   key={language.name}
-                  className="rounded-xl border border-[#1e2229] bg-[#111318] p-5"
+                  className="dp-card-lift dp-reveal dp-reveal-delay-2 rounded-xl border border-[#1e2229] bg-[#111318] p-5"
                 >
                   <div className="mb-4 flex items-center justify-between">
                     <div className="inline-flex items-center gap-2">

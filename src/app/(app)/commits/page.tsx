@@ -154,14 +154,17 @@ export default async function CommitsPage({ searchParams }: CommitsPageProps) {
 
   return (
     <div className="space-y-8">
-      <div>
+      <div className="dp-reveal [animation-delay:40ms]">
         <h1 className="text-3xl font-bold text-zinc-100">Commits</h1>
         <p className="mt-2 text-zinc-400">
           Your recent push events and commit history
         </p>
       </div>
 
-      <form method="GET" className="rounded-xl border border-[#1e2229] bg-[#111318] p-5">
+      <form
+        method="GET"
+        className="dp-reveal [animation-delay:80ms] rounded-xl border border-[#1e2229] bg-[#111318] p-5"
+      >
         <div className="grid grid-cols-1 gap-3 md:grid-cols-[1.3fr_1fr_auto]">
           <label className="text-sm">
             <span className="mb-1 block text-xs uppercase tracking-widest text-zinc-500">
@@ -201,7 +204,7 @@ export default async function CommitsPage({ searchParams }: CommitsPageProps) {
             </button>
             <Link
               href="/commits"
-              className="h-11 rounded-lg border border-[#2a2f37] px-4 py-2.5 text-sm font-semibold text-zinc-300 transition-colors hover:border-amber-400 hover:text-amber-300"
+              className="h-11 rounded-lg border border-[#2a2f37] px-4 py-2.5 text-sm font-semibold text-zinc-300 transition-all duration-200 hover:border-amber-400 hover:text-amber-300 hover:shadow-[0_4px_12px_rgba(251,191,36,0.15)]"
             >
               Reset
             </Link>
@@ -210,7 +213,7 @@ export default async function CommitsPage({ searchParams }: CommitsPageProps) {
       </form>
 
       {/* Total commit count card */}
-      <div className="rounded-xl border border-[#1e2229] bg-[#111318] p-6">
+      <div className="dp-reveal [animation-delay:120ms] rounded-xl border border-[#1e2229] bg-[#111318] p-6">
         <div className="text-center">
           <p className="text-sm uppercase tracking-widest text-zinc-500">Total Commits</p>
           <p className="mt-2 text-5xl font-bold text-amber-400">{totalCommits}</p>
@@ -222,13 +225,17 @@ export default async function CommitsPage({ searchParams }: CommitsPageProps) {
 
       {/* Commits list */}
       {filteredGroups.length === 0 ? (
-        <div className="rounded-xl border border-[#1e2229] bg-[#111318] p-8 text-center text-zinc-400">
+        <div className="dp-reveal [animation-delay:160ms] rounded-xl border border-[#1e2229] bg-[#111318] p-8 text-center text-zinc-400">
           No commits match the current filters. Try adjusting the search or repository.
         </div>
       ) : (
         <div className="space-y-6">
-          {filteredGroups.map((group) => (
-            <div key={`${group.repoName}|${group.branch}`} className="space-y-3">
+          {filteredGroups.map((group, groupIndex) => (
+            <div
+              key={`${group.repoName}|${group.branch}`}
+              className="dp-reveal space-y-3"
+              style={{ animationDelay: `${180 + groupIndex * 40}ms` }}
+            >
               {/* Repository header */}
               <div className="flex items-center justify-between gap-4">
                 <div className="flex flex-col gap-1">
@@ -252,10 +259,11 @@ export default async function CommitsPage({ searchParams }: CommitsPageProps) {
 
               {/* Commits for this repository */}
               <div className="space-y-2 border-l-2 border-[#1e2229] pl-4">
-                {group.commits.map((commit) => (
+                {group.commits.map((commit, commitIndex) => (
                   <div
                     key={commit.sha}
-                    className="rounded-lg border border-[#1e2229] bg-[#0a0c0f] p-4 transition-colors hover:border-amber-400/30 hover:bg-[#111318]"
+                    className="dp-card-lift rounded-lg border border-[#1e2229] bg-[#0a0c0f] p-4 transition-colors hover:border-amber-400/30 hover:bg-[#111318]"
+                    style={{ animationDelay: `${220 + commitIndex * 18}ms` }}
                   >
                     <div className="flex items-start justify-between gap-4">
                       <div className="flex-1 min-w-0">

@@ -214,7 +214,7 @@ export default function ExplorePage() {
                     onClick={() => goToPage(Math.max(1, page - 1))}
                     disabled={loading || page <= 1}
                     aria-label="Go to previous page"
-                    className="rounded-lg border border-[#1e2229] bg-[#0a0c0f] px-3 py-2 font-semibold text-zinc-200 transition-colors hover:border-amber-400 hover:text-amber-300 disabled:cursor-not-allowed disabled:opacity-50"
+                    className="rounded-lg border border-[#1e2229] bg-[#0a0c0f] px-3 py-2 font-semibold text-zinc-200 transition-all duration-200 hover:border-amber-400 hover:text-amber-300 hover:shadow-[0_4px_12px_rgba(251,191,36,0.15)] disabled:cursor-not-allowed disabled:opacity-50"
                   >
                     Prev
                   </button>
@@ -226,7 +226,7 @@ export default function ExplorePage() {
                     onClick={() => goToPage(Math.min(totalPages, page + 1))}
                     disabled={loading || page >= totalPages}
                     aria-label="Go to next page"
-                    className="rounded-lg border border-[#1e2229] bg-[#0a0c0f] px-3 py-2 font-semibold text-zinc-200 transition-colors hover:border-amber-400 hover:text-amber-300 disabled:cursor-not-allowed disabled:opacity-50"
+                    className="rounded-lg border border-[#1e2229] bg-[#0a0c0f] px-3 py-2 font-semibold text-zinc-200 transition-all duration-200 hover:border-amber-400 hover:text-amber-300 hover:shadow-[0_4px_12px_rgba(251,191,36,0.15)] disabled:cursor-not-allowed disabled:opacity-50"
                   >
                     Next
                   </button>
@@ -281,7 +281,7 @@ export default function ExplorePage() {
                     <div className="flex items-center gap-3 lg:w-[210px] lg:justify-end">
                       <Link
                         href={`/u/${encodeURIComponent(user.login)}`}
-                        className="rounded-lg border border-[#1e2229] bg-[#0a0c0f] px-4 py-2 text-sm font-semibold text-zinc-200 transition-colors hover:border-amber-400 hover:text-amber-300"
+                        className="rounded-lg border border-[#1e2229] bg-[#0a0c0f] px-4 py-2 text-sm font-semibold text-zinc-200 transition-all duration-200 hover:border-amber-400 hover:text-amber-300 hover:shadow-[0_4px_12px_rgba(251,191,36,0.15)]"
                       >
                         View profile
                       </Link>

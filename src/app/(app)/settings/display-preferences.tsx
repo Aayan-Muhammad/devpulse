@@ -33,7 +33,7 @@ export function DisplayPreferences() {
   };
 
   return (
-    <div className="rounded-xl border border-[#1e2229] bg-[#111318] p-6">
+    <div className="dp-reveal dp-card-lift [animation-delay:200ms] rounded-xl border border-[#1e2229] bg-[#111318] p-6">
       <div className="mb-4">
         <h2 className="text-lg font-semibold text-zinc-100">Display Preferences</h2>
         <p className="text-sm text-zinc-400">Local settings saved in this browser only.</p>

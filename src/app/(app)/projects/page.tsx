@@ -72,7 +72,7 @@ export default async function ProjectsPage({ searchParams }: ProjectsPageProps) 
   return (
     <div className="min-h-screen bg-[#0d0f12] p-6 text-zinc-200">
       <div className="mx-auto max-w-7xl space-y-6">
-        <div className="rounded-xl border border-[#1e2229] bg-[#111318] p-6">
+        <div className="dp-reveal [animation-delay:40ms] rounded-xl border border-[#1e2229] bg-[#111318] p-6">
           <p className="text-xs font-semibold uppercase tracking-widest text-zinc-500">Projects</p>
           <h1 className="mt-2 text-3xl font-semibold text-zinc-100">Repository Index</h1>
           <p className="mt-2 text-sm text-zinc-400">
@@ -99,7 +99,10 @@ export default async function ProjectsPage({ searchParams }: ProjectsPageProps) 
           )}
         </div>
 
-        <form method="GET" className="rounded-xl border border-[#1e2229] bg-[#111318] p-5">
+        <form
+          method="GET"
+          className="dp-reveal [animation-delay:80ms] rounded-xl border border-[#1e2229] bg-[#111318] p-5"
+        >
           <div className="grid grid-cols-1 gap-3 lg:grid-cols-[1.4fr_1fr_1fr_auto]">
             <label className="text-sm">
               <span className="mb-1 block text-xs uppercase tracking-widest text-zinc-500">Search</span>
@@ -151,7 +154,7 @@ export default async function ProjectsPage({ searchParams }: ProjectsPageProps) 
               </button>
               <Link
                 href="/projects"
-                className="h-11 rounded-lg border border-[#2a2f37] px-4 py-2.5 text-sm font-semibold text-zinc-300 transition-colors hover:border-amber-400 hover:text-amber-300"
+                className="h-11 rounded-lg border border-[#2a2f37] px-4 py-2.5 text-sm font-semibold text-zinc-300 transition-all duration-200 hover:border-amber-400 hover:text-amber-300 hover:shadow-[0_4px_12px_rgba(251,191,36,0.15)]"
               >
                 Reset
               </Link>
@@ -160,7 +163,7 @@ export default async function ProjectsPage({ searchParams }: ProjectsPageProps) 
         </form>
 
         {sortedRepos.length === 0 ? (
-          <div className="rounded-xl border border-[#1e2229] bg-[#111318] p-8 text-center">
+          <div className="dp-reveal [animation-delay:120ms] rounded-xl border border-[#1e2229] bg-[#111318] p-8 text-center">
             <p className="text-lg font-semibold text-zinc-100">No projects match these filters</p>
             <p className="mt-2 text-sm text-zinc-500">
               Try changing search text, language, or sorting.
@@ -168,10 +171,11 @@ export default async function ProjectsPage({ searchParams }: ProjectsPageProps) 
           </div>
         ) : (
           <div className="space-y-3">
-            {sortedRepos.map((repo) => (
+            {sortedRepos.map((repo, index) => (
               <article
                 key={repo.id}
-                className="rounded-xl border border-[#1e2229] bg-[#111318] p-5 transition-colors hover:border-[#2f353f]"
+                className="dp-reveal dp-card-lift rounded-xl border border-[#1e2229] bg-[#111318] p-5 transition-colors hover:border-[#2f353f]"
+                style={{ animationDelay: `${120 + index * 28}ms` }}
               >
                 <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
                   <div className="min-w-0">

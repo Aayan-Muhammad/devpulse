@@ -184,7 +184,7 @@ export default async function ActivityPage({ searchParams }: ActivityPageProps) 
   return (
     <div className="min-h-screen bg-[#0d0f12] p-6 text-zinc-200">
       <div className="mx-auto max-w-6xl">
-        <header className="mb-6 rounded-xl border border-[#1e2229] bg-[#111318] p-6">
+        <header className="dp-card-lift dp-reveal mb-6 rounded-xl border border-[#1e2229] bg-[#111318] p-6">
           <p className="text-xs font-semibold uppercase tracking-widest text-zinc-500">Activity</p>
           <h1 className="mt-2 text-3xl font-semibold text-zinc-100">Recent Public Events</h1>
           <p className="mt-1 text-sm text-zinc-400">
@@ -193,7 +193,7 @@ export default async function ActivityPage({ searchParams }: ActivityPageProps) 
           </p>
         </header>
 
-        <form method="GET" className="mb-6 rounded-xl border border-[#1e2229] bg-[#111318] p-5">
+        <form method="GET" className="dp-card-lift dp-reveal dp-reveal-delay-1 mb-6 rounded-xl border border-[#1e2229] bg-[#111318] p-5">
           <div className="grid grid-cols-1 gap-3 md:grid-cols-[1fr_1.3fr_auto]">
             <label className="text-sm">
               <span className="mb-1 block text-xs uppercase tracking-widest text-zinc-500">Event type</span>
@@ -233,7 +233,7 @@ export default async function ActivityPage({ searchParams }: ActivityPageProps) 
               </button>
               <a
                 href="/activity"
-                className="h-11 rounded-lg border border-[#2a2f37] px-4 py-2.5 text-sm font-semibold text-zinc-300 transition-colors hover:border-amber-400 hover:text-amber-300"
+                className="h-11 rounded-lg border border-[#2a2f37] px-4 py-2.5 text-sm font-semibold text-zinc-300 transition-all duration-200 hover:border-amber-400 hover:text-amber-300 hover:shadow-[0_4px_12px_rgba(251,191,36,0.15)]"
               >
                 Reset
               </a>
@@ -242,7 +242,7 @@ export default async function ActivityPage({ searchParams }: ActivityPageProps) 
         </form>
 
         {filteredEvents.length === 0 ? (
-          <div className="rounded-xl border border-[#1e2229] bg-[#111318] p-8 text-center">
+          <div className="dp-card-lift dp-reveal dp-reveal-delay-2 rounded-xl border border-[#1e2229] bg-[#111318] p-8 text-center">
             <p className="text-lg font-semibold text-zinc-200">No activity matches these filters</p>
             <p className="mt-2 text-sm text-zinc-500">
               Try clearing the event type or search query.
@@ -253,7 +253,7 @@ export default async function ActivityPage({ searchParams }: ActivityPageProps) 
             {orderedDateKeys.map((dateKey) => {
               const dayEvents = groupedEvents[dateKey];
               return (
-                <section key={dateKey} className="rounded-xl border border-[#1e2229] bg-[#111318] p-5">
+                <section key={dateKey} className="dp-card-lift dp-reveal dp-reveal-delay-2 rounded-xl border border-[#1e2229] bg-[#111318] p-5">
                   <h2 className="mb-4 text-base font-semibold text-amber-300">
                     {formatDateHeading(dayEvents[0].created_at)}
                   </h2>
@@ -264,7 +264,7 @@ export default async function ActivityPage({ searchParams }: ActivityPageProps) 
                       return (
                         <article
                           key={event.id}
-                          className="rounded-lg border border-[#222832] bg-[#0a0c0f] p-4"
+                          className="dp-card-lift rounded-lg border border-[#222832] bg-[#0a0c0f] p-4"
                         >
                           <div className="flex items-start gap-3">
                             <span
